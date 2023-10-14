@@ -6,14 +6,16 @@
 #    By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/18 13:12:22 by roruiz-v          #+#    #+#              #
-#    Updated: 2023/10/11 16:59:09 by roruiz-v         ###   ########.fr        #
+#    Updated: 2023/10/14 17:20:25 by roruiz-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	minishell
 
 SRC		=	main.c \
-			msh_env_lst_utils.c
+			msh_env_lst_utils.c \
+			msh_env_lst_utils2.c \
+			msh_utils.c			
 
 OBJS	= $(SRC:.c=.o)
 OFILES = $(addprefix obj/, $(OBJS))
