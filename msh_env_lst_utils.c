@@ -6,28 +6,44 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:16:37 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/11 20:24:37 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/14 18:24:10 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_env_lstdelone()
-{
-	
+void	ft_env_lstdelone(char *del_env_nm)
+{ // elimina un nodo, el que coincida con el argmto
+	t_env_lst	*tmp;
+
+	if (g_data.env_lst)
+	{
+		tmp = g_data.env_lst;
+		while (ft_strncmp(tmp->nm, del_env_nm, ft_strlen(tmp->nm)) != 0)
+		{
+			tmp = tmp->next;
+			if (tmp == NULL)
+				return ;
+		}
+		ft_free_null(tmp->nm);
+		ft_free_null(tmp->val);
+		free(tmp);
+	}		
 }
 
 void	ft_env_lstclear(void)
-{
-	t_env_lst	*ptr;
+{ // elimina la lista completa, de principio a fin
+	t_env_lst	*del_node;
 
 	if (g_data.env_lst == NULL)
 		return ;
 	while (g_data.env_lst)
 	{
-		ptr = g_data.env_lst;
-		g_data.env_lst = g_data.env_lst->next;
-		ft_env_lstdelone();
+		del_node = g_data.env_lst;
+		g_data.env_lst = del_node->next;
+		ft_free_null(del_node->nm);
+		ft_free_null(del_node->val);
+		free(del_node);
 	}
 }
 

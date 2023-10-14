@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/11 20:00:54 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/14 18:41:57 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,16 @@ t_msh	g_data;
 void	ft_duplic_envp(char **envp);
 t_env_lst	*ft_env_lst_new(char **tmp_env);
 void	ft_env_lstadd_back(t_env_lst *new);
+void	ft_env_lstadd_front(t_env_lst *new);
+void	ft_env_lstdelone(char *del_env_nm);
+void	ft_env_lstclear(void);
 void	ft_env_lst_print(void);
+
+/* ***************************************************************** */
+/* ********************     UTILS  FUNCTIONS     ******************* */
+/* ***************************************************************** */
+
+void	ft_free_null(char *str);
 
 
 #endif
