@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:16:37 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/14 20:59:00 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/16 13:05:37 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,10 @@ void	ft_env_lstadd_back(t_env_lst *new)
 	}
 	else if (g_data.env_lst && new)
 	{
-		printf("DEBUG: LSTADD_BACK\n\n");
 		tmp = g_data.env_lst;
 		while (tmp->next)
 		{
 			tmp = tmp->next;
-			printf("DEBUG: WHILE\n\n");
 		}
 		tmp->next = new;
 	}
