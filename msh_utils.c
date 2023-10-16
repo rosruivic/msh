@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:17:09 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/14 17:19:15 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/16 16:59:20 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 void	ft_free_null(char *str)
 {
-	if (str == NULL)
-		return ;
-	else
+	if (str != NULL)
 	{
 		free(str);
 		str = NULL;

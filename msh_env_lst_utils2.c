@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:59:38 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/16 13:01:03 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/16 14:11:20 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_env_lst_print(void)
 	while (ptr != NULL)
 	{
 		printf("%s=%s\n", ptr->nm, ptr->val);
-		ptr = ptr->next;
+		ptr = ptr->nx;
 	}
 }
 

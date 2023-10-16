@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/14 18:41:57 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/16 14:10:08 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef	struct s_env_lst
 {
 	char				*nm;
 	char				*val;
-	struct s_env_lst	*next;
+	struct s_env_lst	*nx;
 }						t_env_lst;
 
 typedef struct	s_msh
