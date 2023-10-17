@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/16 14:10:08 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/17 17:05:31 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,10 @@ void	ft_duplic_envp(char **envp);
 t_env_lst	*ft_env_lst_new(char **tmp_env);
 void	ft_env_lstadd_back(t_env_lst *new);
 void	ft_env_lstadd_front(t_env_lst *new);
+void	ft_free_envlst_node(t_env_lst *del_node);
 void	ft_env_lstdelone(char *del_env_nm);
 void	ft_env_lstclear(void);
+void	ft_env_modify_or_add_node(t_env_lst	*new);
 void	ft_env_lst_print(void);
 
 /* ***************************************************************** */

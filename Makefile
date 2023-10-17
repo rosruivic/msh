@@ -6,7 +6,7 @@
 #    By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/18 13:12:22 by roruiz-v          #+#    #+#              #
-#    Updated: 2023/10/16 16:52:47 by roruiz-v         ###   ########.fr        #
+#    Updated: 2023/10/17 13:14:41 by roruiz-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME	=	minishell
 SRC		=	main.c \
 			msh_env_lst_utils.c \
 			msh_env_lst_utils2.c \
+			msh_env_lst_utils3.c \
 			msh_utils.c			
 
 OBJS	= $(SRC:.c=.o)
