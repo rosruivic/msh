@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:16:37 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/17 20:04:39 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/18 16:27:41 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	ft_env_lstdelone(char *del_nd)
 	if (g_data.env_lst && del_nd)
 	{
 		t = g_data.env_lst;
-		if (ft_strncmp(t->nm, del_nd, ft_strlen(t->nm)) != 0)
+		if (!ft_strcmp(t->nm, del_nd))
 		{
-			while (ft_strncmp(t->nx->nm, del_nd, ft_strlen(t->nx->nm)) != 0)
+			while (!ft_strcmp(t->nx->nm, del_nd))
 			{ // GO AHEAD'til find equiv; if gets last node, no equiv & return
 				t = t->nx;
 				if (t == NULL)
@@ -59,7 +59,7 @@ void	ft_env_lstclear(void)
 		return ;
 	while (g_data.env_lst)
 	{
-		printf("DEBUG: lstclear - borrando nodo\n\n");
+		ft_printf("DEBUG: lstclear - borrando nodo\n\n");
 		del_node = g_data.env_lst;
 		g_data.env_lst = del_node->nx;
 		ft_free_envlst_node(del_node);
@@ -75,12 +75,11 @@ void	ft_env_lstclear(void)
  * 		ELSE:
  * 		    - lstadd_back the new node
  * 
- * @param new 
+ * @param new     Node to be added || modified
  */
 void	ft_env_modify_or_add_node(t_env_lst	*new)
 {
 	t_env_lst	*t;
-//	t_env_lst	*del;
 
 	t = NULL;
 	if (g_data.env_lst == NULL && new)
@@ -91,11 +90,11 @@ void	ft_env_modify_or_add_node(t_env_lst	*new)
 	if (g_data.env_lst && new)
 	{
 		t = g_data.env_lst;
-		if (ft_strncmp(t->nm, new->nm, ft_strlen(t->nm)) != 0)
-		{// si 1st no coincide, mira el next:
-			while (ft_strncmp(t->nx->nm, new->nm, ft_strlen(new->nm)) != 0) // ****** PETA - HAZ STRCMP
+		if (!ft_strcmp(t->nm, new->nm)) // CHECK THE FIRST NODE
+		{// if no equiv, check the next nodes:
+			while (!ft_strcmp(t->nx->nm, new->nm))
 			{ // GO AHEAD'til find equiv;
-				if (t->nx->nx == NULL) // if gets last node, no equiv (add & return)
+				if (t->nx->nx == NULL) // last node with no equiv (add & end)
 				{
 					t->nx->nx = new;
 					return ;
@@ -111,7 +110,7 @@ void	ft_env_modify_or_add_node(t_env_lst	*new)
 			return ;
 		}
 	}
-	// coincide con cq otro nodo - ELIMINA EL STRING ANTIGUO Y STRDUPEA EL NUEVO
+	// finded equiv intermediate nodo - DEL OLD STR Y STRDUP NEW ONE
 	ft_free_null(t->nx->val);
 	t->nx->val = ft_strdup(new->val);
 	ft_free_envlst_node(new);

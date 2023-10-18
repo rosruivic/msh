@@ -6,12 +6,18 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:59:38 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/16 14:11:20 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/18 16:46:07 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief    BEWARE OF THIS !!!!
+ * 	      (BEWARE THIS: the '=' caracter is not stored
+ *                      THEN, is handed printed here)
+ * 
+ */
 void	ft_env_lst_print(void)
 {
 	t_env_lst *ptr;
@@ -19,11 +25,17 @@ void	ft_env_lst_print(void)
 	ptr = g_data.env_lst;
 	while (ptr != NULL)
 	{
-		printf("%s=%s\n", ptr->nm, ptr->val);
+		ft_printf("%s=%s\n", ptr->nm, ptr->val);
 		ptr = ptr->nx;
 	}
 }
 
+/**
+ * @brief    DUPLICS the environment vars in a linked list
+ * 			(BEWARE THIS: the '=' caracter is not stored)
+ * 
+ * @param envp 
+ */
 void	ft_duplic_envp(char **envp)
 {
 	int			i;
@@ -32,7 +44,9 @@ void	ft_duplic_envp(char **envp)
 	i = -1;
 	while (envp[++i])
 	{
-		tmp_env = ft_split(envp[i], '=');
+		tmp_env = ft_2rows_split(envp[i], '=');
+		if (!tmp_env)
+			return ;
 		ft_env_lstadd_back(ft_env_lst_new(tmp_env));	
 		ft_freedom(tmp_env);		
 	}

@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/17 17:05:31 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/18 15:50:00 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void	ft_env_lst_print(void);
 /* ***************************************************************** */
 
 void	ft_free_null(char *str);
+int	ft_strcmp(char *s1, char *s2);
+char	**ft_2rows_split(char *str, char c);
 
 
 #endif
