@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/18 15:50:00 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/19 19:11:54 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef	struct s_env_lst
 {
 	char				*nm;
 	char				*val;
+	int					equal;
 	struct s_env_lst	*nx;
 }						t_env_lst;
 
@@ -60,6 +61,7 @@ typedef struct	s_msh
 	t_env_lst	*env_lst;
 }				t_msh;
 
+/* THE UNIQUE & GLOBAL VARIABLE OF THE PROJECT */
 t_msh	g_data;
 
 /* ***************************************************************** */
@@ -76,7 +78,7 @@ t_msh	g_data;
 /* ***************************************************************** */
 
 void	ft_duplic_envp(char **envp);
-t_env_lst	*ft_env_lst_new(char **tmp_env);
+t_env_lst	*ft_env_lst_new(char **tmp_env, int equal);
 void	ft_env_lstadd_back(t_env_lst *new);
 void	ft_env_lstadd_front(t_env_lst *new);
 void	ft_free_envlst_node(t_env_lst *del_node);
@@ -84,6 +86,7 @@ void	ft_env_lstdelone(char *del_env_nm);
 void	ft_env_lstclear(void);
 void	ft_env_modify_or_add_node(t_env_lst	*new);
 void	ft_env_lst_print(void);
+void	ft_export_lst_print(void);
 
 /* ***************************************************************** */
 /* ********************     UTILS  FUNCTIONS     ******************* */

@@ -6,14 +6,14 @@
 #    By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/18 13:12:22 by roruiz-v          #+#    #+#              #
-#    Updated: 2023/10/17 13:14:41 by roruiz-v         ###   ########.fr        #
+#    Updated: 2023/10/19 18:15:36 by roruiz-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	minishell
 
 SRC		=	main.c \
-			msh_env_lst_utils.c \
+			msh_env_lst_utils1.c \
 			msh_env_lst_utils2.c \
 			msh_env_lst_utils3.c \
 			msh_utils.c			
@@ -23,7 +23,7 @@ OFILES = $(addprefix obj/, $(OBJS))
 
 CC		= gcc
 
-FLAGS	= -Wall -Werror -Wextra -fsanitize=address
+FLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
 
 #LEAKS = memory-leaks/memory_leaks.a
 
@@ -38,11 +38,11 @@ all:	$(NAME)
 
 $(NAME): $(OFILES) $(LIBFT_PATH)
 		$(CC) $(FLAGS) $(OFILES) $(LIBFT_PATH) -o $(NAME)
-		clear
+		#clear
 		
 $(OFILES): $(SRC)
 		@mkdir -p obj/
-		gcc -Wall -Wextra -Werror -c $(SRC)
+		$(CC) $(FLAGS) -c $(SRC)
 		@mv *.o obj/
 
 # If a debug with lldb is needed, do 'make' with this rule:

@@ -5,46 +5,57 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 13:01:43 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/17 13:49:42 by roruiz-v         ###   ########.fr       */
+/*   Created: 2023/10/11 19:59:38 by roruiz-v          #+#    #+#             */
+/*   Updated: 2023/10/19 19:24:40 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free_envlst_node(t_env_lst *del_node)
+/**
+ * @brief    BEWARE OF THIS !!!!
+ * 	      (BEWARE THIS: the '=' caracter is not stored
+ *                      THEN, is handed printed here)
+ * 
+ *  ***  IT IS CALLED BY COMMAND "ENV" (without argmts)  ***
+ * 	***    Only prints the node if its ->val != NULL     ***
+ */
+void	ft_env_lst_print(void)
 {
-	ft_free_null(del_node->nm);
-	ft_free_null(del_node->val);
-	del_node = NULL;
-}
+	t_env_lst *ptr;
 
-void	ft_env_lstadd_back(t_env_lst *new)
-{ // PRIMERO: check if it already exists -> only change "val"
-	t_env_lst	*tmp;
-
-	tmp = NULL;
-	if (g_data.env_lst == NULL && new)
-		g_data.env_lst = new;
-	else if (g_data.env_lst && new)
+	ptr = g_data.env_lst;
+	while (ptr != NULL)
 	{
-		tmp = g_data.env_lst;
-		while (tmp->nx)
-			tmp = tmp->nx;
-		tmp->nx = new;
+		if (ptr->equal)
+			ft_printf("%s=%s\n", ptr->nm, ptr->val);
+//		else
+//			ft_printf("%s\n", ptr->nm);			
+		ptr = ptr->nx;
 	}
 }
 
-void	ft_env_lstadd_front(t_env_lst *new)
+/**
+ * @brief    BEWARE OF THIS !!!!   		*******  FALTA QUE ORDENE ALFABÉTICAMENTE  *******
+ * 	      (BEWARE THIS: the '=' caracter is not stored
+ *                      THEN, is handed printed here)
+ * 
+ *  ***   IT IS CALLED BY COMMAND "EXPORT" (without argmts)  ***
+ * 	***      Prints all the nodes, in alphabetical order     ***
+ */
+void	ft_export_lst_print(void)
 {
-	t_env_lst	*tmp;
+	t_env_lst *ptr;
 
-	tmp = NULL;
-	if (g_data.env_lst == NULL && new)
-		g_data.env_lst = new;
-	else if (g_data.env_lst && new)
+	ptr = g_data.env_lst;
+	while (ptr != NULL)
 	{
-		new->nx = g_data.env_lst;
-		g_data.env_lst = new;
-	}	
+		if (ptr->equal)
+			ft_printf("declare -x %s=\"%s\"\n", ptr->nm, ptr->val);
+		else
+			ft_printf("declare -x %s\n", ptr->nm);
+		ptr = ptr->nx;
+	}
 }
+
+
