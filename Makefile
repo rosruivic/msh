@@ -6,16 +6,18 @@
 #    By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/18 13:12:22 by roruiz-v          #+#    #+#              #
-#    Updated: 2023/10/19 18:15:36 by roruiz-v         ###   ########.fr        #
+#    Updated: 2023/10/20 20:59:25 by roruiz-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	minishell
 
 SRC		=	main.c \
-			msh_env_lst_utils1.c \
-			msh_env_lst_utils2.c \
-			msh_env_lst_utils3.c \
+			msh_env_lst_utils_dupl_env.c \
+			msh_env_lst_utils_add_mfy_nds.c \
+			msh_env_lst_utils_del_nds.c \
+			msh_env_lst_utils_print_nds.c \
+			msh_env_lst_utils_ascii_order.c \
 			msh_utils.c			
 
 OBJS	= $(SRC:.c=.o)
@@ -38,12 +40,15 @@ all:	$(NAME)
 
 $(NAME): $(OFILES) $(LIBFT_PATH)
 		$(CC) $(FLAGS) $(OFILES) $(LIBFT_PATH) -o $(NAME)
-		#clear
+		clear
 		
 $(OFILES): $(SRC)
 		@mkdir -p obj/
 		$(CC) $(FLAGS) -c $(SRC)
 		@mv *.o obj/
+
+$(LIBFT_PATH):
+		make -C libft all
 
 # If a debug with lldb is needed, do 'make' with this rule:
 debug: $(LIBFT_PATH)
@@ -59,9 +64,5 @@ fclean: clean
 		@rm $(NAME)
 
 re:	fclean all
-
-$(LIBFT_PATH):
-		make -C libft all
-
 
 .PHONY: all clean fclean re

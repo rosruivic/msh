@@ -6,15 +6,14 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:17:09 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/19 19:07:07 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/20 20:52:25 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief *****  BEWARE OF THIS !!!! UNDER CONSTRUCTION
- * 		RECONSTRUIRLA DESDE EL PRINCIPIO PARA CONTROLAR BIEN EL '='
+ * @brief   ***** COMPARES IF TWO STRINGS ARE EXACTLY THE SAME  *****
  * 
  * @param s1 
  * @param s2 
@@ -73,18 +72,13 @@ char	**ft_2rows_split(char *str, char c)
 	matrix[0] = ft_substr(str, 0, i);
 	if (!matrix[0])
 		return (ft_freedom(matrix), NULL);
-	ft_printf("DEBUG: ft_2rows_split) matrix[0] => %s\n\n", matrix[0]);
 	if (str[i] == c && i < ft_strlen(str) - 1) // CASO A) HAY '=' Y ALGO DETRÁS
 	{
-		matrix[1] = ft_substr(str, i + 1, ft_strlen(str) - i - 1); ///// -1 SOSPECHOSO ***
+		matrix[1] = ft_substr(str, i + 1, ft_strlen(str) - i - 1); // -1 SOSPECHOSO ***
 		if (!matrix[1])
 			return (ft_freedom(matrix), NULL);
-		ft_printf("DEBUG: ft_2rows_split) matrix[1] => \"%s\"\n\n", matrix[1]);
 	}
-	else if (str[i] != c || (str[i] == c && i == ft_strlen(str) - 1)) ///// -1 SOSPECHOSO ***
-	{
+	else if (str[i] != c || (str[i] == c && i == ft_strlen(str) - 1)) // -1 SOSPECHOSO ***
 		matrix[1] = ft_calloc(1, sizeof(char));
-		ft_printf("DEBUG: ft_2rows_split) matrix[1] => \"%s\"\n\n", matrix[1]);
-	}
 	return (matrix);
 }

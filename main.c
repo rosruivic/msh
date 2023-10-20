@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/19 19:12:58 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/20 20:57:10 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 
 /**
  * @brief 		****	BEWARE OF THIS !!!   ****
+ * 
  * 		THIS IS NOT THE REAL MINISHELL MAIN, only is a main to check
- * 		all the environment-vars-list's functions to be integrated in
- * 		the principal project
+ * 		all the environment-vars-list's functions before to be integrated
+ * 		in the principal project
  * 
  * @param argc 
  * @param argv 
@@ -31,8 +32,8 @@ int	main(int argc, char **argv, char **envp)
 	g_data.env_lst = NULL;
 	ft_duplic_envp(envp);		// CREATES THE ENVIRONMENT VAR LIST
 	ft_env_lst_print();
-	printf("\n\n\n");
-	if (argc > 1) // 1st argmt is to add or modify one elemnt
+	ft_printf("\n\n\n");
+	if (argc > 1) // 1st argmt is to add or modify one elemnt (TEST)
 	{
 		tmp = ft_2rows_split(argv[1], '=');
 		if (!tmp)
@@ -43,10 +44,11 @@ int	main(int argc, char **argv, char **envp)
 		else
 			ft_env_modify_or_add_node(ft_env_lst_new(tmp, 0));
 		ft_freedom(tmp);
+		ft_printf("\n\n\n");
 		ft_env_lst_print();
-		printf("\n\n\n");
+		ft_printf("\n\n\n");
 	}
-	if (argc > 2) // 2st argmt is to add or modify one elemnt
+	if (argc > 2) // 2st argmt is to add or modify one elemnt (TEST)
 	{
 		tmp = ft_2rows_split(argv[2], '=');
 		if (!tmp)
@@ -57,20 +59,24 @@ int	main(int argc, char **argv, char **envp)
 		else
 			ft_env_modify_or_add_node(ft_env_lst_new(tmp, 0));
 		ft_freedom(tmp);
+		ft_printf("\n\n\n");
 		ft_export_lst_print();
-		printf("\n\n\n");
+		ft_printf("\n\n\n");
 	}
-	if (argc > 3) // 3rd argmt is to delete one elemnt
+	if (argc > 3) // 3rd argmt is to delete one elemnt (TEST)
 	{
-		ft_env_lstdelone(argv[3]);
+		ft_env_lstdelone(ft_strdup(argv[3])); // QUIÉN LIBERARÁ ESTA CADENA ?
+		ft_printf("\n\n\n");
 		ft_env_lst_print();
-		printf("\n\n\n");
+		ft_printf("\n\n\n");
 	}
-	if (argc > 4) // 4rd argmt is to delete THE LIST
+	if (argc > 4) // 4rd argmt is to delete THE LIST (TEST)
 	{
+		ft_printf("\n\n\n");
 		ft_env_lstclear();
+		ft_printf("\n\n\n");
 		ft_env_lst_print();
-		printf("\n\n\n");
+		ft_printf("\n\n\n");
 	}
 	return (0);
 }
