@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:01:43 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/20 21:04:47 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/24 19:56:34 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ void	ft_env_modify_or_add_node(t_env_lst	*new)
 	if (g_data.env_lst && new)
 	{
 		t = g_data.env_lst;
-		if (!ft_strcmp(t->nm, new->nm)) // CHECK THE FIRST NODE
+		if (!ft_str_equal(t->nm, new->nm)) // CHECK THE FIRST NODE
 		{// if no equiv, check the next nodes:
-			while (!ft_strcmp(t->nx->nm, new->nm))
+			while (!ft_str_equal(t->nx->nm, new->nm))
 			{ // GO AHEAD'til find equiv;
 				if (t->nx->nx == NULL) // last node with no equiv (add & end)
 				{

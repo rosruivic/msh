@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/19 19:11:54 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/24 19:05:05 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,11 @@ void	ft_env_lstadd_back(t_env_lst *new);
 void	ft_env_lstadd_front(t_env_lst *new);
 void	ft_free_envlst_node(t_env_lst *del_node);
 void	ft_env_lstdelone(char *del_env_nm);
-void	ft_env_lstclear(void);
+void	ft_env_lstclear(t_env_lst *del_lst);
 void	ft_env_modify_or_add_node(t_env_lst	*new);
 void	ft_env_lst_print(void);
+
+t_env_lst	*ft_env_lst_ascii_order(void);
 void	ft_export_lst_print(void);
 
 /* ***************************************************************** */
@@ -93,7 +95,8 @@ void	ft_export_lst_print(void);
 /* ***************************************************************** */
 
 void	ft_free_null(char *str);
-int	ft_strcmp(char *s1, char *s2);
+int		ft_strcmp(char *s1, char *s2);
+int		ft_str_equal(char *s1, char *s2);
 char	**ft_2rows_split(char *str, char c);
 
 

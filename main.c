@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/20 20:57:10 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/24 19:59:42 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	main(int argc, char **argv, char **envp)
 	
 	g_data.env_lst = NULL;
 	ft_duplic_envp(envp);		// CREATES THE ENVIRONMENT VAR LIST
+	ft_printf("LO QUE SIGUE ES LA COPIA DE LAS VARIABLES DE ENTORNO\n\n\n");
 	ft_env_lst_print();
-	ft_printf("\n\n\n");
 	if (argc > 1) // 1st argmt is to add or modify one elemnt (TEST)
 	{
 		tmp = ft_2rows_split(argv[1], '=');
@@ -44,7 +44,7 @@ int	main(int argc, char **argv, char **envp)
 		else
 			ft_env_modify_or_add_node(ft_env_lst_new(tmp, 0));
 		ft_freedom(tmp);
-		ft_printf("\n\n\n");
+		ft_printf("\nLO QUE SIGUE ES 'env' DESPUÉS DE AÑADIR o MODIFICAR UNA VBLE DE ENTORNO NUEVA:\n\n\n");
 		ft_env_lst_print();
 		ft_printf("\n\n\n");
 	}
@@ -59,22 +59,14 @@ int	main(int argc, char **argv, char **envp)
 		else
 			ft_env_modify_or_add_node(ft_env_lst_new(tmp, 0));
 		ft_freedom(tmp);
-		ft_printf("\n\n\n");
+		ft_printf("LO QUE SIGUE ES 'export' DESPUÉS DE AÑADIR o MODIFICAR UNA VBLE DE ENTORNO NUEVA:\n\n\n");
 		ft_export_lst_print();
 		ft_printf("\n\n\n");
 	}
 	if (argc > 3) // 3rd argmt is to delete one elemnt (TEST)
 	{
 		ft_env_lstdelone(ft_strdup(argv[3])); // QUIÉN LIBERARÁ ESTA CADENA ?
-		ft_printf("\n\n\n");
-		ft_env_lst_print();
-		ft_printf("\n\n\n");
-	}
-	if (argc > 4) // 4rd argmt is to delete THE LIST (TEST)
-	{
-		ft_printf("\n\n\n");
-		ft_env_lstclear();
-		ft_printf("\n\n\n");
+		ft_printf("LO QUE SIGUE ES 'env' DESPUÉS DE ELIMINAR UNA VBLE DE ENTORNO:\n\n\n");
 		ft_env_lst_print();
 		ft_printf("\n\n\n");
 	}

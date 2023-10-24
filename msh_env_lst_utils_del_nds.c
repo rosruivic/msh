@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 20:35:44 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/20 20:42:35 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/24 19:57:52 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ void	ft_env_lstdelone(char *del_nd)
 	if (g_data.env_lst && del_nd)
 	{
 		t = g_data.env_lst;
-		if (!ft_strcmp(t->nm, del_nd))
+		if (!ft_str_equal(t->nm, del_nd))
 		{
-			while (t->nx != NULL && !ft_strcmp(t->nx->nm, del_nd))
+			while (t->nx != NULL && !ft_str_equal(t->nx->nm, del_nd))
 				t = t->nx;
 			if (t->nx == NULL)
 			{
@@ -79,16 +79,16 @@ void	ft_env_lstdelone(char *del_nd)
  * @brief   Deletes the complete environment vars list
  *  
  */
-void	ft_env_lstclear(void)
+void	ft_env_lstclear(t_env_lst *del_lst)
 {
 	t_env_lst	*del_node;
 
-	if (g_data.env_lst == NULL)
+	if (del_lst == NULL)
 		return ;
-	while (g_data.env_lst)
+	while (del_lst)
 	{
-		del_node = g_data.env_lst;
-		g_data.env_lst = del_node->nx;
+		del_node = del_lst;
+		del_lst = del_node->nx;
 		ft_free_envlst_node(del_node);
 	}
 	ft_printf("DEBUG: lstclear - borrados todos los nodos\n\n");
