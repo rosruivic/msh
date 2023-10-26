@@ -70,5 +70,6 @@ int	main(int argc, char **argv, char **envp)
 		ft_env_lst_print();
 		ft_printf("\n\n\n");
 	}
+	ft_env_lstclear(g_data.env_lst);
 	return (0);
 }

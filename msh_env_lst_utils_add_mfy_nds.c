@@ -37,9 +37,9 @@ void	ft_env_lstadd_back(t_env_lst *new)
 
 void	ft_env_lstadd_front(t_env_lst *new)
 {
-	t_env_lst	*tmp;
+//	t_env_lst	*tmp;
 
-	tmp = NULL;
+//	tmp = NULL;
 	if (g_data.env_lst == NULL && new)
 		g_data.env_lst = new;
 	else if (g_data.env_lst && new)

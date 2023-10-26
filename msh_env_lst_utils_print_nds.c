@@ -43,10 +43,11 @@ void	ft_env_lst_print(void)
  */
 void	ft_export_lst_print(void)
 {
+	t_env_lst *index;
 	t_env_lst *ptr;
 
-	ptr = ft_env_lst_ascii_order();
-//	ptr = g_data.env_lst;
+	index = ft_index_built_lst();
+	ptr = index;
 	while (ptr != NULL)
 	{
 		if (ptr->equal)
@@ -55,6 +56,7 @@ void	ft_export_lst_print(void)
 			ft_printf("declare -x %s\n", ptr->nm);
 		ptr = ptr->nx;
 	}
+	ft_env_lstclear(index);
 }
 
 

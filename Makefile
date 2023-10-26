@@ -17,7 +17,8 @@ SRC		=	main.c \
 			msh_env_lst_utils_add_mfy_nds.c \
 			msh_env_lst_utils_del_nds.c \
 			msh_env_lst_utils_print_nds.c \
-			msh_env_lst_utils_ascii_order.c \
+			msh_index_lst_creation.c \
+			msh_index_lstadd_node.c \
 			msh_utils.c			
 
 OBJS	= $(SRC:.c=.o)

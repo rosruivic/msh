@@ -16,6 +16,7 @@ void	ft_free_envlst_node(t_env_lst *del_node)
 {
 	ft_free_null(del_node->nm);
 	ft_free_null(del_node->val);
+	free(del_node);
 	del_node = NULL;
 }
 
