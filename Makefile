@@ -14,12 +14,14 @@ NAME	=	minishell
 
 SRC		=	main.c \
 			msh_env_lst_utils_dupl_env.c \
-			msh_env_lst_utils_add_mfy_nds.c \
+			msh_env_lst_utils_add_nds.c \
+			retraying_mfy_or_add_node.c \
 			msh_env_lst_utils_del_nds.c \
 			msh_env_lst_utils_print_nds.c \
 			msh_index_lst_creation.c \
 			msh_index_lstadd_node.c \
 			msh_utils.c			
+#			msh_env_lst_utils_mfy_nds.c \
 
 OBJS	= $(SRC:.c=.o)
 OFILES = $(addprefix obj/, $(OBJS))

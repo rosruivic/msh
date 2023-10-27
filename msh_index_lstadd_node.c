@@ -33,10 +33,7 @@ t_env_lst	*ft_index_lstadd_front(t_env_lst *index, t_env_lst *nd)
 
 	if (index == NULL)
 	{
-		ft_printf("\n **** DEBUG - ft_index_lstadd_front) ESTOY AQUI\n\n");
-		ft_printf("\n **** DEBUG - ft_index_lstadd_front) nd => %s\n\n", nd->nm);
 		new_head = nd;
-		ft_printf("\n **** DEBUG - ft_index_lstadd_front) new_head => %s\n\n", new_head->nm);
 		new_head->nx = NULL;
 		return (new_head);
 	}

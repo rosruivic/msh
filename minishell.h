@@ -85,9 +85,10 @@ void	ft_free_envlst_node(t_env_lst *del_node);
 void	ft_env_lstdelone(char *del_env_nm);
 void	ft_env_lstclear(t_env_lst *del_lst);
 void	ft_env_modify_or_add_node(t_env_lst	*new);
+void	ft_env_exchange_val(t_env_lst *t_nd, t_env_lst *new);
+void	ft_env_join_val(t_env_lst *t_nd, t_env_lst *new);
 void	ft_env_lst_print(void);
 void	ft_export_lst_print(void);
-//t_env_lst	*ft_env_lst_ascii_order(void);
 t_env_lst	*ft_index_built_lst(void);
 t_env_lst	*ft_index_new_nd(t_env_lst *nd);
 void	*ft_index_lstadd_back(t_env_lst *index, t_env_lst *nd);
@@ -99,6 +100,7 @@ void	ft_index_lstadd_mid(t_env_lst *prev, t_env_lst *nd);
 /* ***************************************************************** */
 
 void	ft_free_null(char *str);
+char	*ft_join_free(char *s1, char *s2);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_str_equal(char *s1, char *s2);
 char	**ft_2rows_split(char *str, char c);

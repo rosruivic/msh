@@ -17,8 +17,7 @@ t_env_lst	*ft_index_new_nd(t_env_lst *nd)
 	new = (t_env_lst *)malloc(sizeof(t_env_lst));
 	new->nm = ft_strdup(nd->nm);
 	new->equal = nd->equal;
-	if (nd->equal)
-		new->val = ft_strdup(nd->val);
+	new->val = ft_strdup(nd->val);
 	new->nx = NULL;
 	return (new);
 }
@@ -46,12 +45,12 @@ t_env_lst	*ft_index_built_lst(void)
 		{
 			while (r_idx->nx != NULL && ft_strcmp(src->nx->nm, r_idx->nx->nm) > 0)
 				r_idx = r_idx->nx;
-			if (r_idx->nx == NULL) // estamos al final de index, agregamos como último
+			if (r_idx->nx == NULL) // estamos al final de index, lo agregamos como último
 				ft_index_lstadd_back(r_idx, ft_index_new_nd(src->nx));
 			else // punto de inserción directa
 				ft_index_lstadd_mid(r_idx, ft_index_new_nd(src->nx));
 		}
-		src = src->nx;		// siguiente nodo de env_lst
+		src = src->nx;		// siguiente nodo de env_lst a tratar
 	}
 	return (idx);
 }

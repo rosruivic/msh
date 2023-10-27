@@ -111,3 +111,30 @@ char	**ft_2rows_split(char *str, char c)
 		matrix[1] = ft_calloc(1, sizeof(char));
 	return (matrix);
 }
+
+char	*ft_join_free(char *s1, char *s2)
+{
+	char	*s;
+	int		i;
+	int		j;
+
+	if (!s1 && !s2)
+		return (NULL);
+	s = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof(*s));
+	if (!s)
+		return (NULL);
+	i = 0;
+	j = -1;
+	if (s1)
+	{
+		while (s1[i])
+		{
+			s[i] = s1[i];
+			i++;
+		}
+		free(s1);
+	}
+	while (s2[++j])
+		s[i++] = s2[j];
+	return (s);
+}

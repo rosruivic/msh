@@ -92,5 +92,4 @@ void	ft_env_lstclear(t_env_lst *del_lst)
 		del_lst = del_node->nx;
 		ft_free_envlst_node(del_node);
 	}
-	ft_printf("DEBUG: lstclear - borrados todos los nodos\n\n");
 }
