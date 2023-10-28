@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/24 19:59:42 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/28 18:49:59 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!tmp)
 			return (0);
 		printf("DEBUG main1: %s\n             %s\n\n", tmp[0], tmp[1]);
-		if (ft_strchr(argv[1], '='))
+		if (ft_strchr(argv[1], '=')) // si hay un igual en todo el string
 			ft_env_modify_or_add_node(ft_env_lst_new(tmp, 1));
 		else
 			ft_env_modify_or_add_node(ft_env_lst_new(tmp, 0));
@@ -53,6 +53,9 @@ int	main(int argc, char **argv, char **envp)
 		if (!tmp)
 			return (0);
 		printf("DEBUG main2: %s\n             %s\n\n", tmp[0], tmp[1]);
+		
+	// A VER CÓMO SOLUCIONAMOS EN EL FUTURO QUE EL '=' NO SE PIERDA
+	// PQ EN EL FUTURO NO SERÁ EL MAIN EL QUE HAGA ESTA PARTE, SINO EL PARSER
 		if (ft_strchr(argv[2], '='))
 			ft_env_modify_or_add_node(ft_env_lst_new(tmp, 1));
 		else
