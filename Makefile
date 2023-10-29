@@ -6,13 +6,15 @@
 #    By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/18 13:12:22 by roruiz-v          #+#    #+#              #
-#    Updated: 2023/10/29 16:07:33 by roruiz-v         ###   ########.fr        #
+#    Updated: 2023/10/29 18:24:50 by roruiz-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	minishell
 
 SRC		=	main.c \
+			msh_simple_lexer.c \
+			msh_builtin_exec.c \
 			msh_env_lst_utils_dupl_env.c \
 			msh_env_lst_utils_add_nds.c \
 			msh_env_lst_utils_mfy_nds.c \
@@ -41,7 +43,7 @@ all:	$(NAME)
 #	with the apropiate flags and frameworks.
 
 $(NAME): $(OFILES) $(LIBFT_PATH)
-		$(CC) $(FLAGS) $(OFILES) $(LIBFT_PATH) -o $(NAME)
+		$(CC) $(FLAGS) -lreadline $(OFILES) $(LIBFT_PATH) -o $(NAME)
 		clear
 		
 $(OFILES): $(SRC)

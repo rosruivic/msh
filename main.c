@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/29 16:25:29 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/29 19:58:54 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,34 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_msh	data;
 	char	**tmp;
+	char	*pipeline;
 	
+	(void)argv;
+	if (argc != 1)
+		return (0); // con ft_error será un error concreto
 	data.env_lst = NULL;
-	ft_duplic_envp(&data, envp);		// CREATES THE ENVIRONMENT VAR LIST
-	ft_printf("LO QUE SIGUE ES LA COPIA DE LAS VARIABLES DE ENTORNO\n\n\n");
-	ft_env_lst_print(&data);
+	ft_duplic_envp(&data, envp);
+	while (1)
+	{
+		pipeline = readline("msh-1.0$ ");
+		ft_printf("PIPELINE => %s\n", pipeline);
+		ft_lexer(data, pipeline); // crea cmd_lst (tantos nds como pipes + 1)
+//		ft_parser(data);
+		ft_free_null(pipeline);
+		ft_builtin_exec(data);
+		ft_free_cmd_lst(data);
+	}
+
+	/* ******************************************************************* */
+	/* *  LO SIGTE, TRANSFORMAR PARA QUE SEA LLAMADO POR FTS CORRESPDTES * */
+	/* ******************************************************************* */
 	if (argc > 1) // 1st argmt is to add or modify one elemnt (TEST)
 	{
 		tmp = ft_2rows_split(argv[1], '=');
 		if (!tmp)
 			return (0);
 		printf("DEBUG main1: \n%s\n             %s\n\n", tmp[0], tmp[1]);
-		if (ft_strchr(argv[1], '=')) // si hay un igual en todo el string
+		if (ft_strchr(argv[1], '='))
 			ft_env_modify_or_add_node(&data, ft_env_lst_new(tmp, 1));
 		else
 			ft_env_modify_or_add_node(&data, ft_env_lst_new(tmp, 0));

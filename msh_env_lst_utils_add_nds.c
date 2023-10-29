@@ -6,17 +6,16 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:01:43 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/29 15:45:54 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/29 19:28:27 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief    ***   BEWARE OF THIS !!!!   ****
- * 	     ****     ****
+ * @brief    ***   Adds a new node to env_lst  ****
  * 
- * @param new 
+ * @param new 		New node to be added
  */
 void	ft_env_lstadd_back(t_msh *data, t_env_lst *new)
 {

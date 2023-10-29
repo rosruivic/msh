@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/29 16:28:01 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/29 19:50:25 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <readline/readline.h>
 //# include <limits.h>
 
 typedef enum e_error
@@ -33,19 +34,17 @@ typedef enum e_error
 	ERROR_PID_2,
 	ERROR_CMD_NOT_EXISTS,
 	ERROR_SPLIT_EXTRACTING_CMD = 20, // be free!
+	END = 99, // to execute command [exit] or exit caused by an error
 }	t_error;
 
-/**
- * @brief Esta estructura servirá para cuando tengamos
- * 				un número indefinido de comandos (varios pipes) * 
- */
-typedef struct s_cmd
+typedef struct	s_cmd_lst
 {
-	char	*cmd;
-	char	**cmd_and_argmts;
-	char	*path_cmd;
-	int		pid;
-}				t_cmd;
+	char				*path_cmd;
+	char				*cmd_args;
+	char				*env_path;
+	int					pid;
+	struct s_env_lst	*nx;
+}			t_cmd_lst;
 
 typedef	struct s_env_lst
 {
@@ -59,10 +58,8 @@ typedef struct	s_msh
 {
 	t_error		error;
 	t_env_lst	*env_lst;
+	t_cmd_lst	*cmd_lst;
 }				t_msh;
-
-/* THE UNIQUE & GLOBAL VARIABLE OF THE PROJECT (forbidden)*/
-// t_msh	g_data;
 
 /* ***************************************************************** */
 /* *********************    PIPEX  FUNCTIONS   ********************* */
