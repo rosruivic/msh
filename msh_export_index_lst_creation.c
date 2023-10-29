@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   msh_export_index_lst_creation.c                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/29 16:09:51 by roruiz-v          #+#    #+#             */
+/*   Updated: 2023/10/29 16:09:52 by roruiz-v         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "minishell.h"
 
 /**
@@ -27,13 +40,13 @@ t_env_lst	*ft_index_new_nd(t_env_lst *nd)
  * 			(which liberates the index_lst after the printing)
  * @return t_env_lst* 
  */
-t_env_lst	*ft_index_built_lst(void)
+t_env_lst	*ft_index_built_lst(t_msh *data)
 {
 	t_env_lst	*idx;	// puntero a la cabeza de index
 	t_env_lst	*r_idx; // puntero que recorre index en cada bucle interior
 	t_env_lst	*src;	// puntero que recorre env_lst en cada bucle exterior
 
-	src = g_data.env_lst;
+	src = data->env_lst;
 	idx = NULL;
 	idx = ft_index_lstadd_front(idx, ft_index_new_nd(src)); // es creada con primer nodo
 	while (src->nx != NULL) // recorremos env_lst elemento a elemento

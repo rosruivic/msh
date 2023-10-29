@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 20:35:44 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/24 19:57:52 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/29 16:01:03 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,16 @@ int	ft_env_check_end_equal(char *del_nd)
  * 
  * @param del_nd   The ->nm string to find in the list
  */
-void	ft_env_lstdelone(char *del_nd)
+void	ft_env_lstdelone(t_msh *data, char *del_nd)
 {
 	t_env_lst	*t;    // tmp node to keep the prev node to the one to be deleted
 	t_env_lst	*del;  // finded node to be deleted
 
 	if (ft_env_check_end_equal(del_nd))
 		return ;
-	if (g_data.env_lst && del_nd)
+	if (data->env_lst && del_nd)
 	{
-		t = g_data.env_lst;
+		t = data->env_lst;
 		if (!ft_str_equal(t->nm, del_nd))
 		{
 			while (t->nx != NULL && !ft_str_equal(t->nx->nm, del_nd))
@@ -63,7 +63,7 @@ void	ft_env_lstdelone(char *del_nd)
 		}
 		else // coincide el primer nodo, borrar el primer nodo
 		{
-			g_data.env_lst = t->nx;
+			data->env_lst = t->nx;
 			ft_free_envlst_node(t);
 			ft_free_null(del_nd); // PODRÍA SER LIBERADO EN OTRO LUGAR MÁS PROPICIO
 			return ;

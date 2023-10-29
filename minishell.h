@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/24 19:05:05 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/29 16:28:01 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ typedef struct	s_msh
 	t_env_lst	*env_lst;
 }				t_msh;
 
-/* THE UNIQUE & GLOBAL VARIABLE OF THE PROJECT */
-t_msh	g_data;
+/* THE UNIQUE & GLOBAL VARIABLE OF THE PROJECT (forbidden)*/
+// t_msh	g_data;
 
 /* ***************************************************************** */
 /* *********************    PIPEX  FUNCTIONS   ********************* */
@@ -75,21 +75,22 @@ t_msh	g_data;
 
 /* ***************************************************************** */
 /* *****************     ENVIRONMENT  FUNCTIONS    ***************** */
+/* ********     will be used by [env], [export], [unset]    ******** */
 /* ***************************************************************** */
 
-void	ft_duplic_envp(char **envp);
-t_env_lst	*ft_env_lst_new(char **tmp_env, int equal);
-void	ft_env_lstadd_back(t_env_lst *new);
-void	ft_env_lstadd_front(t_env_lst *new);
-void	ft_free_envlst_node(t_env_lst *del_node);
-void	ft_env_lstdelone(char *del_env_nm);
-void	ft_env_lstclear(t_env_lst *del_lst);
-void	ft_env_modify_or_add_node(t_env_lst	*new);
+void	ft_duplic_envp(t_msh *data, char **envp);
 void	ft_env_exchange_val(t_env_lst *t_nd, t_env_lst *new);
+void	ft_free_envlst_node(t_env_lst *del_node);
+t_env_lst	*ft_env_lst_new(char **tmp_env, int equal);
 void	ft_env_join_val(t_env_lst *t_nd, t_env_lst *new);
-void	ft_env_lst_print(void);
-void	ft_export_lst_print(void);
-t_env_lst	*ft_index_built_lst(void);
+void	ft_env_modify_or_add_node(t_msh *data, t_env_lst *new);
+void	ft_env_lstadd_back(t_msh *data, t_env_lst *new);
+void	ft_env_lstadd_front(t_msh *data, t_env_lst *new);
+void	ft_env_lstclear(t_env_lst *del_lst);
+void	ft_env_lstdelone(t_msh *data, char *del_env_nm);
+void	ft_env_lst_print(t_msh *data);
+void	ft_export_lst_print(t_msh *data);
+t_env_lst	*ft_index_built_lst(t_msh *data);
 t_env_lst	*ft_index_new_nd(t_env_lst *nd);
 void	*ft_index_lstadd_back(t_env_lst *index, t_env_lst *nd);
 t_env_lst	*ft_index_lstadd_front(t_env_lst *index, t_env_lst *nd);

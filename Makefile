@@ -6,7 +6,7 @@
 #    By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/18 13:12:22 by roruiz-v          #+#    #+#              #
-#    Updated: 2023/10/20 20:59:25 by roruiz-v         ###   ########.fr        #
+#    Updated: 2023/10/29 16:07:33 by roruiz-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,13 +15,12 @@ NAME	=	minishell
 SRC		=	main.c \
 			msh_env_lst_utils_dupl_env.c \
 			msh_env_lst_utils_add_nds.c \
-			retraying_mfy_or_add_node.c \
+			msh_env_lst_utils_mfy_nds.c \
 			msh_env_lst_utils_del_nds.c \
 			msh_env_lst_utils_print_nds.c \
-			msh_index_lst_creation.c \
-			msh_index_lstadd_node.c \
+			msh_export_index_lst_creation.c \
+			msh_export_index_lstadd_node.c \
 			msh_utils.c			
-#			msh_env_lst_utils_mfy_nds.c \
 
 OBJS	= $(SRC:.c=.o)
 OFILES = $(addprefix obj/, $(OBJS))

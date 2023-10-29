@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:16:37 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/28 21:01:25 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/29 15:59:08 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * 
  * @param envp 
  */
-void	ft_duplic_envp(char **envp)
+void	ft_duplic_envp(t_msh *data, char **envp)
 {
 	int			i;
 	char		**tmp_env;
@@ -30,9 +30,9 @@ void	ft_duplic_envp(char **envp)
 		if (!tmp_env)
 			return ;
 		if (ft_strchr(envp[i], '='))
-			ft_env_lstadd_back(ft_env_lst_new(tmp_env, 1));
+			ft_env_lstadd_back(data, ft_env_lst_new(tmp_env, 1));
 		else	
-			ft_env_lstadd_back(ft_env_lst_new(tmp_env, 0));
+			ft_env_lstadd_back(data, ft_env_lst_new(tmp_env, 0));
 		ft_freedom(tmp_env);		
 	}
 }
