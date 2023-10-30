@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/29 19:50:25 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/30 18:24:13 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct	s_cmd_lst
 	char				*cmd_args;
 	char				*env_path;
 	int					pid;
-	struct s_env_lst	*nx;
+	struct s_cmd_lst	*nx;
 }			t_cmd_lst;
 
 typedef	struct s_env_lst
@@ -82,7 +82,7 @@ t_env_lst	*ft_env_lst_new(char **tmp_env, int equal);
 void	ft_env_join_val(t_env_lst *t_nd, t_env_lst *new);
 void	ft_env_modify_or_add_node(t_msh *data, t_env_lst *new);
 void	ft_env_lstadd_back(t_msh *data, t_env_lst *new);
-void	ft_env_lstadd_front(t_msh *data, t_env_lst *new);
+void	ft_env_lstadd_front(t_msh *data, /* t_env_lst */void *new);
 void	ft_env_lstclear(t_env_lst *del_lst);
 void	ft_env_lstdelone(t_msh *data, char *del_env_nm);
 void	ft_env_lst_print(t_msh *data);
@@ -92,6 +92,25 @@ t_env_lst	*ft_index_new_nd(t_env_lst *nd);
 void	*ft_index_lstadd_back(t_env_lst *index, t_env_lst *nd);
 t_env_lst	*ft_index_lstadd_front(t_env_lst *index, t_env_lst *nd);
 void	ft_index_lstadd_mid(t_env_lst *prev, t_env_lst *nd);
+
+
+/* ***************************************************************** */
+/* ******************     BUILTINS  FUNCTIONS      ***************** */
+/* ***************************************************************** */
+
+void	ft_builtin_exec(t_msh *data, char *cmd);
+void	ft_builtin_exec_exit(t_msh *data);
+void	ft_builtin_exec_env(t_msh *data);
+void	ft_builtin_exec_export(t_msh *data);
+void	ft_builtin_exec_unset(t_msh *data);
+void	ft_builtin_exec_cd(t_msh *data);
+
+/* ***************************************************************** */
+/* ******************     BUILTINS  FUNCTIONS      ***************** */
+/* ***************************************************************** */
+
+void	ft_lexer(t_msh *data, char *pipeline);
+
 
 /* ***************************************************************** */
 /* ********************     UTILS  FUNCTIONS     ******************* */
