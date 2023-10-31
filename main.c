@@ -6,11 +6,19 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/30 20:34:12 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/31 18:09:27 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_init_msh_struct(t_msh *data)
+{
+	data->error = 0;
+	data->env_lst = NULL;
+	data->cmd_lst = NULL;
+	data->fd = 1;
+}
 
 /**
  * @brief 		****	BEWARE OF THIS !!!   ****
@@ -33,17 +41,21 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (argc != 1)
 		return (0); // con ft_error será un error concreto
+	ft_init_msh_struct(&data);
 	data.env_lst = NULL;
 	ft_duplic_envp(&data, envp);
 	while (1)
 	{
 		pipeline = readline("msh-1.0$ ");
-		ft_printf("*** DEBUG: main) PIPELINE => %s\n", pipeline);
-		ft_lexer(&data, pipeline); // crea cmd_lst (tantos nds como pipes + 1)
-//		ft_parser(data);
+		if (pipeline[0] != '\0')
+		{
+	//		ft_printf("*** DEBUG: main) PIPELINE => %s\n", pipeline);
+			ft_simple_lexer(&data, pipeline); // crea cmd_lst (tantos nds como pipes + 1)
+			ft_simple_parser(&data);
+			ft_builtin_exec(&data, data.cmd_lst->path_cmd);
+		}
 		ft_free_null(pipeline);
-		ft_builtin_exec(&data, data.cmd_lst->path_cmd);
-//		ft_free_cmd_lst(&data);
+	//	ft_free_cmd_lst(&data);
 	}
 
 	/* ******************************************************************* */

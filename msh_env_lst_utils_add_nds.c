@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:01:43 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/30 14:07:02 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/31 18:16:34 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ void	ft_env_lstadd_back(t_msh *data, t_env_lst *new)
  * 		DIFFERENT TYPES OF LISTS, ACTUALLY IS IN TEST MODE
  * 
  */
-void	ft_env_lstadd_front(t_msh *data, /* t_env_lst */void *new)
+void	ft_msh_lstadd_front(t_msh *data, void *new, int type)
 {
 	t_env_lst	*env_nd;
 	t_cmd_lst	*cmd_nd;
 	
-	if (sizeof(new) == sizeof(t_env_lst))
+	if (type == 1)
 	{
 		(void)cmd_nd;
 		env_nd = (t_env_lst *)new;
@@ -58,7 +58,7 @@ void	ft_env_lstadd_front(t_msh *data, /* t_env_lst */void *new)
 			data->env_lst = env_nd;
 		}		
 	}
-	else if (sizeof(new) == sizeof(t_cmd_lst))
+	else if (type == 2)
 	{
 		(void)env_nd;
 		cmd_nd = (t_cmd_lst *)new;

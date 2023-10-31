@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/30 20:46:06 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/31 20:13:02 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,43 @@
 	}
 } */
 
-static t_cmd_lst	*ft_cmd_lst_new(char **cmd)
+/**
+ * @brief ***** VER LA IMPLEMENTACIÓN DEL PIPEX  *****
+ * 
+ * @param data 
+ * @param cmd 
+ */
+static void	ft_find_path(t_msh *data, char *cmd)
+{
+	char		**paths;
+	t_env_lst	*tmp;
+	int			i;
+
+	i = -1;
+	tmp = data->env_lst;
+	while (tmp != NULL)
+	{
+		if (ft_strcmp(tmp->nm, "PATH") == 0)
+			break ;
+	}
+	paths = ft_split(tmp->val, ':');
+/* 	while (paths[++i])
+	{
+		if ()
+	} */
+}
+
+static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd)
 {
 	t_cmd_lst	*node;
+	int			i;
 
+	i = -1;
 	node = (t_cmd_lst *)malloc(sizeof(t_cmd_lst));
-	ft_printf("*** DEBUG: ft_cmd_lst_new) cmd[0] => %s\n", cmd[0]);
-	node->env_path = ft_strdup(cmd[0]);
-	ft_printf("*** DEBUG: ft_cmd_lst_new) node->env_path => %s\n", node->env_path);
-	node->cmd_args = /* ft_strdup(cmd[1]) */NULL;
+	while (cmd[++i])
+		node->cmd_args[i] = ft_strdup(cmd[i]);
+	node->path_cmd = ft_strdup(cmd[0]);
+	node->env_path = ft_find_path(data, node->cmd_args[0]);
 	node->nx = NULL;
 	ft_freedom(cmd);
 	return (node);
@@ -50,12 +78,10 @@ static t_cmd_lst	*ft_cmd_lst_new(char **cmd)
  * @param data 
  * @param pipeline 
  */
-void	ft_lexer(t_msh *data, char *pipeline)
+void	ft_simple_lexer(t_msh *data, char *pipeline)
 {
-	char **cmd;
+	char	**cmd;
 	
 	cmd = ft_split(pipeline, ' ');
-	ft_printf("*** DEBUG: ft_lexer) cmd[0] => %s\n", cmd[0]);
-	ft_env_lstadd_front(data, ft_cmd_lst_new(cmd));
-	ft_printf("*** DEBUG: ft_lexer) env_path => %s\n", data->cmd_lst->env_path);
+	ft_msh_lstadd_front(data, ft_cmd_lst_new(data, cmd), 2);
 }

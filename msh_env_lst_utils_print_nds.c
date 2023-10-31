@@ -6,16 +6,14 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:59:38 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/29 16:03:49 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/31 18:03:03 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief    BEWARE OF THIS !!!! 
- * 	      (BEWARE OF THIS: the '=' caracter is not stored
- *                      THEN, is hand printed here)
+ * @brief    
  * 
  *  ***  IT IS CALLED BY COMMAND "ENV" (without argmts)  ***
  * 	***    Only prints the node if its ->val != NULL     ***
@@ -28,15 +26,18 @@ void	ft_env_lst_print(t_msh *data)
 	while (ptr != NULL)
 	{
 		if (ptr->equal)
-			ft_printf("%s=%s\n", ptr->nm, ptr->val);			
+		{
+			ft_putstr_fd(ptr->nm, data->fd);
+			ft_putchar_fd('=', data->fd);
+			ft_putstr_fd(ptr->val, data->fd);
+			ft_putchar_fd('\n', data->fd);
+		}
 		ptr = ptr->nx;
 	}
 }
 
 /**
- * @brief    BEWARE OF THIS !!!!  *******  ORDENA asciiMENTE  *******
- * 	      (BEWARE OF THIS: the '=' caracter is not stored
- *         THEN, is hand printed here, AS THE "" CHARACTERS TO PRINT VALUE)
+ * @brief    *******  ORDENA lexicograficamente  *******
  * 
  *  ***   IT IS CALLED BY COMMAND "EXPORT" (without argmts)  ***
  * 	***         Prints all the nodes, in ascii order         ***
@@ -50,13 +51,15 @@ void	ft_export_lst_print(t_msh *data)
 	ptr = index;
 	while (ptr != NULL)
 	{
+		ft_putstr_fd("declare -x ", data->fd);
+		ft_putstr_fd(ptr->nm, data->fd);
 		if (ptr->equal)
-			ft_printf("declare -x %s=\"%s\"\n", ptr->nm, ptr->val);
-		else
-			ft_printf("declare -x %s\n", ptr->nm);
+		{
+			ft_putstr_fd("=", data->fd);
+			ft_putstr_fd(ptr->val, data->fd);
+			ft_putstr_fd("\"\n", data->fd);			
+		}
 		ptr = ptr->nx;
 	}
 	ft_env_lstclear(index);
 }
-
-

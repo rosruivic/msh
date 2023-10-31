@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/30 18:24:13 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/31 18:43:47 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,10 @@ typedef enum e_error
 
 typedef struct	s_cmd_lst
 {
-	char				*path_cmd;
-	char				*cmd_args;
-	char				*env_path;
+	char				**cmd_args;	 // argmts of the command
+	char				*path_cmd;   // absolute direction & command
+	char				*env_path;   // path (from $PATH)
+//	char				**cmd_flags; // posible flags of the command
 	int					pid;
 	struct s_cmd_lst	*nx;
 }			t_cmd_lst;
@@ -59,6 +60,7 @@ typedef struct	s_msh
 	t_error		error;
 	t_env_lst	*env_lst;
 	t_cmd_lst	*cmd_lst;
+	int			fd;
 }				t_msh;
 
 /* ***************************************************************** */
@@ -82,7 +84,7 @@ t_env_lst	*ft_env_lst_new(char **tmp_env, int equal);
 void	ft_env_join_val(t_env_lst *t_nd, t_env_lst *new);
 void	ft_env_modify_or_add_node(t_msh *data, t_env_lst *new);
 void	ft_env_lstadd_back(t_msh *data, t_env_lst *new);
-void	ft_env_lstadd_front(t_msh *data, /* t_env_lst */void *new);
+void	ft_msh_lstadd_front(t_msh *data, void *new, int type);
 void	ft_env_lstclear(t_env_lst *del_lst);
 void	ft_env_lstdelone(t_msh *data, char *del_env_nm);
 void	ft_env_lst_print(t_msh *data);
@@ -106,11 +108,12 @@ void	ft_builtin_exec_unset(t_msh *data);
 void	ft_builtin_exec_cd(t_msh *data);
 
 /* ***************************************************************** */
-/* ******************     BUILTINS  FUNCTIONS      ***************** */
+/* ******************     LEXER & PARSER  FUNCTIONS      ***************** */
 /* ***************************************************************** */
 
-void	ft_lexer(t_msh *data, char *pipeline);
-
+void	ft_init_msh_struct(t_msh *data);
+void	ft_simple_lexer(t_msh *data, char *pipeline);
+void	ft_simple_parser(t_msh *data);
 
 /* ***************************************************************** */
 /* ********************     UTILS  FUNCTIONS     ******************* */

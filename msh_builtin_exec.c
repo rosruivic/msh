@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/30 20:27:53 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/10/31 17:50:26 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ void	ft_builtin_exec_exit(t_msh *data)
 	exit (END);
 }
 
+/**
+ * @brief      ********   READY !!!!   ********
+ * 
+ * @param data 
+ */
 void	ft_builtin_exec_env(t_msh *data)
 {
 	ft_env_lst_print(data);
@@ -37,8 +42,12 @@ void	ft_builtin_exec_unset(t_msh *data)
 
 void	ft_builtin_exec_pwd(t_msh *data)
 {
+	char	*cwd;
+	
 	(void)data;
-	ft_printf("*** DEBUG: estoy en ft_builtin_exec_pwd\n");
+	cwd = getcwd(NULL, 0);
+	ft_putstr_fd(cwd, data->fd);
+	ft_putchar_fd('\n', data->fd);
 }
 
 void	ft_builtin_exec_cd(t_msh *data)
