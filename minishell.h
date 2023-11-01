@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/31 18:43:47 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/01 20:53:07 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
+
+# define NC	"\e[0m"
+# define R 	"\e[31m"
+# define G 	"\e[32m"
+# define Y 	"\e[33m"
+# define B 	"\e[34m"
+# define V 	"\e[35m"
 //# include <limits.h>
 
 typedef enum e_error
@@ -39,7 +46,7 @@ typedef enum e_error
 
 typedef struct	s_cmd_lst
 {
-	char				**cmd_args;	 // argmts of the command
+	char				**args;	 // argmts of the command
 	char				*path_cmd;   // absolute direction & command
 	char				*env_path;   // path (from $PATH)
 //	char				**cmd_flags; // posible flags of the command
@@ -119,11 +126,13 @@ void	ft_simple_parser(t_msh *data);
 /* ********************     UTILS  FUNCTIONS     ******************* */
 /* ***************************************************************** */
 
+void	ft_error_status(t_msh *data, int error);
 void	ft_free_null(char *str);
 char	*ft_join_free(char *s1, char *s2);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_str_equal(char *s1, char *s2);
 char	**ft_2rows_split(char *str, char c);
+int		ft_matrix_len(char **str);
 
 
 #endif

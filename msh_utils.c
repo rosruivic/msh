@@ -6,11 +6,21 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:17:09 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/31 16:17:26 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/01 20:23:12 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_matrix_len(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
 
 /**
  * @brief  ** COMPARES IF A STR IS GREATER, EQUAL OR LESS THAN ANOTHER STR **

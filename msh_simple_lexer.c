@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/31 20:13:02 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/01 20:53:33 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
  * @param data 
  * @param cmd 
  */
-static void	ft_find_path(t_msh *data, char *cmd)
+/* static void	ft_find_path(t_msh *data, char *cmd)
 {
 	char		**paths;
 	t_env_lst	*tmp;
@@ -49,23 +49,28 @@ static void	ft_find_path(t_msh *data, char *cmd)
 			break ;
 	}
 	paths = ft_split(tmp->val, ':');
-/* 	while (paths[++i])
-	{
-		if ()
+// 	while (paths[++i])
+//	{
+//		if ()
+//	}
 	} */
-}
+
+
 
 static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd)
 {
 	t_cmd_lst	*node;
 	int			i;
 
+	(void)data;
 	i = -1;
 	node = (t_cmd_lst *)malloc(sizeof(t_cmd_lst));
+	node->args = ft_calloc((ft_matrix_len(cmd) + 1), sizeof(char *));
 	while (cmd[++i])
-		node->cmd_args[i] = ft_strdup(cmd[i]);
+		node->args[i] = ft_strdup(cmd[i]);
 	node->path_cmd = ft_strdup(cmd[0]);
-	node->env_path = ft_find_path(data, node->cmd_args[0]);
+//	node->env_path = ft_find_path(data, node->cmd_args[0]);
+	node->env_path = NULL;
 	node->nx = NULL;
 	ft_freedom(cmd);
 	return (node);
@@ -81,7 +86,11 @@ static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd)
 void	ft_simple_lexer(t_msh *data, char *pipeline)
 {
 	char	**cmd;
+	int		i;
 	
+	i = -1;
 	cmd = ft_split(pipeline, ' ');
+	while (cmd[++i])
+		printf("*** DEBUG: ft_simple_lexer) linea %d => %s\n", i, cmd[i]);
 	ft_msh_lstadd_front(data, ft_cmd_lst_new(data, cmd), 2);
 }
