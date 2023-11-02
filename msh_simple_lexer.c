@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/01 20:53:33 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/02 19:56:39 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* static void	ft_cmd_lstadd_back(t_msh *data, t_cmd_lst *new)
 {
-	t_env_lst	*tmp;
+	t_cmd_lst	*tmp;
 
 	tmp = NULL;
 	if (data->cmd_lst == NULL && new)
@@ -89,8 +89,16 @@ void	ft_simple_lexer(t_msh *data, char *pipeline)
 	int		i;
 	
 	i = -1;
+	cmd = NULL;
 	cmd = ft_split(pipeline, ' ');
+	if (ft_matrix_len(cmd) == 0) // cd en pipeline solo hay espacios en blanco
+	{
+		ft_freedom(cmd);
+		data->error = ERROR_ARGMTS;
+		return ;
+	}
 	while (cmd[++i])
 		printf("*** DEBUG: ft_simple_lexer) linea %d => %s\n", i, cmd[i]);
 	ft_msh_lstadd_front(data, ft_cmd_lst_new(data, cmd), 2);
+//	ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd));
 }

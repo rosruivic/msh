@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/01 19:46:38 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/02 16:01:51 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,19 @@ int	main(int argc, char **argv, char **envp)
 	ft_duplic_envp(&data, envp);
 	while (data.error != END)
 	{
+		data.error = NO_ERROR;
 		pipeline = readline(">>> msh-1.0$ ");
 		if (pipeline[0] != '\0')
 		{
 			ft_simple_lexer(&data, pipeline); // crea cmd_lst (tantos nds como pipes + 1)
 			ft_simple_parser(&data);
-			ft_builtin_exec(&data, data.cmd_lst->path_cmd);
+			if (data.error == NO_ERROR) // lexer o parser no detectan error
+				ft_builtin_exec(&data, data.cmd_lst->path_cmd);
 		}
-	//	ft_free_cmd_lst(&data);
+		ft_free_null(pipeline);
+//		ft_free_cmd_lst(&data); // HAY QUE IMPLEMENTARLA (= free_env_lst)
 	}
-	//ft_env_lstclear(data.env_lst);
+	ft_env_lstclear(data.env_lst); // por si salimos con señales, no con exit
 
 
 	return (0);

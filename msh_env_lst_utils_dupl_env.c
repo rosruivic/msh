@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:16:37 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/29 15:59:08 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:44:33 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,6 @@ void	ft_duplic_envp(t_msh *data, char **envp)
 	}
 }
 
-static int	ft_detect_forbidden_chars(char *name)
-{
-	int	i;
-
-	i = 0;	
-	if (!((name[i] >= 'A' && name[i] <= 'Z')
-		|| (name[i] >= 'a' && name[i] <= 'z')
-		|| (name[i] == '_')))
-		return (1);
-	while (name[++i])
-	{
-		if (!((name[i] >= 'A' && name[i] <= 'Z')
-			|| (name[i] >= 'a' && name[i] <= 'z')
-			|| (name[i] >= '0' && name[i] <= '9')
-			|| (name[i] == '_')))
-			return (1);
-	}
-	return (0);
-}
 
 /**
  * @brief       **** BUILTS A NODE WITH THE PARAMTRS INFO ****
@@ -75,7 +56,7 @@ t_env_lst	*ft_env_lst_new(char **tmp_env, int equal)
 	node->val = ft_strdup(tmp_env[1]);
 	node->equal = equal;
 	node->nx = NULL;
-	if (ft_detect_forbidden_chars(node->nm))
+	if (ft_env_forbidden_chars(node->nm))
 	{
 		ft_printf("export: `%s': not a valid identifier\n", node->nm);
 		ft_free_envlst_node(node);

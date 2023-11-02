@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:59:38 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/01 21:17:09 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/02 20:07:23 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,9 @@ void	ft_export_lst_print(t_msh *data)
 		{
 			ft_putstr_fd("=\"", data->fd);
 			ft_putstr_fd(ptr->val, data->fd);
-			ft_putstr_fd("\"\n", data->fd);			
+			ft_putstr_fd("\"", data->fd);			
 		}
+		ft_putstr_fd("\n", data->fd);			
 		ptr = ptr->nx;
 	}
 	ft_env_lstclear(index);

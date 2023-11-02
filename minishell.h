@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/01 20:53:07 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/02 16:32:51 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <signal.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 
 # define NC	"\e[0m"
 # define R 	"\e[31m"
@@ -84,23 +86,23 @@ typedef struct	s_msh
 /* ********     will be used by [env], [export], [unset]    ******** */
 /* ***************************************************************** */
 
-void	ft_duplic_envp(t_msh *data, char **envp);
-void	ft_env_exchange_val(t_env_lst *t_nd, t_env_lst *new);
-void	ft_free_envlst_node(t_env_lst *del_node);
+void		ft_duplic_envp(t_msh *data, char **envp);
+void		ft_env_exchange_val(t_env_lst *t_nd, t_env_lst *new);
+void		ft_free_envlst_node(t_env_lst *del_node);
 t_env_lst	*ft_env_lst_new(char **tmp_env, int equal);
-void	ft_env_join_val(t_env_lst *t_nd, t_env_lst *new);
-void	ft_env_modify_or_add_node(t_msh *data, t_env_lst *new);
-void	ft_env_lstadd_back(t_msh *data, t_env_lst *new);
-void	ft_msh_lstadd_front(t_msh *data, void *new, int type);
-void	ft_env_lstclear(t_env_lst *del_lst);
-void	ft_env_lstdelone(t_msh *data, char *del_env_nm);
-void	ft_env_lst_print(t_msh *data);
-void	ft_export_lst_print(t_msh *data);
+void		ft_env_join_val(t_env_lst *t_nd, t_env_lst *new);
+void		ft_env_modify_or_add_node(t_msh *data, t_env_lst *new);
+void		ft_env_lstadd_back(t_msh *data, t_env_lst *new);
+void		ft_msh_lstadd_front(t_msh *data, void *new, int type);
+void		ft_env_lstclear(t_env_lst *del_lst);
+void		ft_env_lstdelone(t_msh *data, char *del_env_nm);
+void		ft_env_lst_print(t_msh *data);
+void		ft_export_lst_print(t_msh *data);
 t_env_lst	*ft_index_built_lst(t_msh *data);
 t_env_lst	*ft_index_new_nd(t_env_lst *nd);
-void	*ft_index_lstadd_back(t_env_lst *index, t_env_lst *nd);
+void		*ft_index_lstadd_back(t_env_lst *index, t_env_lst *nd);
 t_env_lst	*ft_index_lstadd_front(t_env_lst *index, t_env_lst *nd);
-void	ft_index_lstadd_mid(t_env_lst *prev, t_env_lst *nd);
+void		ft_index_lstadd_mid(t_env_lst *prev, t_env_lst *nd);
 
 
 /* ***************************************************************** */
@@ -121,6 +123,7 @@ void	ft_builtin_exec_cd(t_msh *data);
 void	ft_init_msh_struct(t_msh *data);
 void	ft_simple_lexer(t_msh *data, char *pipeline);
 void	ft_simple_parser(t_msh *data);
+int		ft_env_forbidden_chars(char *name);
 
 /* ***************************************************************** */
 /* ********************     UTILS  FUNCTIONS     ******************* */

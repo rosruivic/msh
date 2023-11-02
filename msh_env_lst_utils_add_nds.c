@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:01:43 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/31 18:16:34 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/02 20:11:56 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	ft_msh_lstadd_front(t_msh *data, void *new, int type)
 	
 	if (type == 1)
 	{
-		(void)cmd_nd;
 		env_nd = (t_env_lst *)new;
 		if (data->env_lst == NULL && env_nd)
 			data->env_lst = env_nd;
@@ -60,7 +59,6 @@ void	ft_msh_lstadd_front(t_msh *data, void *new, int type)
 	}
 	else if (type == 2)
 	{
-		(void)env_nd;
 		cmd_nd = (t_cmd_lst *)new;
 		if (data->cmd_lst == NULL && cmd_nd)
 			data->cmd_lst = cmd_nd;

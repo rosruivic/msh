@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:17:09 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/01 20:23:12 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/02 15:37:58 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	ft_matrix_len(char **str)
 {
 	int	i;
 
+	if (!str)
+		return (-42);
 	i = 0;
 	while (str[i])
 		i++;
@@ -147,4 +149,24 @@ char	*ft_join_free(char *s1, char *s2)
 	while (s2[++j])
 		s[i++] = s2[j];
 	return (s);
+}
+
+int	ft_detect_forbidden_chars(char *name)
+{
+	int	i;
+
+	i = 0;	
+	if (!((name[i] >= 'A' && name[i] <= 'Z')
+		|| (name[i] >= 'a' && name[i] <= 'z')
+		|| (name[i] == '_')))
+		return (1);
+	while (name[++i])
+	{
+		if (!((name[i] >= 'A' && name[i] <= 'Z')
+			|| (name[i] >= 'a' && name[i] <= 'z')
+			|| (name[i] >= '0' && name[i] <= '9')
+			|| (name[i] == '_')))
+			return (1);
+	}
+	return (0);
 }
