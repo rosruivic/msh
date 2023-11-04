@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:39:02 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/02 15:42:30 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/04 16:26:29 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,3 +38,4 @@ int	ft_env_forbidden_chars(char *name)
 	}
 	return (0);
 }
+

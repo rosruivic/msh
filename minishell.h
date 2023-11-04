@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/02 16:32:51 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/04 19:19:17 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct	s_cmd_lst
 {
 	char				**args;	 // argmts of the command
 	char				*path_cmd;   // absolute direction & command
-	char				*env_path;   // path (from $PATH)
+	char				*env_path;   // path (from $PATH) & command
 //	char				**cmd_flags; // posible flags of the command
 	int					pid;
 	struct s_cmd_lst	*nx;
@@ -103,6 +103,7 @@ t_env_lst	*ft_index_new_nd(t_env_lst *nd);
 void		*ft_index_lstadd_back(t_env_lst *index, t_env_lst *nd);
 t_env_lst	*ft_index_lstadd_front(t_env_lst *index, t_env_lst *nd);
 void		ft_index_lstadd_mid(t_env_lst *prev, t_env_lst *nd);
+char		**ft_find_env_paths(t_msh *data);
 
 
 /* ***************************************************************** */
@@ -117,13 +118,20 @@ void	ft_builtin_exec_unset(t_msh *data);
 void	ft_builtin_exec_cd(t_msh *data);
 
 /* ***************************************************************** */
-/* ******************     LEXER & PARSER  FUNCTIONS      ***************** */
+/* ***************     LEXER & PARSER  FUNCTIONS      ************** */
 /* ***************************************************************** */
 
 void	ft_init_msh_struct(t_msh *data);
 void	ft_simple_lexer(t_msh *data, char *pipeline);
 void	ft_simple_parser(t_msh *data);
 int		ft_env_forbidden_chars(char *name);
+
+/* ***************************************************************** */
+/* ****************     EXTERNAL CMDS  FUNCTIONS     *************** */
+/* ***************************************************************** */
+
+void	ft_find_cmd_path(t_cmd_lst *cmd, char **paths);
+void	ft_exec_external_cmd(t_msh *data, t_cmd_lst cmd);
 
 /* ***************************************************************** */
 /* ********************     UTILS  FUNCTIONS     ******************* */

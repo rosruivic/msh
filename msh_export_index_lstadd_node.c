@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 16:09:39 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/29 18:45:30 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/02 20:17:08 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  */
 void	*ft_index_lstadd_back(t_env_lst *index, t_env_lst *nd)
 {
-	if (index == NULL)
+	if (index == NULL && nd)
 	{
 		index = nd;
 		return (index);

@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/02 16:01:51 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/04 15:49:33 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	main(int argc, char **argv, char **envp)
 //		ft_free_cmd_lst(&data); // HAY QUE IMPLEMENTARLA (= free_env_lst)
 	}
 	ft_env_lstclear(data.env_lst); // por si salimos con señales, no con exit
-
 
 	return (0);
 }

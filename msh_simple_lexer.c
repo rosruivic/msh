@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/02 19:56:39 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/04 15:53:24 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,34 +28,6 @@
 		tmp->nx = new;
 	}
 } */
-
-/**
- * @brief ***** VER LA IMPLEMENTACIÓN DEL PIPEX  *****
- * 
- * @param data 
- * @param cmd 
- */
-/* static void	ft_find_path(t_msh *data, char *cmd)
-{
-	char		**paths;
-	t_env_lst	*tmp;
-	int			i;
-
-	i = -1;
-	tmp = data->env_lst;
-	while (tmp != NULL)
-	{
-		if (ft_strcmp(tmp->nm, "PATH") == 0)
-			break ;
-	}
-	paths = ft_split(tmp->val, ':');
-// 	while (paths[++i])
-//	{
-//		if ()
-//	}
-	} */
-
-
 
 static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd)
 {
