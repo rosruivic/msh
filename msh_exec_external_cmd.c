@@ -6,14 +6,14 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 18:15:50 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/04 20:07:40 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/05 18:18:47 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	ft_env_lst_count_nds(t_env_lst *env_lst)
-{
+{ // FUNCIONA BIEN - OK
 	int	elmts;
 	t_env_lst *tmp;
 
@@ -32,42 +32,49 @@ static char	**ft_conv_envlst_to_mtrx(t_msh	*data)
 	char		**my_envp;
 	t_env_lst	*tmp;
 	int			i;
+	int			nb_env;
 
-	i = -1;
+	i = 0;
 	my_envp = NULL;
+	nb_env = ft_env_lst_count_nds(data->env_lst);
 	tmp = data->env_lst;
+	my_envp = ft_calloc(nb_env + 1, sizeof(char *));
 	while (tmp != NULL)
 	{
-		my_envp = ft_calloc(ft_env_lst_count_nds(data->env_lst) + 1,
-			sizeof(t_env_lst));
-		while (i++ < ft_env_lst_count_nds(data->env_lst))
+		my_envp[i] = ft_strdup(tmp->nm);
+		if (tmp->equal)
 		{
-			if (tmp->equal)
-				my_envp[i] = ft_strjoin(tmp->nm, '=');
-			my_envp[i] = ft_strjoin(my_envp, tmp->val);
-			ft_printf(" **** DEBUG: ft_conv_envlst_to_mtrx) %s\n", my_envp[i]);
+			my_envp[i] = ft_join_free(my_envp[i], "=");
+			my_envp[i] = ft_join_free(my_envp[i], tmp->val);
 		}
+		tmp = tmp->nx;
+		i++;
 	}
 	return (my_envp);
 }
 
-static int	ft_forks(t_msh *data, char **my_envp)
+int	ft_exec_external_cmd(t_msh *data)
 {
-	int	exit_code;
+	int		exit_code;
+	char	**my_envp;
 	
+	printf("data->cmd_lst->args[0] => %s\n", data->cmd_lst->args[0]);
+	my_envp = ft_conv_envlst_to_mtrx(data);
 	data->cmd_lst->pid = fork();
+	if (data->cmd_lst->pid == -1)
+		ft_error_status(data, ERROR_PID);
 	if (data->cmd_lst->pid == 0) // is the child
 	{
-//		dup2(data->fd[0], STDIN_FILENO);
-		execve(data->cmd_lst->path_cmd, data->cmd_lst->args, 
-			ft_conv_envlst_to_mtrx(data));
-		ft_errors(data, ERROR_CMD_NOT_EXISTS);
+		execve(data->cmd_lst->path_cmd, data->cmd_lst->args, my_envp);
+		ft_error_status(data, ERROR_CMD_NOT_EXISTS);
 	}
+	else
+	{
+		waitpid(data->cmd_lst->pid, &exit_code, 0);
+	//	ft_actualize_envlst(data, my_envp); // HAY QUE IMPLEMENTARLA
+	//	printf("\n\n\n*** DEBUG: ft_exec_external_cmd) WEXITSTATUS => %d\n", exit_code);
+	}
+	ft_freedom(my_envp);
+	return (WEXITSTATUS(exit_code));		
 //		ft_free_cmd_lst(&data); // HAY QUE IMPLEMENTARLA (= free_env_lst)
-}
-
-void	ft_exec_external_cmd(t_msh *data, t_cmd_lst cmd)
-{
-	ft_forks(data, ft_conv_envlst_to_mtrx(data));
-	
 }

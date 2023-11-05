@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/04 15:49:33 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/05 13:45:52 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	main(int argc, char **argv, char **envp)
 		pipeline = readline(">>> msh-1.0$ ");
 		if (pipeline[0] != '\0')
 		{
+			add_history(pipeline);
 			ft_simple_lexer(&data, pipeline); // crea cmd_lst (tantos nds como pipes + 1)
 			ft_simple_parser(&data);
 			if (data.error == NO_ERROR) // lexer o parser no detectan error

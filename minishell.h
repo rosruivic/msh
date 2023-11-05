@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/04 19:19:17 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/05 18:17:04 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ typedef enum e_error
 	ERROR_OUTFILE,
 	ERROR_FILES_FD,
 	ERROR_PIPE,
-	ERROR_PID_1,
-	ERROR_PID_2,
+	ERROR_PID,
 	ERROR_CMD_NOT_EXISTS,
 	ERROR_SPLIT_EXTRACTING_CMD = 20, // be free!
 	END = 99, // to execute command [exit] or exit caused by an error
@@ -48,11 +47,13 @@ typedef enum e_error
 
 typedef struct	s_cmd_lst
 {
-	char				**args;	 // argmts of the command
+	char				**args;	 // cmd[0] + argmts of the command
 	char				*path_cmd;   // absolute direction & command
 	char				*env_path;   // path (from $PATH) & command
 //	char				**cmd_flags; // posible flags of the command
 	int					pid;
+	int					fd_in;
+	int					ft_out;
 	struct s_cmd_lst	*nx;
 }			t_cmd_lst;
 
@@ -131,7 +132,7 @@ int		ft_env_forbidden_chars(char *name);
 /* ***************************************************************** */
 
 void	ft_find_cmd_path(t_cmd_lst *cmd, char **paths);
-void	ft_exec_external_cmd(t_msh *data, t_cmd_lst cmd);
+int		ft_exec_external_cmd(t_msh *data);
 
 /* ***************************************************************** */
 /* ********************     UTILS  FUNCTIONS     ******************* */
