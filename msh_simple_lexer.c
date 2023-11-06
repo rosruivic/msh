@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/04 15:53:24 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/06 14:55:56 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ void	ft_simple_lexer(t_msh *data, char *pipeline)
 		data->error = ERROR_ARGMTS;
 		return ;
 	}
-	while (cmd[++i])
-		printf("*** DEBUG: ft_simple_lexer) linea %d => %s\n", i, cmd[i]);
 	ft_msh_lstadd_front(data, ft_cmd_lst_new(data, cmd), 2);
 //	ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd));
 }

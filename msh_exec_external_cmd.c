@@ -6,13 +6,13 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 18:15:50 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/05 18:18:47 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/06 17:35:39 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_env_lst_count_nds(t_env_lst *env_lst)
+int	ft_env_lst_count_nds(t_env_lst *env_lst)
 { // FUNCIONA BIEN - OK
 	int	elmts;
 	t_env_lst *tmp;
@@ -65,8 +65,9 @@ int	ft_exec_external_cmd(t_msh *data)
 		ft_error_status(data, ERROR_PID);
 	if (data->cmd_lst->pid == 0) // is the child
 	{
-		execve(data->cmd_lst->path_cmd, data->cmd_lst->args, my_envp);
+		execve(data->cmd_lst->env_path, data->cmd_lst->args, my_envp);
 		ft_error_status(data, ERROR_CMD_NOT_EXISTS);
+		exit(EXIT_FAILURE);
 	}
 	else
 	{

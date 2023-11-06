@@ -6,11 +6,26 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:17:09 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/04 17:23:39 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/06 18:01:22 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_is_str_digits(char *str)
+{
+	int	i;
+
+	i = -1;
+	if (!str)
+		return (0);
+	while (str[++i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+	}
+	return (1);
+}
 
 int	ft_matrix_len(char **str)
 {

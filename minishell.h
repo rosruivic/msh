@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/05 18:17:04 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/06 18:02:09 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef enum e_error
 	ERROR_FILES_FD,
 	ERROR_PIPE,
 	ERROR_PID,
+	ERROR_NO_PATHS,
 	ERROR_CMD_NOT_EXISTS,
 	ERROR_SPLIT_EXTRACTING_CMD = 20, // be free!
 	END = 99, // to execute command [exit] or exit caused by an error
@@ -54,6 +55,7 @@ typedef struct	s_cmd_lst
 	int					pid;
 	int					fd_in;
 	int					ft_out;
+	struct s_msh		*orgn;		// redirección a la struct ppal
 	struct s_cmd_lst	*nx;
 }			t_cmd_lst;
 
@@ -105,6 +107,7 @@ void		*ft_index_lstadd_back(t_env_lst *index, t_env_lst *nd);
 t_env_lst	*ft_index_lstadd_front(t_env_lst *index, t_env_lst *nd);
 void		ft_index_lstadd_mid(t_env_lst *prev, t_env_lst *nd);
 char		**ft_find_env_paths(t_msh *data);
+int			ft_env_lst_count_nds(t_env_lst *env_lst);
 
 
 /* ***************************************************************** */
@@ -145,6 +148,7 @@ int		ft_strcmp(char *s1, char *s2);
 int		ft_str_equal(char *s1, char *s2);
 char	**ft_2rows_split(char *str, char c);
 int		ft_matrix_len(char **str);
+int		ft_is_str_digits(char *str);
 
 
 #endif

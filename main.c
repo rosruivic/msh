@@ -6,16 +6,16 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/05 13:45:52 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/06 13:17:57 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_leaks(void)
+/* static void	ft_leaks(void)
 {
 	system("leaks -q minishell");
-}
+} */
 
 void	ft_init_msh_struct(t_msh *data)
 {
@@ -43,7 +43,7 @@ int	main(int argc, char **argv, char **envp)
 	t_msh	data;
 	char	*pipeline;
 	
-	atexit(ft_leaks);
+	//atexit(ft_leaks);
 	(void)argv;
 	if (argc != 1)
 		return (0); // con ft_error será un error concreto

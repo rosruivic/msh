@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 16:25:41 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/04 17:37:30 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/06 14:39:14 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,10 @@ void	ft_find_cmd_path(t_cmd_lst *cmd, char **paths)
 	char	*path;
 
 	i = -1;
-	if (ft_strchr(cmd->path_cmd, '/'))
-	{
+/* 	if (!paths)
+		ft_error_status(cmd->orgn, ERROR_NO_PATHS);
+	else  */if (ft_strchr(cmd->path_cmd, '/'))
 		cmd->env_path = ft_strdup(cmd->path_cmd);
-		printf("*** DEBUG: ft_find_cmd_path) hago strdup\n");
-	}
 	else
 	{
 		while (paths[++i])
@@ -45,7 +44,6 @@ void	ft_find_cmd_path(t_cmd_lst *cmd, char **paths)
 				ft_free_null(cmd->env_path);		
 		}		
 	}
-	printf("*** DEBUG: ft_find_cmd_path) env_path = %s\n", cmd->env_path);
 	ft_freedom(paths);
 }
 
@@ -68,12 +66,7 @@ char	**ft_find_env_paths(t_msh *data)
 	{
 		if (ft_strcmp(tmp->nm, "PATH") == 0)
 		{
-			ft_printf("PATHS:\n");
 			paths = ft_split(tmp->val, ':');
-			while (paths[++i])
-			{
-				ft_printf("*** %s\n", paths[i]);
-			}
 			break ;		
 		}
 		tmp = tmp->nx;

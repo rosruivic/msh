@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/05 16:54:54 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/06 18:53:18 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,31 @@
  */
 void	ft_builtin_exec_exit(t_msh *data) // CTRL+D activates this ft
 {
-	ft_error_status(data, END);
-	ft_env_lstclear(data->env_lst);
-	exit(0);
+	int	i;
+
+	i = 0;
+	ft_putstr_fd(data->cmd_lst->args[0], 1);
+	ft_putchar_fd('\n', 1);
+	if (ft_matrix_len(data->cmd_lst->args) > 1
+		&& (!ft_is_str_digits(data->cmd_lst->args[1])))
+	{
+		ft_putstr_fd("msh: exit: ", 2);
+		ft_putstr_fd(data->cmd_lst->args[1], 2);		
+		ft_putstr_fd(": numeric argument required\n", 2);
+		ft_env_lstclear(data->env_lst);
+		exit(255);
+	}
+	else if (ft_matrix_len(data->cmd_lst->args) == 1
+		&& ft_is_str_digits(data->cmd_lst->args[1]))
+		exit(ft_atoi(data->cmd_lst->args[1]));
+	else if (ft_matrix_len(data->cmd_lst->args) > 2)
+		ft_putstr_fd("msh: exit: too many arguments\n", 2);
+	else // sin argumentos
+	{
+		ft_error_status(data, END);
+		ft_env_lstclear(data->env_lst);
+		exit(0);
+	}
 }
 
 /**
@@ -31,12 +53,12 @@ void	ft_builtin_exec_exit(t_msh *data) // CTRL+D activates this ft
  * @param data 
  */
 void	ft_builtin_exec_env(t_msh *data)
-{
+{ // OJO - CONTROL DE ARGUMENTOS (DAR MENSAJE DE ERROR)
 	ft_env_lst_print(data);
 }
 
 void	ft_builtin_exec_export(t_msh *data)
-{
+{ // OJO, LE FALTA AÑADIR COSAS AL CONTENIDO DEL VALOR DE UNA VBLE
 	int		i;
 	char	**tmp;
 
@@ -85,7 +107,7 @@ void	ft_builtin_exec_cd(t_msh *data)
 }
 
 void	ft_builtin_exec_echo(t_msh *data)
-{
+{ // ADMITS OPTION -n & ARGMTS
 	(void)data;
 	ft_printf("*** DEBUG: estoy en ft_builtin_exec_echo\n");
 }
@@ -103,13 +125,14 @@ void	ft_builtin_exec(t_msh *data, char *cmd)
 	else if (ft_strcmp(cmd, "cd") == 0) // bash accepts UPPERS, but do nothing
 		ft_builtin_exec_cd(data);
 	else if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "ECHO") == 0)
-		ft_builtin_exec_exit(data);
+		ft_builtin_exec_echo(data);
 	else if (ft_strcmp(cmd, "exit") == 0) // bash no accepts UPPERS
 		ft_builtin_exec_exit(data);
 	else
 	{
-		ft_printf("******** DEBUG: NO ES NINGÚN BUILTIN\n");
+	//	ft_printf("******** DEBUG: NO ES NINGÚN BUILTIN\n");
 		ft_find_cmd_path(data->cmd_lst, ft_find_env_paths(data));
-		printf(" * * DEBUG: ft_builtin_exec) exit status => %d\n", ft_exec_external_cmd(data));
+//		printf(" * * DEBUG: ft_builtin_exec) exit status => %d\n", ft_exec_external_cmd(data));
+		ft_exec_external_cmd(data);
 	}
 }
