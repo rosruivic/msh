@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 18:15:50 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/06 17:35:39 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/06 19:21:12 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,25 +57,19 @@ int	ft_exec_external_cmd(t_msh *data)
 {
 	int		exit_code;
 	char	**my_envp;
-	
-	printf("data->cmd_lst->args[0] => %s\n", data->cmd_lst->args[0]);
+
 	my_envp = ft_conv_envlst_to_mtrx(data);
 	data->cmd_lst->pid = fork();
 	if (data->cmd_lst->pid == -1)
 		ft_error_status(data, ERROR_PID);
-	if (data->cmd_lst->pid == 0) // is the child
+	if (data->cmd_lst->pid == 0)
 	{
 		execve(data->cmd_lst->env_path, data->cmd_lst->args, my_envp);
 		ft_error_status(data, ERROR_CMD_NOT_EXISTS);
-		exit(EXIT_FAILURE);
+		exit(127); // para salir al nivel del padre (echo $? mostrará el 127)
 	}
 	else
-	{
 		waitpid(data->cmd_lst->pid, &exit_code, 0);
-	//	ft_actualize_envlst(data, my_envp); // HAY QUE IMPLEMENTARLA
-	//	printf("\n\n\n*** DEBUG: ft_exec_external_cmd) WEXITSTATUS => %d\n", exit_code);
-	}
 	ft_freedom(my_envp);
-	return (WEXITSTATUS(exit_code));		
-//		ft_free_cmd_lst(&data); // HAY QUE IMPLEMENTARLA (= free_env_lst)
+	return (WEXITSTATUS(exit_code));
 }

@@ -6,23 +6,20 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/06 18:53:18 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/06 19:04:24 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief    ****  BEWARE OF THIS !!! ******
+ * @brief    ****  READY !!!  ******
  * 		MUST RETURN AN EXIT VALUE, DEPENDING ON SOME FACTS
  * 
  * @param data 
  */
 void	ft_builtin_exec_exit(t_msh *data) // CTRL+D activates this ft
 {
-	int	i;
-
-	i = 0;
 	ft_putstr_fd(data->cmd_lst->args[0], 1);
 	ft_putchar_fd('\n', 1);
 	if (ft_matrix_len(data->cmd_lst->args) > 1
@@ -132,7 +129,6 @@ void	ft_builtin_exec(t_msh *data, char *cmd)
 	{
 	//	ft_printf("******** DEBUG: NO ES NINGÚN BUILTIN\n");
 		ft_find_cmd_path(data->cmd_lst, ft_find_env_paths(data));
-//		printf(" * * DEBUG: ft_builtin_exec) exit status => %d\n", ft_exec_external_cmd(data));
 		ft_exec_external_cmd(data);
 	}
 }
