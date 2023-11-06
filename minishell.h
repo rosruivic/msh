@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/06 18:02:09 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/06 20:06:26 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef enum e_error
 	ERROR_PID,
 	ERROR_NO_PATHS,
 	ERROR_CMD_NOT_EXISTS,
+	ERROR_NO_SUCH_FILE_OR_DIRECTORY,
 	ERROR_SPLIT_EXTRACTING_CMD = 20, // be free!
 	END = 99, // to execute command [exit] or exit caused by an error
 }	t_error;

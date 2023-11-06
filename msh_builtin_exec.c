@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/06 19:04:24 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/06 20:12:29 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ void	ft_builtin_exec_exit(t_msh *data) // CTRL+D activates this ft
  */
 void	ft_builtin_exec_env(t_msh *data)
 { // OJO - CONTROL DE ARGUMENTOS (DAR MENSAJE DE ERROR)
-	ft_env_lst_print(data);
+	if (ft_matrix_len(data->cmd_lst->args) == 1)
+		ft_env_lst_print(data);
+	else // como decir que el error es el 127 para que lo muestre 'echo $?' ????
+		ft_error_status(data, ERROR_NO_SUCH_FILE_OR_DIRECTORY);
 }
 
 void	ft_builtin_exec_export(t_msh *data)
