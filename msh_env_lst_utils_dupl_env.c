@@ -6,13 +6,13 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:16:37 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/02 13:44:33 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/07 21:05:12 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
+/**   CORREGIRRRRRRRR PARA QUE LA PRIMERA VEZ NO COJA EL VALOR DE OLDPWD
  * @brief    DUPLICS the environment vars to a linked list
  * 		   (BEWARE OF THIS: the '=' caracter is CONTROLED, not stored)
  * 
@@ -31,9 +31,9 @@ void	ft_duplic_envp(t_msh *data, char **envp)
 			return ;
 		if (ft_strchr(envp[i], '='))
 			ft_env_lstadd_back(data, ft_env_lst_new(tmp_env, 1));
-		else	
+		else
 			ft_env_lstadd_back(data, ft_env_lst_new(tmp_env, 0));
-		ft_freedom(tmp_env);		
+		ft_freedom(tmp_env);
 	}
 }
 

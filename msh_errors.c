@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:30:00 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/06 20:48:38 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/07 16:18:00 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ void	ft_error_status(t_msh *data, int error)
 	else if (error == ERROR_CMD_NOT_EXISTS)
 	{
 		ft_putstr_fd("msh: ", 2);
-		ft_putstr_fd(data->cmd_lst->args[0], 2);
+		ft_putstr_fd(data->cmd_lst->c_args[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 		error = NO_ERROR;
 	}
 	else if (error == ERROR_NO_SUCH_FILE_OR_DIRECTORY)
 	{ // cuando al env le pongo argumentos, por ejemplo, pero no hay que implementarlo
-		ft_putstr_fd(data->cmd_lst->args[0], 2);
+		ft_putstr_fd(data->cmd_lst->c_args[0], 2);
 		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(data->cmd_lst->args[1], 2);
+		ft_putstr_fd(data->cmd_lst->c_args[1], 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 		error = NO_ERROR;
 	}

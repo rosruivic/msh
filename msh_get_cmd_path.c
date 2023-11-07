@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 16:25:41 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/06 14:39:14 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/07 16:29:23 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,19 @@ void	ft_find_cmd_path(t_cmd_lst *cmd, char **paths)
 	i = -1;
 /* 	if (!paths)
 		ft_error_status(cmd->orgn, ERROR_NO_PATHS);
-	else  */if (ft_strchr(cmd->path_cmd, '/'))
-		cmd->env_path = ft_strdup(cmd->path_cmd);
+	else  */if (ft_strchr(cmd->c_abs_path, '/'))
+		cmd->c_env_path = ft_strdup(cmd->c_abs_path);
 	else
 	{
 		while (paths[++i])
 		{
 			path = ft_strjoin(paths[i], "/");
-			cmd->env_path = ft_strjoin(path, cmd->path_cmd);
+			cmd->c_env_path = ft_strjoin(path, cmd->c_abs_path);
 			ft_free_null(path);
-			if (access(cmd->env_path, F_OK) == 0)
+			if (access(cmd->c_env_path, F_OK) == 0)
 				break;
 			else
-				ft_free_null(cmd->env_path);		
+				ft_free_null(cmd->c_env_path);		
 		}		
 	}
 	ft_freedom(paths);

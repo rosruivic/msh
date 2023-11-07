@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/06 20:06:26 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/07 19:56:57 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,17 @@ typedef enum e_error
 	END = 99, // to execute command [exit] or exit caused by an error
 }	t_error;
 
+/**
+ * @brief   Each node can be a command or a redirection node,
+ * 	the difference between both types is the data contained within.
+ * 
+ */
 typedef struct	s_cmd_lst
 {
-	char				**args;	 // cmd[0] + argmts of the command
-	char				*path_cmd;   // absolute direction & command
-	char				*env_path;   // path (from $PATH) & command
-//	char				**cmd_flags; // posible flags of the command
+	int					type; // 0 = cmd; 1 = redirecmto
+	char				**c_args;	 // cmd[0] + argmts & flags of the command
+	char				*c_abs_path;   // absolute direction & command
+	char				*c_env_path;   // path (from $PATH) & command
 	int					pid;
 	int					fd_in;
 	int					ft_out;

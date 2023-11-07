@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:39:02 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/04 16:26:29 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/07 16:28:16 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_simple_parser(t_msh *data)
 {
 	if (data->error != NO_ERROR)
 		return ;
-	data->fd = 1;
+	data->fd = 1;	
 }
 
 int	ft_env_forbidden_chars(char *name)

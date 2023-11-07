@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/06 14:55:56 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/07 16:26:44 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd)
 	(void)data;
 	i = -1;
 	node = (t_cmd_lst *)malloc(sizeof(t_cmd_lst));
-	node->args = ft_calloc((ft_matrix_len(cmd) + 1), sizeof(char *));
+	node->c_args = ft_calloc((ft_matrix_len(cmd) + 1), sizeof(char *));
 	while (cmd[++i])
-		node->args[i] = ft_strdup(cmd[i]);
-	node->path_cmd = ft_strdup(cmd[0]);
+		node->c_args[i] = ft_strdup(cmd[i]);
+	node->c_abs_path = ft_strdup(cmd[0]);
 //	node->env_path = ft_find_path(data, node->cmd_args[0]);
-	node->env_path = NULL;
+	node->c_env_path = NULL;
 	node->nx = NULL;
 	ft_freedom(cmd);
 	return (node);

@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 18:15:50 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/06 19:21:12 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/07 16:25:40 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ int	ft_exec_external_cmd(t_msh *data)
 		ft_error_status(data, ERROR_PID);
 	if (data->cmd_lst->pid == 0)
 	{
-		execve(data->cmd_lst->env_path, data->cmd_lst->args, my_envp);
+		execve(data->cmd_lst->c_env_path, data->cmd_lst->c_args, my_envp);
 		ft_error_status(data, ERROR_CMD_NOT_EXISTS);
-		exit(127); // para salir al nivel del padre (echo $? mostrará el 127)
+		exit(127); // para salir al padre si error (echo $? mostrará el 127)
 	}
 	else
 		waitpid(data->cmd_lst->pid, &exit_code, 0);

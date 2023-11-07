@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:17:09 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/06 18:01:22 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/07 20:12:45 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,21 @@ int	ft_str_equal(char *s1, char *s2)
 	return (0);
 }
 
+/**
+ * @brief    * * *  BEWARE OF THIS !!!!!!
+ * 	HAY QUE PROBAR A PASAR UN DOBLE PUNTERO Y LA DIRECCIÓN DE MEMORIA
+ *  PORQUE FUERA, EL STRING SIGUE APUNTANDO A LA DIRECCIÓN ORIGINAL
+ * 
+ * @param str 
+ */
 void	ft_free_null(char *str)
 {
 	if (str != NULL)
 	{
+//		ft_printf("DEBUG: ft_free_null) estoy aqui\n");
 		free(str);
 		str = NULL;
+//		ft_printf("DEBUG: ft_free_null) %p\n", str);
 	}
 }
 

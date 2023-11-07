@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/06 13:17:57 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/07 16:24:54 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_simple_lexer(&data, pipeline); // crea cmd_lst (tantos nds como pipes + 1)
 			ft_simple_parser(&data);
 			if (data.error == NO_ERROR) // lexer o parser no detectan error
-				ft_builtin_exec(&data, data.cmd_lst->path_cmd);
+				ft_builtin_exec(&data, data.cmd_lst->c_abs_path);
 		}
 		ft_free_null(pipeline);
 //		ft_free_cmd_lst(&data); // HAY QUE IMPLEMENTARLA (= free_env_lst)
