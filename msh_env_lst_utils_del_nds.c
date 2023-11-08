@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 20:35:44 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/29 16:01:03 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:15:01 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	ft_free_envlst_node(t_env_lst *del_node)
 {
-	ft_free_null(del_node->nm);
-	ft_free_null(del_node->val);
+	ft_free_null_void_return(&del_node->nm);
+	ft_free_null_void_return(&del_node->val);
 	free(del_node);
 	del_node = NULL;
 }
@@ -25,7 +25,7 @@ int	ft_env_check_end_equal(char *del_nd)
 	if (del_nd && del_nd[ft_strlen(del_nd) - 1] == '=')
 	{
 		ft_printf("msh: unset: `%s': not a valid identifier\n", del_nd);
-		ft_free_null(del_nd); // PODRÍA SER LIBERADO EN OTRO LUGAR MÁS PROPICIO
+		ft_free_null_void_return(&del_nd); // PODRÍA SER LIBERADO EN OTRO LUGAR MÁS PROPICIO
 		return (1);
 	}
 	return (0);
@@ -57,7 +57,7 @@ void	ft_env_lstdelone(t_msh *data, char *del_nd)
 				t = t->nx;
 			if (t->nx == NULL)
 			{
-				ft_free_null(del_nd); // PODRÍA SER LIBERADO EN OTRO LUGAR MÁS PROPICIO
+				ft_free_null_void_return(&del_nd); // PODRÍA SER LIBERADO EN OTRO LUGAR MÁS PROPICIO
 				return ;
 			}
 		}
@@ -65,14 +65,14 @@ void	ft_env_lstdelone(t_msh *data, char *del_nd)
 		{
 			data->env_lst = t->nx;
 			ft_free_envlst_node(t);
-			ft_free_null(del_nd); // PODRÍA SER LIBERADO EN OTRO LUGAR MÁS PROPICIO
+			ft_free_null_void_return(&del_nd); // PODRÍA SER LIBERADO EN OTRO LUGAR MÁS PROPICIO
 			return ;
 		}
 		// finded one equiv after 1st node: building a bridge & deleting node
 		del = t->nx;
 		t->nx = t->nx->nx;
 		ft_free_envlst_node(del);
-		ft_free_null(del_nd); // PODRÍA SER LIBERADO EN OTRO LUGAR MÁS PROPICIO
+		ft_free_null_void_return(&del_nd); // PODRÍA SER LIBERADO EN OTRO LUGAR MÁS PROPICIO
 	}		
 }
 

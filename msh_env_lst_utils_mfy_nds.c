@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 16:10:02 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/10/29 16:10:42 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:14:31 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	ft_env_mfy_or_add_nd(t_msh *data, t_env_lst *new)
 
 void	ft_env_exchange_val(t_env_lst *t_nd, t_env_lst *new)
 {
-	ft_free_null(t_nd->val);
+	ft_free_null_void_return(&t_nd->val);
 	t_nd->val = ft_strdup(new->val);
 	if (t_nd->equal == 0) // si ya estaba en 1, no puede cambiar a 0
 		t_nd->equal = new->equal;

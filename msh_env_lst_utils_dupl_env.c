@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:16:37 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/07 21:05:12 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:40:57 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ void	ft_duplic_envp(t_msh *data, char **envp)
 		tmp_env = ft_2rows_split(envp[i], '=');
 		if (!tmp_env)
 			return ;
-		if (ft_strchr(envp[i], '='))
+		if (ft_strcmp(tmp_env[0], "OLDPWD") == 0)
+			ft_free_null_void_return(&tmp_env[1]);
+		if (ft_strchr(envp[i], '=') && ft_strcmp(tmp_env[0], "OLDPWD") != 0)
 			ft_env_lstadd_back(data, ft_env_lst_new(tmp_env, 1));
 		else
 			ft_env_lstadd_back(data, ft_env_lst_new(tmp_env, 0));

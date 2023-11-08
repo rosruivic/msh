@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/07 19:56:57 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:14:04 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,8 @@ int		ft_exec_external_cmd(t_msh *data);
 /* ***************************************************************** */
 
 void	ft_error_status(t_msh *data, int error);
-void	ft_free_null(char *str);
+void	ft_free_null_void_return(char **str);
+char	*ft_free_null_no_void_return(char *str);
 char	*ft_join_free(char *s1, char *s2);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_str_equal(char *s1, char *s2);

@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/07 20:40:35 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:43:23 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	ft_builtin_exec_pwd(t_msh *data)
 	cwd = getcwd(NULL, 0);
 	ft_putstr_fd(cwd, data->fd);
 	ft_putchar_fd('\n', data->fd);
-	ft_free_null(cwd);
+	ft_free_null_void_return(&cwd);
 }
 
 void	ft_builtin_exec_echo(t_msh *data)
@@ -107,10 +107,9 @@ void	ft_builtin_exec_echo(t_msh *data)
 }
 
 /**
- * @brief       *** PIENSO: ***
+ * @brief       *** UNDER CONSTRUCTION ***
  * 
- * 	- Puede que eso no sea operativo en la mayoría, pero podría ser útil
- * 
+ *  * 
  * @param data 
  */
 /* void	ft_builtin_exec_cd(t_msh *data)

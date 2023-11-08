@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/07 16:24:54 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:12:45 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	main(int argc, char **argv, char **envp)
 			if (data.error == NO_ERROR) // lexer o parser no detectan error
 				ft_builtin_exec(&data, data.cmd_lst->c_abs_path);
 		}
-		ft_free_null(pipeline);
+		ft_free_null_void_return(&pipeline);
 //		ft_free_cmd_lst(&data); // HAY QUE IMPLEMENTARLA (= free_env_lst)
 	}
 	ft_env_lstclear(data.env_lst); // por si salimos con señales, no con exit

@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 16:25:41 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/07 16:29:23 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:15:55 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ void	ft_find_cmd_path(t_cmd_lst *cmd, char **paths)
 		{
 			path = ft_strjoin(paths[i], "/");
 			cmd->c_env_path = ft_strjoin(path, cmd->c_abs_path);
-			ft_free_null(path);
+			ft_free_null_void_return(&path);
 			if (access(cmd->c_env_path, F_OK) == 0)
 				break;
 			else
-				ft_free_null(cmd->c_env_path);		
+				ft_free_null_void_return(&cmd->c_env_path);		
 		}		
 	}
 	ft_freedom(paths);
