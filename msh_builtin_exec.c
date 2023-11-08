@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/08 15:43:23 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/08 18:32:45 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_builtin_exec_exit(t_msh *data) // CTRL+D activates this ft
 }
 
 /**
- * @brief      ********   READY !!!!   ********
+ * @brief      ********   READY ?   ********
  * 
  * @param data 
  */
@@ -100,36 +100,10 @@ void	ft_builtin_exec_pwd(t_msh *data)
 	ft_free_null_void_return(&cwd);
 }
 
-void	ft_builtin_exec_echo(t_msh *data)
+/* void	ft_builtin_exec_echo(t_msh *data)
 { // ADMITS OPTION -n & ARGMTS
 	(void)data;
 	ft_printf("*** DEBUG: estoy en ft_builtin_exec_echo\n");
-}
-
-/**
- * @brief       *** UNDER CONSTRUCTION ***
- * 
- *  * 
- * @param data 
- */
-/* void	ft_builtin_exec_cd(t_msh *data)
-{
-	if (data->cmd_lst->c_args[2])
-		// ft_error y fuera
-	if (data->cmd_lst->c_args[1])
-	{
-		old_tmp = OLD_PWD;
-		new_tmp = PWD;
-		if (chdir(data->cmd_lst->c_args[1]) == 0)
-			// cambia las variables de entorno
-		else
-		 	// ft_error
-	}
-	else // no hay argumentos
-	{
-		// busca en las variables de entorno 'OLD_PWD' y se muda ahí
-		
-	}
 } */
 
 void	ft_builtin_exec(t_msh *data, char *cmd)
@@ -142,10 +116,10 @@ void	ft_builtin_exec(t_msh *data, char *cmd)
 		ft_builtin_exec_unset(data);
 	else if (ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "PWD") == 0)
 		ft_builtin_exec_pwd(data);
-//	else if (ft_strcmp(cmd, "cd") == 0) // bash accepts UPPERS, but do nothing
-//		ft_builtin_exec_cd(data);
-	else if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "ECHO") == 0)
-		ft_builtin_exec_echo(data);
+	else if (ft_strcmp(cmd, "cd") == 0) // bash accepts UPPERS, but do nothing
+		ft_builtin_exec_cd(data);
+	// else if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "ECHO") == 0)
+	// 	ft_builtin_exec_echo(data);
 	else if (ft_strcmp(cmd, "exit") == 0) // bash no accepts UPPERS
 		ft_builtin_exec_exit(data);
 	else
