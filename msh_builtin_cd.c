@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   msh_builtin_cd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 18:26:32 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/08 20:29:09 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/09 10:14:58 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*ft_env_obtain_env_val(t_msh *data, char *str)
+/* static char	*ft_env_obtain_env_val(t_msh *data, char *str)
 {
 	char		*pwd_val;
 	t_env_lst	*tmp;
@@ -26,9 +26,9 @@ static char	*ft_env_obtain_env_val(t_msh *data, char *str)
 	}
 	
 	return (pwd_val);
-}
+} */
 
-static void	ft_env_change_env_val(t_msh *data, char *str)
+/* static void	ft_env_change_env_val(t_msh *data, char *str)
 {
 	t_env_lst	*tmp;
 
@@ -43,7 +43,7 @@ static void	ft_env_change_env_val(t_msh *data, char *str)
 		else
 			tmp = tmp->nx;
 	}
-}
+} */
 
 
 /**
@@ -59,7 +59,7 @@ static void	ft_env_change_env_val(t_msh *data, char *str)
  * 
  * @param data 
  */
-void	ft_builtin_exec_cd(t_msh *data)
+/* void	ft_builtin_exec_cd(t_msh *data)
 {	
 	char	*pwd;
 	
@@ -75,4 +75,4 @@ void	ft_builtin_exec_cd(t_msh *data)
 		else
 			ft_error_status(data, ERROR_CHDIR_FAILURE);
 	}
-}
+} */
