@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/10 21:17:52 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/10 21:30:23 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_init_msh_struct(&data);
 	data.env_lst = NULL;
 	ft_duplic_envp(&data, envp);
-	while (/* data.error != END */1)
+	while (data.error != END)
 	{
 		data.error = NO_ERROR;
 		pipeline = readline(">>> msh-1.0$ ");
