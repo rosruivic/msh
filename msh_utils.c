@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:17:09 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/08 15:13:49 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/09 23:15:59 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ char	*ft_join_free(char *s1, char *s2)
 			s[i] = s1[i];
 			i++;
 		}
-		free(s1);
+		ft_free_null_void_return(&s1);
 	}
 	while (s2[++j])
 		s[i++] = s2[j];

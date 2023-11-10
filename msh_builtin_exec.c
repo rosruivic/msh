@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/09 10:15:32 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/09 14:17:35 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,8 @@ void	ft_builtin_exec(t_msh *data, char *cmd)
 		ft_builtin_exec_unset(data);
 	else if (ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "PWD") == 0)
 		ft_builtin_exec_pwd(data);
-	// else if (ft_strcmp(cmd, "cd") == 0) // bash accepts UPPERS, but do nothing
-	// 	ft_builtin_exec_cd(data);
+	else if (ft_strcmp(cmd, "cd") == 0) // bash accepts UPPERS, but do nothing
+		ft_builtin_exec_cd(data);
 	// else if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "ECHO") == 0)
 	// 	ft_builtin_exec_echo(data);
 	else if (ft_strcmp(cmd, "exit") == 0) // bash no accepts UPPERS

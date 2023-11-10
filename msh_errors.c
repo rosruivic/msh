@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_errors.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:30:00 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/08 15:55:02 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/10 00:47:03 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,14 @@ void	ft_error_status(t_msh *data, int error)
 	}
 	else if (error == ERROR_CHDIR_FAILURE)
 	{
-//		ft_putstr_fd("msh: ", 2);
-//		ft_putstr_fd(data->cmd_lst->c_args[0], 2);
-		ft_putstr_fd("DEBUG: ft_error_status) chdir failure\n", 2);
+		ft_putstr_fd("msh: cd: ", 2);
+		ft_putstr_fd(data->cmd_lst->c_args[1], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		error = NO_ERROR;
+	}
+	else if (error == ERROR_CHDIR_OLDPWD_NOT_SET)
+	{
+		ft_putstr_fd("msh: cd: OLDPWD not set\n", 2);
 		error = NO_ERROR;
 	}
 	else if (error == ERROR_NO_SUCH_FILE_OR_DIRECTORY)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/08 15:53:00 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/10 00:40:29 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef enum e_error
 	ERROR_NO_PATHS,
 	ERROR_CMD_NOT_EXISTS,
 	ERROR_CHDIR_FAILURE,
+	ERROR_CHDIR_OLDPWD_NOT_SET,
 	ERROR_NO_SUCH_FILE_OR_DIRECTORY,
 	ERROR_SPLIT_EXTRACTING_CMD = 20, // be free!
 	END = 99, // to execute command [exit] or exit caused by an error
@@ -83,15 +84,6 @@ typedef struct	s_msh
 }				t_msh;
 
 /* ***************************************************************** */
-/* *********************    PIPEX  FUNCTIONS   ********************* */
-/* ***************************************************************** */
-
-//void	ft_errors(int error, t_minishell *d);
-//void	ft_init_data(t_minishell *d, char **argv, char **envp);
-//int	ft_forks(t_minishell *d, char **envp);
-//void	ft_free_all(t_minishell *d);
-
-/* ***************************************************************** */
 /* *****************     ENVIRONMENT  FUNCTIONS    ***************** */
 /* ********     will be used by [env], [export], [unset]    ******** */
 /* ***************************************************************** */
@@ -127,6 +119,11 @@ void	ft_builtin_exec_env(t_msh *data);
 void	ft_builtin_exec_export(t_msh *data);
 void	ft_builtin_exec_unset(t_msh *data);
 void	ft_builtin_exec_cd(t_msh *data);
+void	ft_builtin_exec_cd_down(t_msh *data);
+void	ft_builtin_exec_cd_without_args(t_msh *data);
+void	ft_builtin_exec_cd_oldpwd(t_msh *data);
+void	ft_env_change_val(t_msh *data, char *nm_dst, char *new_val);
+char	*ft_env_obtain_val(t_msh *data, char *env_nm);
 
 /* ***************************************************************** */
 /* ***************     LEXER & PARSER  FUNCTIONS      ************** */

@@ -6,7 +6,7 @@
 #    By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/18 13:12:22 by roruiz-v          #+#    #+#              #
-#    Updated: 2023/11/09 10:13:37 by roruiz-v         ###   ########.fr        #
+#    Updated: 2023/11/10 00:29:33 by roruiz-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRC		=	main.c \
 			msh_simple_parser.c \
 			msh_builtin_exec.c \
 			msh_builtin_cd.c \
+			msh_builtin_cd_movements.c \
 			msh_env_lst_utils_dupl_env.c \
 			msh_env_lst_utils_add_nds.c \
 			msh_env_lst_utils_mfy_nds.c \
