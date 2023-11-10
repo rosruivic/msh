@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/10 00:40:29 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/10 21:17:59 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef enum e_error
 	ERROR_CHDIR_FAILURE,
 	ERROR_CHDIR_OLDPWD_NOT_SET,
 	ERROR_NO_SUCH_FILE_OR_DIRECTORY,
+	ERROR_START_NO_SUCH_FILE_OR_DIRECTORY,
 	ERROR_SPLIT_EXTRACTING_CMD = 20, // be free!
 	END = 99, // to execute command [exit] or exit caused by an error
 }	t_error;
@@ -90,7 +91,6 @@ typedef struct	s_msh
 
 void		ft_duplic_envp(t_msh *data, char **envp);
 void		ft_env_exchange_val(t_env_lst *t_nd, t_env_lst *new);
-void		ft_free_envlst_node(t_env_lst *del_node);
 t_env_lst	*ft_env_lst_new(char **tmp_env, int equal);
 void		ft_env_join_val(t_env_lst *t_nd, t_env_lst *new);
 void		ft_env_modify_or_add_node(t_msh *data, t_env_lst *new);
@@ -100,6 +100,7 @@ void		ft_env_lstclear(t_env_lst *del_lst);
 void		ft_env_lstdelone(t_msh *data, char *del_env_nm);
 void		ft_env_lst_print(t_msh *data);
 void		ft_export_lst_print(t_msh *data);
+void		ft_free_envlst_node(t_env_lst *del_node);
 t_env_lst	*ft_index_built_lst(t_msh *data);
 t_env_lst	*ft_index_new_nd(t_env_lst *nd);
 void		*ft_index_lstadd_back(t_env_lst *index, t_env_lst *nd);
@@ -108,6 +109,12 @@ void		ft_index_lstadd_mid(t_env_lst *prev, t_env_lst *nd);
 char		**ft_find_env_paths(t_msh *data);
 int			ft_env_lst_count_nds(t_env_lst *env_lst);
 
+
+/* ***************************************************************** */
+/* ******************     CMD LIST  FUNCTIONS      ***************** */
+/* ***************************************************************** */
+
+void	ft_cmd_lstclear(t_msh *data);
 
 /* ***************************************************************** */
 /* ******************     BUILTINS  FUNCTIONS      ***************** */
@@ -145,6 +152,7 @@ int		ft_exec_external_cmd(t_msh *data);
 /* ********************     UTILS  FUNCTIONS     ******************* */
 /* ***************************************************************** */
 
+void	ft_error_start(char *argv_1, int error);
 void	ft_error_status(t_msh *data, int error);
 void	ft_free_null_void_return(char **str);
 char	*ft_free_null_no_void_return(char *str);
@@ -154,6 +162,5 @@ int		ft_str_equal(char *s1, char *s2);
 char	**ft_2rows_split(char *str, char c);
 int		ft_matrix_len(char **str);
 int		ft_is_str_digits(char *str);
-
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/09 14:17:35 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/10 21:01:30 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 /**
  * @brief    ****  READY !!!  ******
  * 		MUST RETURN AN EXIT VALUE, DEPENDING ON SOME FACTS
- * 
+ * 	** BEWARE OR THIS !!!
+ *      Don't alterate the following order of the 'if / if else' chain, 
+ * 		     it's deeply thought to show the correct messages
  * @param data 
  */
 void	ft_builtin_exec_exit(t_msh *data) // CTRL+D activates this ft
@@ -28,17 +30,21 @@ void	ft_builtin_exec_exit(t_msh *data) // CTRL+D activates this ft
 		ft_putstr_fd("msh: exit: ", 2);
 		ft_putstr_fd(data->cmd_lst->c_args[1], 2);		
 		ft_putstr_fd(": numeric argument required\n", 2);
+		ft_cmd_lstclear(data);
 		ft_env_lstclear(data->env_lst);
 		exit(255);
 	}
-	else if (ft_matrix_len(data->cmd_lst->c_args) == 2
-		&& ft_is_str_digits(data->cmd_lst->c_args[1]))
-		exit(ft_atoi(data->cmd_lst->c_args[1]));
 	else if (ft_matrix_len(data->cmd_lst->c_args) > 2)
 		ft_putstr_fd("msh: exit: too many arguments\n", 2);
+	else if (ft_matrix_len(data->cmd_lst->c_args) == 2
+		&& ft_is_str_digits(data->cmd_lst->c_args[1]))
+	{
+		ft_env_lstclear(data->env_lst);
+		exit(ft_atoi(data->cmd_lst->c_args[1]));
+	}
 	else // sin argumentos
 	{
-		ft_error_status(data, END);
+		ft_cmd_lstclear(data);
 		ft_env_lstclear(data->env_lst);
 		exit(0);
 	}
@@ -46,7 +52,8 @@ void	ft_builtin_exec_exit(t_msh *data) // CTRL+D activates this ft
 
 /**
  * @brief      ********   READY ?   ********
- * 
+ *   PARA QUE PUEDA TENER UN EXIT CON UN MENSAJE DE ERROR
+ *   HABRÍA QUE HACER UN PIPE SIMPLE, PERO NO SÉ CON CUALES PARÁMETROS
  * @param data 
  */
 void	ft_builtin_exec_env(t_msh *data)
@@ -57,6 +64,12 @@ void	ft_builtin_exec_env(t_msh *data)
 		ft_error_status(data, ERROR_NO_SUCH_FILE_OR_DIRECTORY);
 }
 
+/**
+ * @brief   ** BEWARE OF THIS !!! **
+ * -> parser must bring expanded vars to append at the end of a existing var
+ *            ('ft_env_modify_or_add_node' makes the join job)
+ * @param data 
+ */
 void	ft_builtin_exec_export(t_msh *data)
 { // OJO, LE FALTA APPEND COSAS AL VALOR DE UNA VBLE (PATH=$PATH algo)
 	int		i;
@@ -69,7 +82,7 @@ void	ft_builtin_exec_export(t_msh *data)
 	else
 	{
 		while (data->cmd_lst->c_args[++i])
-		{ // obtengo la matriz que separa el name del value de la env var
+		{
 			tmp = ft_2rows_split(data->cmd_lst->c_args[i], '=');
 			if (ft_strchr(data->cmd_lst->c_args[i], '='))
 				ft_env_modify_or_add_node(data, ft_env_lst_new(tmp, 1));

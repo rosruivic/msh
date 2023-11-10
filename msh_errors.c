@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:30:00 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/10 00:47:03 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/10 21:25:34 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_error_status(t_msh *data, int error)
 		error = NO_ERROR;
 	}
 	else if (error == ERROR_NO_SUCH_FILE_OR_DIRECTORY)
-	{ // cuando al env le pongo argumentos, por ejemplo, pero no hay que implementarlo
+	{ // cuando al env le pongo argumentos, por ejemplo, no lo piden
 		ft_putstr_fd(data->cmd_lst->c_args[0], 2);
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(data->cmd_lst->c_args[1], 2);
@@ -50,4 +50,15 @@ void	ft_error_status(t_msh *data, int error)
 	}
 	else if (error == ERROR_PID)
 		ft_putstr_fd("Error PID\n", 2);
+}
+
+void	ft_error_start(char *argv_1, int error)
+{
+	if (error == ERROR_START_NO_SUCH_FILE_OR_DIRECTORY)
+	{
+		ft_putstr_fd("msh: ", 2);
+		ft_putstr_fd(argv_1, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		exit(127);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 18:26:32 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/10 00:55:40 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/10 15:04:12 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,24 +67,24 @@ void	ft_env_change_val(t_msh *data, char *nm_dst, char *new_val)
 }
 
 /**
- * @brief       *** UNDER CONSTRUCTION ***
+ * @brief       *** POSSIBLY FINISHED ***
  * 
- *  >> cd .      --> do NOTHING
- *  >> cd ..     --> chdir to ONE_LEVEL_UP
- * 	>> cd        --> chdir to HOME (/Users/roruiz-v)
- *  >> cd ~      --> chdir to HOME (/Users/roruiz-v)
- *  >> cd -      --> chdir to OLDPWD (& prints that path)
- *  >> cd /      --> chdir to ROOT (/)
- *  >> cd algo mas  --> treat the 1st argmt, ignore the rest
+ *    >> cd .      --> do NOTHING
+ *    >> cd ..     --> chdir to ONE_LEVEL_UP
+ *    >> cd        --> chdir to HOME (/Users/roruiz-v)
+ *    >> cd ~      --> chdir to HOME (/Users/roruiz-v)
+ *    >> cd -      --> chdir to OLDPWD (& prints that path)
+ *    >> cd /      --> chdir to ROOT (/)
+ *    >> cd algo mas  --> treat the 1st argmt, ignore the rest
  * 
  * @param data 
  */
 void	ft_builtin_exec_cd(t_msh *data)
 {	
 	if (data->cmd_lst->c_args[1])
-	{ // cd con argumentos
+	{
 		if (!ft_isalnum(data->cmd_lst->c_args[1][0]))
-		{ // ruta absoluta ('cd' hacia arriba, con caracteres especiales)
+		{
 			if (ft_strcmp(data->cmd_lst->c_args[1], "-") == 0)
 				ft_builtin_exec_cd_oldpwd(data);
 			else if (ft_strcmp(data->cmd_lst->c_args[1], "~") == 0)

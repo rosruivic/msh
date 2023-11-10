@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_env_lst_utils_del_nds.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 20:35:44 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/08 15:15:01 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/10 20:35:35 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,65 +20,63 @@ void	ft_free_envlst_node(t_env_lst *del_node)
 	del_node = NULL;
 }
 
-int	ft_env_check_end_equal(char *del_nd)
+/**
+ * @brief ** Allows to test if it's a valid env_var name before deleting **
+ * 	           (If it contains forbidden chars, it's invalid)
+ * 
+ * @param del_nd   It will be liberated outside
+ * @return int     1 -> forbidden char found; 0 -> not founded forbiddens
+ */
+static int	ft_env_forbidden_name(char *del_nd)
 {
-	if (del_nd && del_nd[ft_strlen(del_nd) - 1] == '=')
+	if (del_nd && ft_env_forbidden_chars(del_nd))
 	{
 		ft_printf("msh: unset: `%s': not a valid identifier\n", del_nd);
-		ft_free_null_void_return(&del_nd); // PODRÍA SER LIBERADO EN OTRO LUGAR MÁS PROPICIO
 		return (1);
 	}
 	return (0);
 }
 
 /**
- * @brief   Deletes the node that cointains  (->nm == del_nd)
+ * @brief  *** DELETES THE NODE WHOSE NAME IS EQUIVALENT TO STRING ARGMT  ***
  * 
  *          *** 	IT WILL BE CALLED BY COMMAND "unset"   ***
- * 
- *  BEWARE OF THIS -> prints an error msg if the last character is an '='
- *  BEWARE OF THIS -> where will be better to liberate [del_nd] string
+ *   prints an error msg if contains forbbiden characters (nbrs, alpha...)
+ *          --> MUST DO NOTHING IF NAME DOESN'T EXIST
+ *  BEWARE OF THIS -> the string del_nd came from data->cmd_lst->c_args[1],
+ *                    & it'll be freeded whenever the whole node.
  * 
  * @param del_nd   The ->nm string to find in the list
  */
 void	ft_env_lstdelone(t_msh *data, char *del_nd)
 {
-	t_env_lst	*t;    // tmp node to keep the prev node to the one to be deleted
+	t_env_lst	*t;    // prev nd to the one to be deleted (do to the bridge)
 	t_env_lst	*del;  // finded node to be deleted
 
-	if (ft_env_check_end_equal(del_nd))
+	if (!data->env_lst || !del_nd || ft_env_forbidden_name(del_nd))
 		return ;
-	if (data->env_lst && del_nd)
+	t = data->env_lst;
+	if (!ft_str_equal(t->nm, del_nd)) // 1st node is not equiv
 	{
-		t = data->env_lst;
-		if (!ft_str_equal(t->nm, del_nd))
-		{
-			while (t->nx != NULL && !ft_str_equal(t->nx->nm, del_nd))
-				t = t->nx;
-			if (t->nx == NULL)
-			{
-				ft_free_null_void_return(&del_nd); // PODRÍA SER LIBERADO EN OTRO LUGAR MÁS PROPICIO
-				return ;
-			}
-		}
-		else // coincide el primer nodo, borrar el primer nodo
-		{
-			data->env_lst = t->nx;
-			ft_free_envlst_node(t);
-			ft_free_null_void_return(&del_nd); // PODRÍA SER LIBERADO EN OTRO LUGAR MÁS PROPICIO
+		while (t->nx != NULL && !ft_str_equal(t->nx->nm, del_nd))
+			t = t->nx;
+		if (t->nx == NULL) // there's not equivalence at all
 			return ;
-		}
-		// finded one equiv after 1st node: building a bridge & deleting node
-		del = t->nx;
-		t->nx = t->nx->nx;
-		ft_free_envlst_node(del);
-		ft_free_null_void_return(&del_nd); // PODRÍA SER LIBERADO EN OTRO LUGAR MÁS PROPICIO
-	}		
+	}
+	else // 1st node coincidence, delete node
+	{
+		data->env_lst = t->nx;
+		ft_free_envlst_node(t);
+		return ;
+	} 
+	// intermediate node coincidence: build a bridge & delete node:
+	del = t->nx;
+	t->nx = t->nx->nx; 
+	ft_free_envlst_node(del);	
 }
 
 /**
- * @brief   Deletes the complete environment vars list
- *  
+ * @brief   *** DELETES THE COMPLETE ENV VAR LIST ***
  */
 void	ft_env_lstclear(t_env_lst *del_lst)
 {

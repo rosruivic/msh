@@ -6,7 +6,7 @@
 #    By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/18 13:12:22 by roruiz-v          #+#    #+#              #
-#    Updated: 2023/11/10 00:29:33 by roruiz-v         ###   ########.fr        #
+#    Updated: 2023/11/10 20:07:57 by roruiz-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC		=	main.c \
 			msh_export_index_lstadd_node.c \
 			msh_get_cmd_path.c \
 			msh_exec_external_cmd.c \
+			msh_cmd_lst_utils_del_list.c \
 			msh_utils.c	\
 			msh_errors.c	
 
@@ -35,7 +36,7 @@ OFILES = $(addprefix obj/, $(OBJS))
 
 CC		= gcc
 
-FLAGS	= -Wall -Werror -Wextra -g #-fsanitize=address
+FLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
 
 #LEAKS = memory-leaks/memory_leaks.a
 
