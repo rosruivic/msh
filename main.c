@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/10 21:30:23 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/11 22:43:09 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,14 @@
 void	ft_init_msh_struct(t_msh *data)
 {
 	data->error = 0;
+	data->exit_code = 0;
 	data->env_lst = NULL;
 	data->cmd_lst = NULL;
 	data->fd = 1;
 }
 
 /**
- * @brief 		****	BEWARE OF THIS !!!   ****
- * 
- * 		THIS IS NOT THE REAL MINISHELL MAIN, only is a main to check
- * 		all the environment-vars-list's functions before to be integrated
- * 		in the principal project
+ * @brief 		****	MINISHELL    ****
  * 
  * @param argc 
  * @param argv 

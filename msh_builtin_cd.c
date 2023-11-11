@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 18:26:32 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/10 15:04:12 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/11 22:23:18 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,28 @@ void	ft_builtin_exec_cd(t_msh *data)
 				ft_env_change_val(data, "PWD", getcwd(NULL, 0));
 			}
 			else
-				ft_error_status(data, ERROR_CHDIR_FAILURE);
+				ft_error_cd(data, ERROR_CHDIR_FAILURE);
 		}
 		else
 			ft_builtin_exec_cd_down(data);
 	}
 	else
 		ft_builtin_exec_cd_without_args(data);
+	exit(0);
+}
+
+int	ft_builtin_cd_fork(t_msh *data)
+{
+	int	exit_code;
+	
+	data->cmd_lst->pid = fork();
+	if (data->cmd_lst->pid == -1)
+		ft_error_status(data, ERROR_PID);
+	else if (data->cmd_lst->pid == 0)
+	{
+		ft_builtin_exec_cd(data); // se encarga de hacer exit(nb)
+	}
+	else
+		waitpid(data->cmd_lst->pid, &exit_code, 0);
+	return (WEXITSTATUS(exit_code));
 }

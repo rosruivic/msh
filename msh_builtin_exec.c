@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/10 21:01:30 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/11 23:21:51 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,14 +113,17 @@ void	ft_builtin_exec_pwd(t_msh *data)
 	ft_free_null_void_return(&cwd);
 }
 
-/* void	ft_builtin_exec_echo(t_msh *data)
+void	ft_builtin_exec_echo(t_msh *data)
 { // ADMITS OPTION -n & ARGMTS
-	(void)data;
-	ft_printf("*** DEBUG: estoy en ft_builtin_exec_echo\n");
-} */
+	if (ft_strcmp(data->cmd_lst->c_args[1], "$?") == 0)
+	{
+		ft_printf("%d\n", data->exit_code);
+		data->exit_code = 0;
+	}
+}
 
 void	ft_builtin_exec(t_msh *data, char *cmd)
-{
+{	
 	if (ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "ENV") == 0)
 		ft_builtin_exec_env(data);
 	else if (ft_strcmp(cmd, "export") == 0) // bash no accepts UPPERS
@@ -130,14 +133,17 @@ void	ft_builtin_exec(t_msh *data, char *cmd)
 	else if (ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "PWD") == 0)
 		ft_builtin_exec_pwd(data);
 	else if (ft_strcmp(cmd, "cd") == 0) // bash accepts UPPERS, but do nothing
-		ft_builtin_exec_cd(data);
-	// else if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "ECHO") == 0)
-	// 	ft_builtin_exec_echo(data);
+	{
+	//	ft_builtin_exec_cd(data);
+		data->exit_code = ft_builtin_cd_fork(data); // devuelve WEXITSTATUS
+	}
+	else if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "ECHO") == 0)
+		ft_builtin_exec_echo(data);
 	else if (ft_strcmp(cmd, "exit") == 0) // bash no accepts UPPERS
 		ft_builtin_exec_exit(data);
 	else
 	{
 		ft_find_cmd_path(data->cmd_lst, ft_find_env_paths(data));
-		ft_exec_external_cmd(data);
+		data->exit_code = ft_exec_external_cmd(data);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 00:24:20 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/10 00:58:10 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/11 22:24:21 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_builtin_exec_cd_down(t_msh *data)
 		ft_env_change_val(data, "PWD", getcwd(NULL, 0));
 	}
 	else
-		ft_error_status(data, ERROR_CHDIR_FAILURE);
+		ft_error_cd(data, ERROR_CHDIR_FAILURE);
 	ft_free_null_void_return(&path);
 }
 
@@ -50,7 +50,7 @@ void	ft_builtin_exec_cd_without_args(t_msh *data)
 		ft_env_change_val(data, "PWD", getcwd(NULL, 0));
 	}
 	else
-		ft_error_status(data, ERROR_CHDIR_FAILURE);
+		ft_error_cd(data, ERROR_CHDIR_FAILURE);
 	ft_free_null_void_return(&path);
 }
 
@@ -69,7 +69,7 @@ void	ft_builtin_exec_cd_oldpwd(t_msh *data)
 	path = ft_env_obtain_val(data, "OLDPWD");
 	if (path == NULL)
 	{
-		ft_error_status(data, ERROR_CHDIR_OLDPWD_NOT_SET);
+		ft_error_cd(data, ERROR_CHDIR_OLDPWD_NOT_SET);
 		return ;
 	}
 	ft_printf("%s\n", path);
@@ -79,6 +79,6 @@ void	ft_builtin_exec_cd_oldpwd(t_msh *data)
 		ft_env_change_val(data, "PWD", getcwd(NULL, 0));
 	}
 	else
-		ft_error_status(data, ERROR_CHDIR_FAILURE);
+		ft_error_cd(data, ERROR_CHDIR_FAILURE);
 	ft_free_null_void_return(&path);
 }

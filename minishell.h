@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/10 21:17:59 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/11 22:22:44 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef	struct s_env_lst
 typedef struct	s_msh
 {
 	t_error		error;
+	int			exit_code;
 	t_env_lst	*env_lst;
 	t_cmd_lst	*cmd_lst;
 	int			fd;
@@ -125,6 +126,7 @@ void	ft_builtin_exec_exit(t_msh *data);
 void	ft_builtin_exec_env(t_msh *data);
 void	ft_builtin_exec_export(t_msh *data);
 void	ft_builtin_exec_unset(t_msh *data);
+int		ft_builtin_cd_fork(t_msh *data); // LO LLAMA EL PROCESO HIJO
 void	ft_builtin_exec_cd(t_msh *data);
 void	ft_builtin_exec_cd_down(t_msh *data);
 void	ft_builtin_exec_cd_without_args(t_msh *data);
@@ -154,6 +156,7 @@ int		ft_exec_external_cmd(t_msh *data);
 
 void	ft_error_start(char *argv_1, int error);
 void	ft_error_status(t_msh *data, int error);
+void	ft_error_cd(t_msh *data, int error);
 void	ft_free_null_void_return(char **str);
 char	*ft_free_null_no_void_return(char *str);
 char	*ft_join_free(char *s1, char *s2);
