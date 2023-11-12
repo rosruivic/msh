@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_errors.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:30:00 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/11 23:23:59 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/12 17:02:03 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	ft_error_status(t_msh *data, int error)
 		ft_putstr_fd(data->cmd_lst->c_args[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 		error = NO_ERROR;
-	//	exit(127);
 	}
 	else if (error == ERROR_NO_SUCH_FILE_OR_DIRECTORY)
 	{ // cuando al env le pongo argumentos, por ejemplo, no lo piden
@@ -80,5 +79,14 @@ void	ft_error_start(char *argv_1, int error)
 		ft_putstr_fd(argv_1, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 		exit(127);
+	}
+}
+
+void	ft_error_signal(int error)
+{
+	if (error == ERROR_SIGACTION_FAILURE)
+	{
+		ft_putstr_fd("Sigaction failure\n", 2);
+		exit (EXIT_FAILURE);
 	}
 }

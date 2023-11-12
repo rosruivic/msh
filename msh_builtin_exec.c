@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_builtin_exec.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/11 23:21:51 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/12 16:54:39 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,14 @@ void	ft_builtin_exec_exit(t_msh *data) // CTRL+D activates this ft
 
 /**
  * @brief      ********   READY ?   ********
- *   PARA QUE PUEDA TENER UN EXIT CON UN MENSAJE DE ERROR
- *   HABRÍA QUE HACER UN PIPE SIMPLE, PERO NO SÉ CON CUALES PARÁMETROS
+ *   
  * @param data 
  */
 void	ft_builtin_exec_env(t_msh *data)
-{ // OJO - CONTROL DE ARGUMENTOS (DAR MENSAJE DE ERROR)
+{ // OJO - CONTROL DE ARGUMENTOS (DA MENSAJE DE ERROR)
 	if (ft_matrix_len(data->cmd_lst->c_args) == 1)
 		ft_env_lst_print(data);
-	else // como decir que el error es el 127 para que lo muestre 'echo $?' ????
+	else
 		ft_error_status(data, ERROR_NO_SUCH_FILE_OR_DIRECTORY);
 }
 
@@ -106,7 +105,6 @@ void	ft_builtin_exec_pwd(t_msh *data)
 {
 	char	*cwd;
 	
-	(void)data;
 	cwd = getcwd(NULL, 0);
 	ft_putstr_fd(cwd, data->fd);
 	ft_putchar_fd('\n', data->fd);
@@ -117,7 +115,7 @@ void	ft_builtin_exec_echo(t_msh *data)
 { // ADMITS OPTION -n & ARGMTS
 	if (ft_strcmp(data->cmd_lst->c_args[1], "$?") == 0)
 	{
-		ft_printf("%d\n", data->exit_code);
+		ft_putstr_fd(ft_itoa(data->exit_code), data->fd);
 		data->exit_code = 0;
 	}
 }
@@ -133,10 +131,7 @@ void	ft_builtin_exec(t_msh *data, char *cmd)
 	else if (ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "PWD") == 0)
 		ft_builtin_exec_pwd(data);
 	else if (ft_strcmp(cmd, "cd") == 0) // bash accepts UPPERS, but do nothing
-	{
-	//	ft_builtin_exec_cd(data);
 		data->exit_code = ft_builtin_cd_fork(data); // devuelve WEXITSTATUS
-	}
 	else if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "ECHO") == 0)
 		ft_builtin_exec_echo(data);
 	else if (ft_strcmp(cmd, "exit") == 0) // bash no accepts UPPERS

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/11 22:22:44 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/12 19:23:36 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+//# include <readline/rlstdc.h> 	 // da error
+//# include <readline/rltypedefs.h>  // da error
 
 # define NC	"\e[0m"
 # define R 	"\e[31m"
@@ -34,6 +36,7 @@
 typedef enum e_error
 {
 	NO_ERROR,
+	ERROR_SIGACTION_FAILURE,
 	ERROR_ARGMTS,
 	ERROR_INFILE,
 	ERROR_OUTFILE,
@@ -53,18 +56,19 @@ typedef enum e_error
 /**
  * @brief   Each node can be a command or a redirection node,
  * 	the difference between both types is the data contained within.
- * 
+ *  
+ *  BEWARE OF THIS !!! parser only fills 'type', 'c_args' & 'c_abs_path'
  */
 typedef struct	s_cmd_lst
 {
-	int					type; // 0 = cmd; 1 = redirecmto
+	int					type;        // 0 = cmd; 1 = redirecmto
 	char				**c_args;	 // cmd[0] + argmts & flags of the command
-	char				*c_abs_path;   // absolute direction & command
-	char				*c_env_path;   // path (from $PATH) & command
+	char				*c_abs_path; // absolute direction & command
+	char				*c_env_path; // path (from $PATH) & command
 	int					pid;
 	int					fd_in;
 	int					ft_out;
-	struct s_msh		*orgn;		// redirección a la struct ppal
+	struct s_msh		*orgn;       // redirección a la struct ppal
 	struct s_cmd_lst	*nx;
 }			t_cmd_lst;
 
@@ -78,12 +82,21 @@ typedef	struct s_env_lst
 
 typedef struct	s_msh
 {
-	t_error		error;
-	int			exit_code;
-	t_env_lst	*env_lst;
-	t_cmd_lst	*cmd_lst;
-	int			fd;
+	struct sigaction	sig;
+	t_error				error;
+	int					exit_code;
+	t_env_lst			*env_lst;
+	t_cmd_lst			*cmd_lst;
+	int					fd;
 }				t_msh;
+
+/* ***************************************************************** */
+/* ******************      SIGNAL  FUNCTIONS       ***************** */
+/* ***************************************************************** */
+
+void	ft_handler(int sig, siginfo_t *info, void *context);
+void	ft_ctrl_d(char *pipeline);
+
 
 /* ***************************************************************** */
 /* *****************     ENVIRONMENT  FUNCTIONS    ***************** */
@@ -151,12 +164,18 @@ void	ft_find_cmd_path(t_cmd_lst *cmd, char **paths);
 int		ft_exec_external_cmd(t_msh *data);
 
 /* ***************************************************************** */
-/* ********************     UTILS  FUNCTIONS     ******************* */
+/* ********************     ERROR  FUNCTIONS     ******************* */
 /* ***************************************************************** */
 
 void	ft_error_start(char *argv_1, int error);
 void	ft_error_status(t_msh *data, int error);
+void	ft_error_signal(int error);
 void	ft_error_cd(t_msh *data, int error);
+
+/* ***************************************************************** */
+/* ********************     UTILS  FUNCTIONS     ******************* */
+/* ***************************************************************** */
+
 void	ft_free_null_void_return(char **str);
 char	*ft_free_null_no_void_return(char *str);
 char	*ft_join_free(char *s1, char *s2);
