@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_builtin_cd_movements.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 00:24:20 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/11 22:24:21 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:50:31 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	ft_builtin_exec_cd_oldpwd(t_msh *data)
 	{
 		ft_env_change_val(data, "OLDPWD", ft_env_obtain_val(data, "PWD"));	
 		ft_env_change_val(data, "PWD", getcwd(NULL, 0));
+		data->exit_code = 0;
 	}
 	else
 		ft_error_cd(data, ERROR_CHDIR_FAILURE);

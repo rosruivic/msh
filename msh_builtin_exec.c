@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/12 16:54:39 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/13 16:24:19 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void	ft_builtin_exec_exit(t_msh *data) // CTRL+D activates this ft
 		exit(255);
 	}
 	else if (ft_matrix_len(data->cmd_lst->c_args) > 2)
+	{
 		ft_putstr_fd("msh: exit: too many arguments\n", 2);
+		data->exit_code = 1;
+	}
 	else if (ft_matrix_len(data->cmd_lst->c_args) == 2
 		&& ft_is_str_digits(data->cmd_lst->c_args[1]))
 	{
@@ -92,8 +95,14 @@ void	ft_builtin_exec_export(t_msh *data)
 	}
 }
 
+/**
+ * @brief   **  UNSET admits many argmts (many vars to delete)  **
+ * 		        so, a boucle 'while' do this
+ * 
+ * @param data 
+ */
 void	ft_builtin_exec_unset(t_msh *data)
-{
+{ // VERIFICAR EL CÓDIGO DE SALIDA
 	int	i;
 
 	i = 0;
@@ -102,13 +111,14 @@ void	ft_builtin_exec_unset(t_msh *data)
 }
 
 void	ft_builtin_exec_pwd(t_msh *data)
-{
+{ // VERIFICAR EL CÓDIGO DE SALIDA
 	char	*cwd;
 	
 	cwd = getcwd(NULL, 0);
 	ft_putstr_fd(cwd, data->fd);
 	ft_putchar_fd('\n', data->fd);
 	ft_free_null_void_return(&cwd);
+	data->exit_code = 0;
 }
 
 void	ft_builtin_exec_echo(t_msh *data)
@@ -116,6 +126,7 @@ void	ft_builtin_exec_echo(t_msh *data)
 	if (ft_strcmp(data->cmd_lst->c_args[1], "$?") == 0)
 	{
 		ft_putstr_fd(ft_itoa(data->exit_code), data->fd);
+		ft_putchar_fd('\n', data->fd);
 		data->exit_code = 0;
 	}
 }
@@ -126,12 +137,12 @@ void	ft_builtin_exec(t_msh *data, char *cmd)
 		ft_builtin_exec_env(data);
 	else if (ft_strcmp(cmd, "export") == 0) // bash no accepts UPPERS
 		ft_builtin_exec_export(data);
-	else if (ft_strcmp(cmd, "unset") == 0) // bash no accepts UPPERS
+	else if (ft_strcmp(cmd, "unset") == 0)  // bash no accepts UPPERS
 		ft_builtin_exec_unset(data);
 	else if (ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "PWD") == 0)
 		ft_builtin_exec_pwd(data);
 	else if (ft_strcmp(cmd, "cd") == 0) // bash accepts UPPERS, but do nothing
-		data->exit_code = ft_builtin_cd_fork(data); // devuelve WEXITSTATUS
+		ft_builtin_exec_cd(data);
 	else if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "ECHO") == 0)
 		ft_builtin_exec_echo(data);
 	else if (ft_strcmp(cmd, "exit") == 0) // bash no accepts UPPERS

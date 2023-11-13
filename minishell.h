@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/12 19:23:36 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/13 18:14:56 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <fcntl.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/ioctl.h>
+# include <sys/ttydefaults.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 //# include <readline/rlstdc.h> 	 // da error
@@ -95,7 +98,7 @@ typedef struct	s_msh
 /* ***************************************************************** */
 
 void	ft_handler(int sig, siginfo_t *info, void *context);
-void	ft_ctrl_d(char *pipeline);
+void	ft_ctrl_d(t_msh *data, char *pipeline);
 
 
 /* ***************************************************************** */
@@ -139,7 +142,6 @@ void	ft_builtin_exec_exit(t_msh *data);
 void	ft_builtin_exec_env(t_msh *data);
 void	ft_builtin_exec_export(t_msh *data);
 void	ft_builtin_exec_unset(t_msh *data);
-int		ft_builtin_cd_fork(t_msh *data); // LO LLAMA EL PROCESO HIJO
 void	ft_builtin_exec_cd(t_msh *data);
 void	ft_builtin_exec_cd_down(t_msh *data);
 void	ft_builtin_exec_cd_without_args(t_msh *data);

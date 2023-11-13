@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_builtin_cd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 18:26:32 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/11 22:23:18 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/13 16:17:11 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,22 +101,32 @@ void	ft_builtin_exec_cd(t_msh *data)
 			ft_builtin_exec_cd_down(data);
 	}
 	else
+	{
 		ft_builtin_exec_cd_without_args(data);
-	exit(0);
+		data->exit_code = 0;	
+	}
 }
 
-int	ft_builtin_cd_fork(t_msh *data)
+
+// LA SIGUIENTE SOLUCIÓN NO FUNCIONA, NO HACER FORKS PARA LOS BUILTINS
+// PORQUE NO CAMBIAN LAS VARIABLES DE ENTORNO DEL PROCESO PADRE
+/* int	ft_builtin_cd_fork(t_msh *data)
 {
 	int	exit_code;
 	
+		printf("DEBUG: builtin cd_fork) estoy \n");
 	data->cmd_lst->pid = fork();
 	if (data->cmd_lst->pid == -1)
 		ft_error_status(data, ERROR_PID);
 	else if (data->cmd_lst->pid == 0)
 	{
+		printf("DEBUG: builtin cd_fork) estoy en el hijo\n");
 		ft_builtin_exec_cd(data); // se encarga de hacer exit(nb)
 	}
 	else
+	{
+		printf("DEBUG: builtin cd_fork) estoy en el padre\n");
 		waitpid(data->cmd_lst->pid, &exit_code, 0);
+	}
 	return (WEXITSTATUS(exit_code));
-}
+} */

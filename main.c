@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/12 19:28:46 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/13 18:15:10 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,20 @@ void	ft_handler(int sig, siginfo_t *info, void *context)
 	}
 }
 
-void	ft_ctrl_d(char *pipeline)
+/**
+ * @brief   **   A MEDIAS (FALTA LIBERAR Y QUITAR EL '^D')
+ * 
+ * @param pipeline 
+ */
+void	ft_ctrl_d(t_msh *data, char *pipeline)
 {
 	if (!pipeline)
 	{
-	//	rl_replace_line("exit\n", 0);
+		rl_on_new_line();
+	//	rl_replace_line("", 0); // necesita complilar la librería con brew		
 		ft_putstr_fd("exit\n", 1); // no puedo quitar el '^D' q se imprime
+	//	rl_clear_history();
+		ft_env_lstclear(data->env_lst); // libera la lista de vbles entorno
 		exit(EXIT_SUCCESS);
 	}
 }
@@ -81,7 +89,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		data.error = NO_ERROR;
 		pipeline = readline(">>> msh-1.0$ ");
-		ft_ctrl_d(pipeline);
+		ft_ctrl_d(&data, pipeline);
 		if (pipeline[0] != '\0')
 		{
 			add_history(pipeline);
