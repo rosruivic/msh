@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/13 18:15:10 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/14 16:30:44 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,39 +30,27 @@ void	ft_init_msh_struct(t_msh *data)
 	data->fd = 1;
 }
 
-void	ft_handler(int sig, siginfo_t *info, void *context)
+void	ft_main_boucle(t_msh *data)
 {
-	(void)info;
-	(void)context;
-	if (SIGINT == sig)
+	data->error = NO_ERROR;
+	data->pipeline = readline(">>> msh-1.0$ ");
+	ft_ctrl_d(data);
+	if (data->pipeline[0] != '\0')
 	{
-		g_listen = 1;
-		printf("has pulsado ctrl C\n");
+		if (g_listen == 1)
+		{
+			data->exit_code = 1;
+			g_listen = 0;
+		}
+		add_history(data->pipeline);
+		ft_simple_lexer(data); // crea cmd_lst (tantos nds como pipes + 1)
+		ft_simple_parser(data);
+		if (data->error == NO_ERROR) // lexer o parser no detectan error
+			ft_builtin_exec(data, data->cmd_lst->c_abs_path);
 	}
+	ft_free_null_void_return(&data->pipeline);
+	ft_cmd_lstclear(data);
 }
-
-/**
- * @brief   **   A MEDIAS (FALTA LIBERAR Y QUITAR EL '^D')
- * 
- * @param pipeline 
- */
-void	ft_ctrl_d(t_msh *data, char *pipeline)
-{
-	if (!pipeline)
-	{
-		rl_on_new_line();
-	//	rl_replace_line("", 0); // necesita complilar la librería con brew		
-		ft_putstr_fd("exit\n", 1); // no puedo quitar el '^D' q se imprime
-	//	rl_clear_history();
-		ft_env_lstclear(data->env_lst); // libera la lista de vbles entorno
-		exit(EXIT_SUCCESS);
-	}
-}
-
-/* void	ft_ctrl_c(t_msh *data)
-{
-	
-} */
 
 /**
  * @brief 		****	MINISHELL    ****
@@ -75,7 +63,6 @@ void	ft_ctrl_d(t_msh *data, char *pipeline)
 int	main(int argc, char **argv, char **envp)
 {
 	t_msh	data;
-	char	*pipeline;
 	
 //	atexit(ft_leaks);
 	(void)argv;
@@ -85,21 +72,9 @@ int	main(int argc, char **argv, char **envp)
 	if (sigaction(SIGINT, &data.sig, NULL) == -1)
 		ft_error_signal(ERROR_SIGACTION_FAILURE);
 	ft_duplic_envp(&data, envp);
-	while (data.error != END) // separar este contenido en una función
+	while (data.error != END)
 	{
-		data.error = NO_ERROR;
-		pipeline = readline(">>> msh-1.0$ ");
-		ft_ctrl_d(&data, pipeline);
-		if (pipeline[0] != '\0')
-		{
-			add_history(pipeline);
-			ft_simple_lexer(&data, pipeline); // crea cmd_lst (tantos nds como pipes + 1)
-			ft_simple_parser(&data);
-			if (data.error == NO_ERROR) // lexer o parser no detectan error
-				ft_builtin_exec(&data, data.cmd_lst->c_abs_path);
-		}
-		ft_free_null_void_return(&pipeline);
-		ft_cmd_lstclear(&data);
+		ft_main_boucle(&data);
 	}
 	return (0);
 }

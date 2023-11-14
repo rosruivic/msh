@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 00:24:20 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/13 15:50:31 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/14 17:02:30 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ void	ft_builtin_exec_cd_without_args(t_msh *data)
 	char	*path;
 	
 	path = ft_env_obtain_val(data, "HOME");
+	if (path == NULL)
+	{
+		ft_error_cd(data, ERROR_CHDIR_HOME_NOT_SET);
+		return ;
+	}
 	if (chdir(path) == 0)
 	{
 		ft_env_change_val(data, "OLDPWD", ft_env_obtain_val(data, "PWD"));

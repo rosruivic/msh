@@ -6,13 +6,18 @@
 #    By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/18 13:12:22 by roruiz-v          #+#    #+#              #
-#    Updated: 2023/11/13 17:48:13 by roruiz-v         ###   ########.fr        #
+#    Updated: 2023/11/14 15:22:56 by roruiz-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	minishell
 
+LIB = -L /Users/roruiz-v/.brew/opt/readline/lib -lreadline
+
+INCLUDE = -I /System/Volumes/Data/Users/roruiz-v/.brew/Cellar/readline/8.2.1/include/
+
 SRC		=	main.c \
+			msh_signals.c \
 			msh_simple_lexer.c \
 			msh_simple_parser.c \
 			msh_builtin_exec.c \
@@ -50,12 +55,12 @@ all:	$(NAME)
 #	with the apropiate flags and frameworks.
 
 $(NAME): $(OFILES) $(LIBFT_PATH)
-		$(CC) $(FLAGS) -lreadline $(OFILES) $(LIBFT_PATH) -o $(NAME)
+		$(CC) $(FLAGS) $(LIB) $(OFILES) $(LIBFT_PATH) -o $(NAME)
 		clear
 		
 $(OFILES): $(SRC)
 		@mkdir -p obj/
-		$(CC) $(FLAGS) -c $(SRC)
+		$(CC) $(FLAGS) $(INCLUDE) -c $(SRC)
 		@mv *.o obj/
 
 $(LIBFT_PATH):

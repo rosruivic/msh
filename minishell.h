@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/13 18:14:56 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/14 17:04:26 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 # define V 	"\e[35m"
 //# include <limits.h>
 
+int	g_listen; // si es que es útil
+
 typedef enum e_error
 {
 	NO_ERROR,
@@ -50,6 +52,7 @@ typedef enum e_error
 	ERROR_CMD_NOT_EXISTS,
 	ERROR_CHDIR_FAILURE,
 	ERROR_CHDIR_OLDPWD_NOT_SET,
+	ERROR_CHDIR_HOME_NOT_SET,
 	ERROR_NO_SUCH_FILE_OR_DIRECTORY,
 	ERROR_START_NO_SUCH_FILE_OR_DIRECTORY,
 	ERROR_SPLIT_EXTRACTING_CMD = 20, // be free!
@@ -69,8 +72,6 @@ typedef struct	s_cmd_lst
 	char				*c_abs_path; // absolute direction & command
 	char				*c_env_path; // path (from $PATH) & command
 	int					pid;
-	int					fd_in;
-	int					ft_out;
 	struct s_msh		*orgn;       // redirección a la struct ppal
 	struct s_cmd_lst	*nx;
 }			t_cmd_lst;
@@ -90,7 +91,10 @@ typedef struct	s_msh
 	int					exit_code;
 	t_env_lst			*env_lst;
 	t_cmd_lst			*cmd_lst;
+	char				*pipeline;
 	int					fd;
+	int					fd_in;
+	int					ft_out;
 }				t_msh;
 
 /* ***************************************************************** */
@@ -98,7 +102,7 @@ typedef struct	s_msh
 /* ***************************************************************** */
 
 void	ft_handler(int sig, siginfo_t *info, void *context);
-void	ft_ctrl_d(t_msh *data, char *pipeline);
+void	ft_ctrl_d(t_msh *data);
 
 
 /* ***************************************************************** */
@@ -154,7 +158,7 @@ char	*ft_env_obtain_val(t_msh *data, char *env_nm);
 /* ***************************************************************** */
 
 void	ft_init_msh_struct(t_msh *data);
-void	ft_simple_lexer(t_msh *data, char *pipeline);
+void	ft_simple_lexer(t_msh *data);
 void	ft_simple_parser(t_msh *data);
 int		ft_env_forbidden_chars(char *name);
 

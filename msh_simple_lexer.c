@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/07 16:26:44 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/14 13:57:17 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd)
  * @param data 
  * @param pipeline 
  */
-void	ft_simple_lexer(t_msh *data, char *pipeline)
+void	ft_simple_lexer(t_msh *data)
 {
 	char	**cmd;
 	int		i;
 	
 	i = -1;
 	cmd = NULL;
-	cmd = ft_split(pipeline, ' ');
+	cmd = ft_split(data->pipeline, ' ');
 	if (ft_matrix_len(cmd) == 0) // cd en pipeline solo hay espacios en blanco
 	{
 		ft_freedom(cmd);

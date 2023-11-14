@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:30:00 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/13 19:46:08 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/14 17:06:51 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,12 @@ void	ft_error_cd(t_msh *data, int error)
 	else if (error == ERROR_CHDIR_OLDPWD_NOT_SET)
 	{
 		ft_putstr_fd("msh: cd: OLDPWD not set\n", 2);
+		error = NO_ERROR;
+		data->exit_code = 1;
+	}
+	else if (error == ERROR_CHDIR_HOME_NOT_SET)
+	{
+		ft_putstr_fd("msh: cd: HOME not set\n", 2);
 		error = NO_ERROR;
 		data->exit_code = 1;
 	}
