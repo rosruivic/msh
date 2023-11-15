@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/15 14:50:06 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/15 19:51:35 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,17 @@ typedef enum e_error
  * 	the difference between both types is the data contained within.
  *  
  *  BEWARE OF THIS !!! parser only fills 'type', 'c_args' & 'c_abs_path'
+ * 	
  */
 typedef struct	s_cmd_lst
 {
 	int					type;        // 0 = cmd; 1 = redirecmto
 	char				**c_args;	 // cmd[0] + argmts & flags of the command
 	char				*c_abs_path; // absolute direction & command
-	char				*c_env_path; // path (from $PATH) & command
+	char				*c_env_path; // path (from $PATH) & command (if unset PATH, then ft_strdup from c_abs_path)
 	int					pid;
 	int					fd_in;
-	int					ft_out;
+	int					fd_out;
 	struct s_msh		*orgn;       // redirección a la struct ppal
 	struct s_cmd_lst	*nx;
 }			t_cmd_lst;
@@ -96,7 +97,7 @@ typedef struct	s_msh
 	char				*pipeline;
 	int					fd;
 //	int					fd_in;
-//	int					ft_out;
+//	int					fd_out;
 }				t_msh;
 
 /* ***************************************************************** */
