@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 00:24:20 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/14 17:02:30 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/15 15:00:18 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_builtin_exec_cd_down(t_msh *data)
  *                 Then, cd change to the HOME directory
  * @param data 
  */
-void	ft_builtin_exec_cd_without_args(t_msh *data)
+void	ft_builtin_exec_cd_without_args(t_msh *data, int exit_code)
 {
 	char	*path;
 	
@@ -47,6 +47,7 @@ void	ft_builtin_exec_cd_without_args(t_msh *data)
 	if (path == NULL)
 	{
 		ft_error_cd(data, ERROR_CHDIR_HOME_NOT_SET);
+		data->exit_code = exit_code;
 		return ;
 	}
 	if (chdir(path) == 0)

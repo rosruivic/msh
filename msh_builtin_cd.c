@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 18:26:32 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/13 16:17:11 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/15 14:59:13 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	ft_builtin_exec_cd(t_msh *data)
 			if (ft_strcmp(data->cmd_lst->c_args[1], "-") == 0)
 				ft_builtin_exec_cd_oldpwd(data);
 			else if (ft_strcmp(data->cmd_lst->c_args[1], "~") == 0)
-				ft_builtin_exec_cd_without_args(data);
+				ft_builtin_exec_cd_without_args(data, 0);
 			else if (chdir(data->cmd_lst->c_args[1]) == 0)
 			{
 				ft_env_change_val(data, "OLDPWD", ft_env_obtain_val(data, "PWD"));
@@ -101,10 +101,7 @@ void	ft_builtin_exec_cd(t_msh *data)
 			ft_builtin_exec_cd_down(data);
 	}
 	else
-	{
-		ft_builtin_exec_cd_without_args(data);
-		data->exit_code = 0;	
-	}
+		ft_builtin_exec_cd_without_args(data, 1);
 }
 
 

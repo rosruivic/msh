@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/14 17:04:26 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/15 14:50:06 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ typedef struct	s_cmd_lst
 	char				*c_abs_path; // absolute direction & command
 	char				*c_env_path; // path (from $PATH) & command
 	int					pid;
+	int					fd_in;
+	int					ft_out;
 	struct s_msh		*orgn;       // redirección a la struct ppal
 	struct s_cmd_lst	*nx;
 }			t_cmd_lst;
@@ -93,8 +95,8 @@ typedef struct	s_msh
 	t_cmd_lst			*cmd_lst;
 	char				*pipeline;
 	int					fd;
-	int					fd_in;
-	int					ft_out;
+//	int					fd_in;
+//	int					ft_out;
 }				t_msh;
 
 /* ***************************************************************** */
@@ -148,7 +150,7 @@ void	ft_builtin_exec_export(t_msh *data);
 void	ft_builtin_exec_unset(t_msh *data);
 void	ft_builtin_exec_cd(t_msh *data);
 void	ft_builtin_exec_cd_down(t_msh *data);
-void	ft_builtin_exec_cd_without_args(t_msh *data);
+void	ft_builtin_exec_cd_without_args(t_msh *data, int exit_code);
 void	ft_builtin_exec_cd_oldpwd(t_msh *data);
 void	ft_env_change_val(t_msh *data, char *nm_dst, char *new_val);
 char	*ft_env_obtain_val(t_msh *data, char *env_nm);

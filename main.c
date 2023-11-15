@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/14 16:30:44 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/14 20:43:01 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	ft_main_boucle(t_msh *data)
 			g_listen = 0;
 		}
 		add_history(data->pipeline);
-		ft_simple_lexer(data); // crea cmd_lst (tantos nds como pipes + 1)
+		ft_simple_lexer(data);
 		ft_simple_parser(data);
-		if (data->error == NO_ERROR) // lexer o parser no detectan error
-			ft_builtin_exec(data, data->cmd_lst->c_abs_path);
+		if (data->error == NO_ERROR) // CUANDO HAYA VARIOS NODOS, ESTO CAMBIA
+			ft_builtin_exec(data, data->cmd_lst->c_abs_path);			
 	}
 	ft_free_null_void_return(&data->pipeline);
 	ft_cmd_lstclear(data);
@@ -78,4 +78,19 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+
+/* EXPLICACIÓN DE DAVID PARA HEREDOCS :
+
+int fd[2] = pipe;
+char *line = NULL;
+while (1)
+{
+	line = readline("> ");
+	if (strncmp(line, here_doc, strlen(here_doc + 1)))
+		break ;
+	read(fd[1], line, strlen(line));
+	free(line);
+}
+return (fd[0])
+close(fd[1]); */
 	

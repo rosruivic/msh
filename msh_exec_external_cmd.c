@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 18:15:50 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/13 19:46:11 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/15 13:49:59 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,10 @@ int	ft_exec_external_cmd(t_msh *data)
 		ft_error_status(data, ERROR_PID);
 	if (data->cmd_lst->pid == 0)
 	{
+//		printf("estoy en el hijo\n");
 		execve(data->cmd_lst->c_env_path, data->cmd_lst->c_args, my_envp);
 		ft_error_status(data, ERROR_CMD_NOT_EXISTS);
-	//	exit (127);
+	//	exit (127); // el exit está en 'ft_error_status'
 	}
 	else
 		waitpid(data->cmd_lst->pid, &exit_code, 0);

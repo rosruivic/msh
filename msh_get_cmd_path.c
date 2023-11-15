@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 16:25:41 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/13 19:51:48 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/15 13:55:00 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	ft_find_cmd_path(t_cmd_lst *cmd, char **paths)
 
 	i = -1;
 	if (!paths)
-		ft_error_status(cmd->orgn, ERROR_NO_PATHS);
+//		ft_error_status(cmd->orgn, ERROR_NO_PATHS);
+		cmd->c_env_path = ft_strdup(cmd->c_abs_path); // PROBANDO
 	else if (ft_strchr(cmd->c_abs_path, '/'))
 		cmd->c_env_path = ft_strdup(cmd->c_abs_path);
 	else
