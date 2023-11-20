@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_exec_external_cmd.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 18:15:50 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/15 18:14:33 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/19 21:42:12 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ static char	**ft_conv_envlst_to_mtrx(t_msh	*data)
 	return (my_envp);
 }
 
+/**
+ * @brief   *** CUANDO NO HAY PIPES EN EL PIPELINE Y EL CMD ES EXTERNO ***
+ * 
+ * @param data 
+ * @return int 
+ */
 int	ft_exec_external_cmd(t_msh *data)
 {
 	int		exit_code;
@@ -71,6 +77,35 @@ int	ft_exec_external_cmd(t_msh *data)
 	}
 	else
 		waitpid(data->cmd_lst->pid, &exit_code, 0);
+	ft_freedom(my_envp);
+	return (WEXITSTATUS(exit_code));
+}
+
+/**
+ * @brief    *** CUANDO, HABIENDO PIPES, UN CMD ES EXTERNO ***
+ * 
+ * @param data 
+ * @param cmd_nd 
+ * @return int 
+ */
+int	ft_exec_external_cmd_pipe(t_msh *data, t_cmd_lst *cmd_nd)
+{
+	int		exit_code;
+	char	**my_envp;
+
+	exit_code = 0;
+	my_envp = ft_conv_envlst_to_mtrx(data);
+	cmd_nd->pid = fork();
+	if (cmd_nd->pid == -1)
+		ft_error_status(data, ERROR_PID);
+	else if (cmd_nd->pid == 0)
+	{
+		execve(cmd_nd->c_env_path, data->cmd_lst->c_args, my_envp);
+		ft_error_status(data, ERROR_CMD_NOT_EXISTS);
+	//	exit (127); // el exit está en 'ft_error_status'
+	}
+	else
+		waitpid(cmd_nd->pid, &exit_code, 0);
 	ft_freedom(my_envp);
 	return (WEXITSTATUS(exit_code));
 }

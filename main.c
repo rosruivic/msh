@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/14 20:43:01 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/19 20:29:01 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	ft_main_boucle(t_msh *data)
 		add_history(data->pipeline);
 		ft_simple_lexer(data);
 		ft_simple_parser(data);
-		if (data->error == NO_ERROR) // CUANDO HAYA VARIOS NODOS, ESTO CAMBIA
-			ft_builtin_exec(data, data->cmd_lst->c_abs_path);			
+		if (data->error == NO_ERROR)
+			ft_executor(data);
 	}
 	ft_free_null_void_return(&data->pipeline);
 	ft_cmd_lstclear(data);

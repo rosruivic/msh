@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_errors.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:30:00 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/15 18:13:11 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/19 23:15:41 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,21 @@ void	ft_error_status(t_msh *data, int error)
 	else if (error == ERROR_NO_PATHS)
 	{
 		ft_putstr_fd("Error, no existe la variable PATH\n", 2);
-		error = NO_ERROR;
+		data->error = NO_ERROR;
 	}
 	else if (error == ERROR_CMD_NOT_EXISTS)
 	{ // viene de ejecutar un comando externo (con fork)
 		ft_putstr_fd("msh: ", 2);
 		ft_putstr_fd(data->cmd_lst->c_args[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
-		error = NO_ERROR;
+		data->error = NO_ERROR;
 		exit (127);
+	}
+	else if (error == ERROR_TOO_MANY_ARGUMENTS)
+	{
+		ft_putstr_fd("msh: exit: too many arguments\n", 2);
+		data->exit_code = 1;
+		data->error = NO_ERROR;
 	}
 	else if (error == ERROR_NO_SUCH_FILE_OR_DIRECTORY)
 	{ // cuando al env le pongo argumentos, por ejemplo, no lo piden
@@ -35,8 +41,8 @@ void	ft_error_status(t_msh *data, int error)
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(data->cmd_lst->c_args[1], 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
-		error = NO_ERROR;
 		data->exit_code = 127;
+		data->error = NO_ERROR;
 	}
 	else if (error == ERROR_PID)
 		ft_putstr_fd("Error PID\n", 2);
@@ -94,5 +100,18 @@ void	ft_error_signal(int error)
 	{
 		ft_putstr_fd("Sigaction failure\n", 2);
 		exit(EXIT_FAILURE);
+	}
+}
+
+void	ft_error_pipes_execution(t_msh *data, int error)
+{
+	if (error == ERROR_PIPE_CREATION)
+	{
+		ft_putstr_fd("DEBUG: pipe \n", 2);
+		data->error = END;
+	}
+	if (error == ERROR_PIPE_EXECUTION)
+	{
+		ft_putstr_fd("DEBUG: pipe execution command error\n", 2);
 	}
 }

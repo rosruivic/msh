@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/15 19:51:35 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/19 23:13:41 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/ttydefaults.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+//# include <limits.h>
 //# include <readline/rlstdc.h> 	 // da error
 //# include <readline/rltypedefs.h>  // da error
 
@@ -34,9 +35,8 @@
 # define Y 	"\e[33m"
 # define B 	"\e[34m"
 # define V 	"\e[35m"
-//# include <limits.h>
 
-int	g_listen; // si es que es útil
+int	g_listen; // así se declara una variable global, en el .h 
 
 typedef enum e_error
 {
@@ -46,16 +46,18 @@ typedef enum e_error
 	ERROR_INFILE,
 	ERROR_OUTFILE,
 	ERROR_FILES_FD,
-	ERROR_PIPE,
+	ERROR_PIPE_CREATION,
+	ERROR_PIPE_EXECUTION,
 	ERROR_PID,
 	ERROR_NO_PATHS,
 	ERROR_CMD_NOT_EXISTS,
 	ERROR_CHDIR_FAILURE,
 	ERROR_CHDIR_OLDPWD_NOT_SET,
 	ERROR_CHDIR_HOME_NOT_SET,
+	ERROR_TOO_MANY_ARGUMENTS,
 	ERROR_NO_SUCH_FILE_OR_DIRECTORY,
 	ERROR_START_NO_SUCH_FILE_OR_DIRECTORY,
-	ERROR_SPLIT_EXTRACTING_CMD = 20, // be free!
+	ERROR_SPLIT_EXTRACTING_CMD, // be free!
 	END = 99, // to execute command [exit] or exit caused by an error
 }	t_error;
 
@@ -64,20 +66,34 @@ typedef enum e_error
  * 	the difference between both types is the data contained within.
  *  
  *  BEWARE OF THIS !!! parser only fills 'type', 'c_args' & 'c_abs_path'
- * 	
+ * 
+ * 	> c_args[0]   -> contains the cmd as the usu writes
+ *                     (WITH or WITHOUT absolute path)
+ * 	> c_args[...] -> contains the arguments and flags of the command
+ *  > c_abs_path  -> contains a copy of c_args[0] (WITH or WITHOUT abs_path)
+ *  > c_env_path  -> contains a copy of c_abs_path if it has an abs_path,
+ *        OR a correct access path from $PATH when c_args[0] has only a cmd
+ *
+ * *********  I HAVE DOUBTS ABOUT HOW TO MANAGE THIS ISSUE:  ************ *
+ *  > fd_in       -> open fd_in inherited from the parent after a FORK
+ *                     { need dup2(fd_in, STDIN_FILENO) }
+ *  > fd_out      -> open fd_out inherited from the parent after a FORK
+ *                     { need dup2(fd_out, STDOUT_FILENO) }
+ * 	¿ THIS CAN BE RESUME IN fd[2] ?
+ * ********************************************************************** *
+ *  > orgn        -> pointer to main data struct
  */
 typedef struct	s_cmd_lst
 {
-	int					type;        // 0 = cmd; 1 = redirecmto
-	char				**c_args;	 // cmd[0] + argmts & flags of the command
-	char				*c_abs_path; // absolute direction & command
-	char				*c_env_path; // path (from $PATH) & command (if unset PATH, then ft_strdup from c_abs_path)
-	int					pid;
-	int					fd_in;
-	int					fd_out;
-	struct s_msh		*orgn;       // redirección a la struct ppal
+	int					type;
+	char				**c_args;
+	char				*c_abs_path;
+	char				*c_env_path;
+	int					pid;			// para ejecutar un comando externo
+	int					fd[2];			// (to be used by the pipes)
+	struct s_msh		*orgn;
 	struct s_cmd_lst	*nx;
-}			t_cmd_lst;
+}						t_cmd_lst;
 
 typedef	struct s_env_lst
 {
@@ -91,13 +107,14 @@ typedef struct	s_msh
 {
 	struct sigaction	sig;
 	t_error				error;
-	int					exit_code;
 	t_env_lst			*env_lst;
 	t_cmd_lst			*cmd_lst;
 	char				*pipeline;
-	int					fd;
-//	int					fd_in;
-//	int					fd_out;
+	int					pid;		// para ejecutar cuando haya pipes
+	int					fd;			// now it's used by many parts of msh
+	int					fd_infile;	// initial in_redirection (<)
+	int					fd_outfile;	// end redirection (> OR >>)
+	int					exit_code;
 }				t_msh;
 
 /* ***************************************************************** */
