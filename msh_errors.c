@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_errors.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:30:00 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/19 23:15:41 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/23 21:00:22 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,12 @@ void	ft_error_status(t_msh *data, int error)
 	}
 	else if (error == ERROR_NO_SUCH_FILE_OR_DIRECTORY)
 	{ // cuando al env le pongo argumentos, por ejemplo, no lo piden
+		if (ft_strcmp(data->cmd_lst->c_args[0], "env") != 0)
+			ft_putstr_fd("msh: ", 2);
 		ft_putstr_fd(data->cmd_lst->c_args[0], 2);
 		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(data->cmd_lst->c_args[1], 2);
+		if (data->cmd_lst->c_args[1])
+			ft_putstr_fd(data->cmd_lst->c_args[1], 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 		data->exit_code = 127;
 		data->error = NO_ERROR;

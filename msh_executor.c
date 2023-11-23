@@ -3,31 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   msh_executor.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 20:26:43 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/20 02:02:26 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:47:50 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief   *** UNDER CONSTRUCTION ***
- *  		  (ESTÁ TODAVÍA MUY TEORIZADO, INTENTANDO ENTENDER)
+ * @brief 	***  ESTO ES SOLO UN PRE-ESTUDIO, ESTA PARTE LA HAREMOS JUNTAS ***
+ * 
  * @param data 
  */
-void	ft_executor(t_msh *data)
+void	ft_executor_many_cmds(t_msh *data)
 {
-	t_cmd_lst	*cmd_nd; 	// PARA LLEVAR LA CUENTA DE LOS NODOS
-	t_cmd_lst	*cmd_nd_prev; // PARA NO PERDER EL NODO ANTERIOR E IR CERRANDO FDs
-
-	cmd_nd = data->cmd_lst;
-	cmd_nd_prev = data->cmd_lst;
-	if (cmd_nd->nx == NULL)	// CASO 1: solo existe un nodo = un comando
-		ft_builtin_exec(data, data->cmd_lst->c_abs_path);
-	else					// CASO 2: hay pipes = varios comandos
-	{ // el primer comando se ejecuta antes del while:
+	(void)data;
+	printf("DEBUG: ft_executor_many_cmds\n");
+/*
+ // el primer comando se ejecuta antes del while:
 		if (pipe(cmd_nd->fd) == NULL)
 			ft_error_status(data, ERROR_PIPE_CREATION);
 		data->pid = fork();
@@ -94,6 +89,23 @@ void	ft_executor(t_msh *data)
 				cmd_nd = cmd_nd->nx; 			// EL ACTUAL AHORA SEÑALA AL SIGUIENTE
 			}
 			// último comando lo debería ejecutar el padre con redir. de salida (?)
-		}
-	}
+		}*/
+}
+
+/**
+ * @brief   *** ONLY ONE COMMAND, WITH OR NOT REDIRECTIONS ***
+ *  		  
+ * @param data 
+ */
+void	ft_executor(t_msh *data)
+{
+	t_cmd_lst	*cmd_nd; 	// PARA LLEVAR LA CUENTA DE LOS NODOS
+	t_cmd_lst	*cmd_nd_prev; // PARA NO PERDER EL NODO ANTERIOR E IR CERRANDO FDs
+
+	cmd_nd = data->cmd_lst;
+	cmd_nd_prev = data->cmd_lst;
+	if (cmd_nd->nx == NULL)	// CASO 1: solo existe un nodo = un comando
+		ft_builtin_executor(data, data->cmd_lst->c_abs_path);
+	else					// CASO 2: hay pipes = varios comandos
+		ft_executor_many_cmds(data);
 }

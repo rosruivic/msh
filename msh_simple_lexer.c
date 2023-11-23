@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_simple_lexer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/19 18:52:04 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/23 16:43:05 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,66 @@ static void	ft_cmd_lstadd_back(t_msh *data, t_cmd_lst *new)
 	}
 }
 
+/**
+ * @brief    ** CREO UN NODO DEL TIRÓN PARA HACER TESTS **
+ * 
+ * @param cmd 
+ * @param type 
+ * @return t_rd* 
+ */
+static t_rd	*ft_red_alobruto(int type)
+{
+	t_rd	*node;
+	
+	type = SIR;
+	node = NULL;
+	if (type == SIR)
+	{
+		node = (t_rd *)malloc(sizeof(t_rd));
+		node->type = SIR;
+		node->file = ft_strdup("in_file.txt");
+		node->nx = NULL;		
+	}
+	else if (type == DIR)
+	{
+		node = (t_rd *)malloc(sizeof(t_rd));
+		node->type = DIR;
+		node->file = ft_strdup("in_file.txt");
+		node->nx = NULL;		
+	}
+	else if (type == SOR)
+	{
+		node = (t_rd *)malloc(sizeof(t_rd));
+		node->type = SOR;
+		node->file = ft_strdup("in_file.txt");
+		node->nx = NULL;		
+	}
+	else if (type == DOR)
+	{
+		node = (t_rd *)malloc(sizeof(t_rd));
+		node->type = DOR;
+		node->file = ft_strdup("in_file.txt");
+		node->nx = NULL;
+	}
+	return (node);
+}
+
 static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd)
 {
 	t_cmd_lst	*node;
 	int			i;
+	int			type;
 
 	(void)data;
+	type = DIR;
 	i = -1;
 	node = (t_cmd_lst *)malloc(sizeof(t_cmd_lst));
 	node->c_args = ft_calloc((ft_matrix_len(cmd) + 1), sizeof(char *));
 	while (cmd[++i])
 		node->c_args[i] = ft_strdup(cmd[i]);
 	node->c_abs_path = ft_strdup(cmd[0]);
-	node->c_env_path = NULL;
+	node->c_env_path = NULL;			// se rellena en otro momento, después
+	node->rds = ft_red_alobruto(type);	// rellenamos a mano un nodo para hacer tests
 	node->nx = NULL;
 	ft_freedom(cmd);
 	return (node);
@@ -74,12 +121,12 @@ void	ft_simple_lexer(t_msh *data)
 		data->error = ERROR_ARGMTS;
 		return ;
 	}
-	printf("ft_simple_lexer) pipeline = %s, %s\n", cmd_pipe[0], cmd_pipe[1]);
+//	printf("DEBUG: ft_simple_lexer) pipeline = %s, %s\n", cmd_pipe[0], cmd_pipe[1]);
 	while (++i < mtx_len)
 	{
 //		cmd = ft_split(data->pipeline, ' ');
 		cmd = ft_split(cmd_pipe[i], ' ');
-		printf("ft_simple_lexer) cmd %d = %s %s\n", i, cmd[0], cmd[1]);
+//		printf("DEBUG: ft_simple_lexer) cmd %d = %s %s\n", i, cmd[0], cmd[1]);
 //		ft_msh_lstadd_front(data, ft_cmd_lst_new(data, cmd), 2);
 		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd));
 	}

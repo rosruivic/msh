@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_builtin_exec.c                                 :+:      :+:    :+:   */
+/*   msh_builtin_executor.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/19 21:25:40 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/23 18:18:37 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@
  * 	ANSWER >>> the builtins don't have absolute path, 
  *             they comunicate to the shell directly
  * 
- * 	VERSIÓN 1.0 --> VÁLIDO PARA UN SOLO COMANDO (NO HAY PIPES)
+ * 	VERSIÓN 1.0 --> VÁLIDO PARA UN SOLO COMANDO
  * 
  * @param data 
  * @param cmd 
  */
-void	ft_builtin_exec(t_msh *data, char *cmd)
+void	ft_builtin_executor(t_msh *data, char *cmd)
 {	
 	if (ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "ENV") == 0)
 		ft_builtin_exec_env(data);
@@ -62,7 +62,7 @@ void	ft_builtin_exec(t_msh *data, char *cmd)
  * @param cmd 
  * @param tmp 
  */
-void	ft_builtin_exec_pipes(t_msh *data, char *cmd, t_cmd_lst *cmd_nd)
+void	ft_builtin_executor_pipes(t_msh *data, char *cmd, t_cmd_lst *cmd_nd)
 {	
 	if (ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "ENV") == 0)
 		ft_builtin_exec_env(data);
