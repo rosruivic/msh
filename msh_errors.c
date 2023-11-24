@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:30:00 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/23 21:00:22 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/24 20:34:21 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,13 @@ void	ft_error_status(t_msh *data, int error)
 		data->exit_code = 127;
 		data->error = NO_ERROR;
 	}
-	else if (error == ERROR_PID)
+}
+
+void	ft_error_pipes_forks(t_msh *data, int error)
+{
+	if (error == ERROR_PID)
 		ft_putstr_fd("Error PID\n", 2);
+	data->error = NO_ERROR;
 }
 
 /**

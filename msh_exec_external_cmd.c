@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 18:15:50 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/23 21:03:08 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/24 16:31:47 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,6 @@ int	ft_exec_external_cmd(t_msh *data)
 		ft_error_status(data, ERROR_PID);
 	else if (data->cmd_lst->pid == 0)
 	{
-/* 		if (data->cmd_lst->c_env_path != NULL
-			&& access(data->cmd_lst->c_env_path, F_OK) == -1)
-		{
-			ft_error_status(data, ERROR_NO_SUCH_FILE_OR_DIRECTORY);
-			exit(data->exit_code) ;
-		} */
 		execve(data->cmd_lst->c_env_path, data->cmd_lst->c_args, my_envp);
 		ft_error_status(data, ERROR_CMD_NOT_EXISTS);
 	//	exit(127); // el exit está en 'ft_error_status'

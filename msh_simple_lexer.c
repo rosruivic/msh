@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/23 16:43:05 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/24 14:34:33 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,27 +47,31 @@ static t_rd	*ft_red_alobruto(int type)
 		node = (t_rd *)malloc(sizeof(t_rd));
 		node->type = SIR;
 		node->file = ft_strdup("in_file.txt");
+		node->end_key = NULL;
 		node->nx = NULL;		
 	}
 	else if (type == DIR)
 	{
 		node = (t_rd *)malloc(sizeof(t_rd));
 		node->type = DIR;
-		node->file = ft_strdup("in_file.txt");
+		node->file = NULL;
+		node->end_key = ft_strdup("end");
 		node->nx = NULL;		
 	}
 	else if (type == SOR)
 	{
 		node = (t_rd *)malloc(sizeof(t_rd));
 		node->type = SOR;
-		node->file = ft_strdup("in_file.txt");
+		node->file = ft_strdup("out_file.txt");
+		node->end_key = NULL;
 		node->nx = NULL;		
 	}
 	else if (type == DOR)
 	{
 		node = (t_rd *)malloc(sizeof(t_rd));
 		node->type = DOR;
-		node->file = ft_strdup("in_file.txt");
+		node->file = ft_strdup("out_file.txt");
+		node->end_key = NULL;
 		node->nx = NULL;
 	}
 	return (node);
@@ -108,26 +112,18 @@ void	ft_simple_lexer(t_msh *data)
 	int		mtx_len;
 	int		i;
 	
-//	cmd = NULL;
 	i = -1;
-//	cmd = ft_split(data->pipeline, ' ');
 	cmd_pipe = ft_split(data->pipeline, '|');
 	mtx_len = ft_matrix_len(cmd_pipe);
-//	if (ft_matrix_len(cmd) == 0) // cd en pipeline solo hay espacios en blanco
 	if (mtx_len == 0) // cd en pipeline solo hay espacios en blanco
 	{
-//		ft_freedom(cmd);
 		ft_freedom(cmd_pipe);
 		data->error = ERROR_ARGMTS;
 		return ;
 	}
-//	printf("DEBUG: ft_simple_lexer) pipeline = %s, %s\n", cmd_pipe[0], cmd_pipe[1]);
 	while (++i < mtx_len)
 	{
-//		cmd = ft_split(data->pipeline, ' ');
 		cmd = ft_split(cmd_pipe[i], ' ');
-//		printf("DEBUG: ft_simple_lexer) cmd %d = %s %s\n", i, cmd[0], cmd[1]);
-//		ft_msh_lstadd_front(data, ft_cmd_lst_new(data, cmd), 2);
 		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd));
 	}
 	ft_freedom(cmd_pipe);

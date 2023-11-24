@@ -6,11 +6,23 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/23 18:18:37 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/24 21:17:18 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	ft_redir_checker(t_msh *data)
+{
+	if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == DIR)
+		ft_heredoc(data);
+	else if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == SIR)
+		printf("SIR\n");
+	else if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == SOR)
+		printf("SOR\n");
+	else if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == DOR)
+		printf("DOR\n");
+}
 
 /**
  * @brief ** Checks if the cmd is a builtin or an external command **
@@ -34,6 +46,7 @@
  */
 void	ft_builtin_executor(t_msh *data, char *cmd)
 {	
+	ft_redir_checker(data);
 	if (ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "ENV") == 0)
 		ft_builtin_exec_env(data);
 	else if (ft_strcmp(cmd, "export") == 0)

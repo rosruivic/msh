@@ -6,7 +6,7 @@
 #    By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/18 13:12:22 by roruiz-v          #+#    #+#              #
-#    Updated: 2023/11/23 15:48:18 by roruiz-v         ###   ########.fr        #
+#    Updated: 2023/11/24 21:16:46 by roruiz-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRC		=	main.c \
 			msh_builtin_cd.c \
 			msh_builtin_cd_movements.c \
 			msh_builtins_env_pwd_unset.c \
+			msh_heredoc.c \
 			msh_env_lst_utils_dupl_env.c \
 			msh_env_lst_utils_add_nds.c \
 			msh_env_lst_utils_mfy_nds.c \

@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/23 15:48:52 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/24 21:15:40 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ typedef enum e_error
 typedef struct	s_rd
 {
 	int			type;
+	char		*end_key;
+	char		*heredoc;
 	char		*file;
 	struct s_rd	*nx;	
 }				t_rd;
@@ -182,6 +184,7 @@ void	ft_cmd_lstclear(t_msh *data);
 /* ***************************************************************** */
 
 void	ft_executor(t_msh *data);
+int		ft_heredoc(t_msh *data);
 
 /* ***************************************************************** */
 /* ******************     BUILTINS  FUNCTIONS      ***************** */
@@ -217,6 +220,7 @@ void	ft_error_start(char *argv_1, int error);
 void	ft_error_status(t_msh *data, int error);
 void	ft_error_signal(int error);
 void	ft_error_cd(t_msh *data, int error);
+void	ft_error_pipes_forks(t_msh *data, int error);
 
 /* ***************************************************************** */
 /* ********************     UTILS  FUNCTIONS     ******************* */
