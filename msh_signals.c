@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_signals.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 14:00:34 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/23 14:57:03 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/25 20:06:49 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_handler(int sig, siginfo_t *info, void *context)
 		g_listen = 1;
 		rl_on_new_line();
 		rl_redisplay();
-		rl_replace_line("", 0);		// gcc error C99 (INSTALL LIBRARY)
+//		rl_replace_line("", 0);		// gcc error C99 (INSTALL LIBRARY)
 		ft_putstr_fd("   \n", 1);
 		rl_on_new_line();
 		rl_redisplay();
@@ -49,7 +49,7 @@ void	ft_ctrl_d(t_msh *data)
 		rl_on_new_line();
 		rl_redisplay();
 		ft_putstr_fd("exit\n", 1);
-		rl_clear_history();			// gcc error C99 (INSTALL LIBRARY)
+//		rl_clear_history();			// gcc error C99 (INSTALL LIBRARY)
 		ft_env_lstclear(data->env_lst);
 		exit(EXIT_SUCCESS);
 	}

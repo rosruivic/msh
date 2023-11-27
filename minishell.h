@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/24 21:15:40 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/27 23:42:57 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ typedef struct	s_cmd_lst
 	char				*c_abs_path;
 	char				*c_env_path;
 	int					pid;
+	int					pipe_val;
+	int					fd_in;
 	int					fd[2];
 	struct s_msh		*orgn;
 	struct s_cmd_lst	*nx;
@@ -184,13 +186,14 @@ void	ft_cmd_lstclear(t_msh *data);
 /* ***************************************************************** */
 
 void	ft_executor(t_msh *data);
-int		ft_heredoc(t_msh *data);
+void	ft_heredoc(t_msh *data, t_cmd_lst *cmd_nd);
 
 /* ***************************************************************** */
 /* ******************     BUILTINS  FUNCTIONS      ***************** */
 /* ***************************************************************** */
 
-void	ft_builtin_executor(t_msh *data, char *cmd);
+//void	ft_builtin_executor(t_msh *data, char *cmd);
+void	ft_builtin_executor(t_msh *data, char *cmd, t_cmd_lst *cmd_nd);
 void	ft_builtin_exec_echo(t_msh *data);
 void	ft_builtin_exec_exit(t_msh *data);
 void	ft_builtin_exec_env(t_msh *data);

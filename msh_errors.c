@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_errors.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:30:00 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/24 20:34:21 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/27 22:37:31 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_error_status(t_msh *data, int error)
 		ft_putstr_fd(data->cmd_lst->c_args[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 		data->error = NO_ERROR;
-		exit (127);
+//		exit (127);
 	}
 	else if (error == ERROR_TOO_MANY_ARGUMENTS)
 	{

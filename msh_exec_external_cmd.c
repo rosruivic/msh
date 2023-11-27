@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   msh_exec_external_cmd.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 18:15:50 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/24 16:31:47 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/27 22:39:22 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	ft_env_lst_count_nds(t_env_lst *env_lst)
-{ // FUNCIONA BIEN - OK
+{
 	int	elmts;
 	t_env_lst *tmp;
 
@@ -79,7 +79,7 @@ int	ft_exec_external_cmd(t_msh *data)
 	{
 		execve(data->cmd_lst->c_env_path, data->cmd_lst->c_args, my_envp);
 		ft_error_status(data, ERROR_CMD_NOT_EXISTS);
-	//	exit(127); // el exit está en 'ft_error_status'
+		exit(127);
 	}
 	else
 		waitpid(data->cmd_lst->pid, &exit_code, 0);
@@ -108,7 +108,7 @@ int	ft_exec_external_cmd_pipe(t_msh *data, t_cmd_lst *cmd_nd)
 	{
 		execve(cmd_nd->c_env_path, data->cmd_lst->c_args, my_envp);
 		ft_error_status(data, ERROR_CMD_NOT_EXISTS);
-	//	exit (127); // el exit está en 'ft_error_status'
+		exit (127);
 	}
 	else
 		waitpid(cmd_nd->pid, &exit_code, 0);

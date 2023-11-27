@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_simple_lexer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/24 14:34:33 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/27 17:33:11 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static t_rd	*ft_red_alobruto(int type)
 {
 	t_rd	*node;
 	
-	type = SIR;
+	type = DIR;
 	node = NULL;
 	if (type == SIR)
 	{

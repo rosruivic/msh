@@ -1,57 +1,64 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   msh_heredoc.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/24 14:17:23 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/24 21:25:29 by roruiz-v         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
-int	ft_heredoc(t_msh *data)
+/**
+ * @brief  ** BEWARE OF THIS!!!
+ * 			Si le pongo un wait al padre, no muestra el heredoc bien
+ * 			Me da la sensación de que mete el exit del hijo tb en el pipe
+ * @param data 
+ * @param cmd 
+ */
+void	ft_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
 {
-	char		*input_line;
-	int			exit_code;
-	t_cmd_lst	*tmp;
-	int			fd;
+	char	*hd_inputs;
+	char	*input;
 
-	fd = 0;
-	input_line = NULL;
-	exit_code = 0;
-	tmp = data->cmd_lst;
-	tmp->rds->heredoc = NULL;
-	pipe(tmp->fd); // esta tubería contendrá la info obtenida
-	tmp->pid = fork();
-	if (tmp->pid < 0)
-		ft_error_pipes_forks(data, ERROR_PID);
-	else if (tmp->pid == 0)
-	{ // hace el heredoc
-		close(tmp->fd[RD]);
-		dup2(tmp->fd[WR], STDOUT_FILENO);
-		close(tmp->fd[WR]);
-		input_line = readline("> ");
-		while (input_line && ft_strcmp(input_line, tmp->rds->end_key) != 0)
-		{
-			tmp->rds->heredoc = ft_join_free(tmp->rds->heredoc, input_line);
-			ft_free_null_void_return(&input_line);
-			input_line = readline("> ");
-		}
-		ft_free_null_void_return(&input_line);
-		printf("DEBUG FT_HEREDOC) %s\n", tmp->rds->heredoc);
-	}
-	else // FATHER recibiendo lo que ha hecho el hijo
+	hd_inputs = NULL;
+	input = NULL;
+	cmd_nd->pipe_val = pipe(cmd_nd->fd);
+	if (cmd_nd->pipe_val < 0)
 	{
-		close(tmp->fd[WR]);
-		dup2(tmp->fd[RD], STDIN_FILENO); // aquí se acumula el resultado
-		close(tmp->fd[RD]);
-		wait(&exit_code);
-		fd = open(STDIN_FILENO, O_RDONLY);
-		tmp->rds->heredoc = get_next_line(STDIN_FILENO);
-		printf("DEBUG: heredoc = %s\n", tmp->rds->heredoc);
+		ft_error_pipes_forks(data, ERROR_PIPE_CREATION);
+		exit(EXIT_FAILURE);
 	}
-	return (WEXITSTATUS(exit_code));
+//	printf("DEBUG: heredoc) estoy antes del fork\n");
+	cmd_nd->pid = fork();
+	if (cmd_nd->pid < 0)
+	{
+		ft_error_pipes_forks(data, ERROR_PID);
+		exit(EXIT_FAILURE);
+	}
+	else if (cmd_nd->pid == 0)
+	{
+		close(cmd_nd->fd[RD]);
+		dup2(cmd_nd->fd[WR], STDOUT_FILENO);
+		close(cmd_nd->fd[WR]);
+//		printf("DEBUG: heredoc) estoy en el hijo\n");
+		input = readline("> ");
+		ft_ctrl_d(data);
+		while (input && ft_strcmp(input, cmd_nd->rds->end_key) != 0)
+		{
+			if (g_listen == 1)
+			{
+				g_listen = 0;
+				close(cmd_nd->fd[STDOUT_FILENO]);
+				exit(EXIT_SUCCESS);
+			}
+			hd_inputs = ft_join_free(hd_inputs, input);
+			hd_inputs = ft_join_free(hd_inputs, "\n");
+			ft_free_null_void_return(&input);
+			input = readline("> ");
+		}
+		ft_free_null_void_return(&input); // por si sale del while con end_key
+		ft_putstr_fd(hd_inputs, STDOUT_FILENO);
+		close(cmd_nd->fd[STDOUT_FILENO]);
+		ft_free_null_void_return(&hd_inputs);
+		exit(EXIT_SUCCESS);
+	}
+	else
+	{
+		close(cmd_nd->fd[WR]);
+		dup2(cmd_nd->fd[RD], STDIN_FILENO);
+		close(cmd_nd->fd[RD]);
+		waitpid(cmd_nd->pid, NULL, 0); // hace que no se vea el heredoc en tiempo real, WHY???
+	}
 }

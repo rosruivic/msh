@@ -3,25 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   msh_builtin_executor.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/24 21:17:18 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/27 23:24:02 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_redir_checker(t_msh *data)
+static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
 {
 	if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == DIR)
-		ft_heredoc(data);
+	{
+		ft_heredoc(data, cmd_nd);
+	}
 	else if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == SIR)
-		printf("SIR\n");
+		printf("DEBUG: ft_redir_checker) aún no hago nada - SIR\n");
 	else if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == SOR)
-		printf("SOR\n");
+		printf("DEBUG: ft_redir_checker) aún no hago nada - SOR\n");
 	else if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == DOR)
-		printf("DOR\n");
+		printf("DEBUG: ft_redir_checker) aún no hago nada - DOR\n");
 }
 
 /**
@@ -44,7 +46,7 @@ static void	ft_redir_checker(t_msh *data)
  * @param data 
  * @param cmd 
  */
-void	ft_builtin_executor(t_msh *data, char *cmd)
+/* void	ft_builtin_executor(t_msh *data, char *cmd)
 {	
 	ft_redir_checker(data);
 	if (ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "ENV") == 0)
@@ -66,7 +68,7 @@ void	ft_builtin_executor(t_msh *data, char *cmd)
 		ft_find_cmd_path(data->cmd_lst, ft_find_env_paths(data));
 		data->exit_code = ft_exec_external_cmd(data);
 	}
-}
+} */
 
 /**
  * @brief   ** VERSIÓN 2.0 -> PASANDO UN NODO (PRESENCIA DE PIPES)
@@ -75,8 +77,10 @@ void	ft_builtin_executor(t_msh *data, char *cmd)
  * @param cmd 
  * @param tmp 
  */
-void	ft_builtin_executor_pipes(t_msh *data, char *cmd, t_cmd_lst *cmd_nd)
-{	
+void	ft_builtin_executor(t_msh *data, char *cmd, t_cmd_lst *cmd_nd)
+{
+	if (data->cmd_lst->rds != NULL)
+		ft_redir_checker(data, cmd_nd);
 	if (ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "ENV") == 0)
 		ft_builtin_exec_env(data);
 	else if (ft_strcmp(cmd, "export") == 0)

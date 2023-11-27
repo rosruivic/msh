@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/19 20:29:01 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/27 15:46:37 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_init_msh_struct(t_msh *data)
 void	ft_main_boucle(t_msh *data)
 {
 	data->error = NO_ERROR;
-	data->pipeline = readline(">>> msh-1.0$ ");
+	data->pipeline = readline(">>> msh_2.0$ ");
 	ft_ctrl_d(data);
 	if (data->pipeline[0] != '\0')
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_executor.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 20:26:43 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/23 15:47:50 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/27 23:31:54 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,11 @@ void	ft_executor(t_msh *data)
 	cmd_nd = data->cmd_lst;
 	cmd_nd_prev = data->cmd_lst;
 	if (cmd_nd->nx == NULL)	// CASO 1: solo existe un nodo = un comando
-		ft_builtin_executor(data, data->cmd_lst->c_abs_path);
+	{
+		ft_builtin_executor(data, data->cmd_lst->c_abs_path, cmd_nd);
+	}
 	else					// CASO 2: hay pipes = varios comandos
+	{
 		ft_executor_many_cmds(data);
+	}
 }
