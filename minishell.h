@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/27 23:42:57 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/28 19:01:28 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@
 # define RD 0		// pipe read extreme
 # define WR 1		// pipe write extreme
 
-# define SIR 0		// redir struct 'type' = Simple Input Redir (<)
-# define DIR 1		// redir struct 'type' = Double Input Redir (<<)
-# define SOR 2		// redir struct 'type' = Simple Output Redir (>)
-# define DOR 3		// redir struct 'type' = Double Output Redir (>>)
+# define SIR 1		// redir struct 'type' = Simple Input Redir (<)
+# define DIR 2		// redir struct 'type' = Double Input Redir (<<)
+# define SOR 3		// redir struct 'type' = Simple Output Redir (>)
+# define DOR 4		// redir struct 'type' = Double Output Redir (>>)
 
 int	g_listen; // for signals (could be a STRUCT only for signal issues) 
 
@@ -130,6 +130,8 @@ typedef struct	s_msh
 	char				*pipeline;
 	int					pid;		// para ejecutar cuando haya pipes
 	int					fd;			// now it's used by many parts of msh
+	int					org_stdin;	// to keep the original STDIN
+	int					org_stdout; // to keep the original STDOUT
 	int					exit_code;
 }						t_msh;
 

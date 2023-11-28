@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_builtin_executor.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/27 23:24:02 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:11:33 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,12 @@ void	ft_builtin_executor(t_msh *data, char *cmd, t_cmd_lst *cmd_nd)
 	{
 		ft_find_cmd_path(cmd_nd, ft_find_env_paths(data));
 		data->exit_code = ft_exec_external_cmd(data);
+	}
+	if (cmd_nd->rds->type > 0)
+	{
+		dup2(data->org_stdin, STDIN_FILENO);
+		close(data->org_stdin);
+//		dup2(data->org_stdout, STDOUT_FILENO);
+//		close(data->org_stdout);
 	}
 }

@@ -4,6 +4,7 @@
  * @brief  ** BEWARE OF THIS!!!
  * 			Si le pongo un wait al padre, no muestra el heredoc bien
  * 			Me da la sensación de que mete el exit del hijo tb en el pipe
+ *  FIXED: el problema era que el dup2 debe estar DESPUÉS de la captura
  * @param data 
  * @param cmd 
  */
@@ -30,9 +31,6 @@ void	ft_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
 	else if (cmd_nd->pid == 0)
 	{
 		close(cmd_nd->fd[RD]);
-		dup2(cmd_nd->fd[WR], STDOUT_FILENO);
-		close(cmd_nd->fd[WR]);
-//		printf("DEBUG: heredoc) estoy en el hijo\n");
 		input = readline("> ");
 		ft_ctrl_d(data);
 		while (input && ft_strcmp(input, cmd_nd->rds->end_key) != 0)
@@ -41,16 +39,24 @@ void	ft_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
 			{
 				g_listen = 0;
 				close(cmd_nd->fd[STDOUT_FILENO]);
-				exit(EXIT_SUCCESS);
+//				dup2(data->org_stdin, STDIN_FILENO); // restaurando (en el hijo)
+//				close(data->org_stdin);
+				dup2(data->org_stdout, STDOUT_FILENO);
+				close(data->org_stdout);
+				exit(EXIT_FAILURE);
 			}
 			hd_inputs = ft_join_free(hd_inputs, input);
 			hd_inputs = ft_join_free(hd_inputs, "\n");
 			ft_free_null_void_return(&input);
 			input = readline("> ");
 		}
-		ft_free_null_void_return(&input); // por si sale del while con end_key
+		ft_free_null_void_return(&input);
+		dup2(cmd_nd->fd[WR], STDOUT_FILENO);
+		close(cmd_nd->fd[WR]);
 		ft_putstr_fd(hd_inputs, STDOUT_FILENO);
 		close(cmd_nd->fd[STDOUT_FILENO]);
+//		dup2(data->org_stdin, STDIN_FILENO); // restaurando
+//		close(data->org_stdin);
 		ft_free_null_void_return(&hd_inputs);
 		exit(EXIT_SUCCESS);
 	}
@@ -59,6 +65,13 @@ void	ft_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
 		close(cmd_nd->fd[WR]);
 		dup2(cmd_nd->fd[RD], STDIN_FILENO);
 		close(cmd_nd->fd[RD]);
-		waitpid(cmd_nd->pid, NULL, 0); // hace que no se vea el heredoc en tiempo real, WHY???
+		waitpid(cmd_nd->pid, &data->exit_code, 0);
+/* 		if (data->exit_code == EXIT_FAILURE)
+		{
+			dup2(data->org_stdin, STDIN_FILENO); // AQUÍ NOOOOO
+			close(data->org_stdin);
+			dup2(data->org_stdout, STDOUT_FILENO);
+			close(data->org_stdout);
+		} */
 	}
 }

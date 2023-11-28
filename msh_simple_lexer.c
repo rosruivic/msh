@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_simple_lexer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/27 17:33:11 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:51:17 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,32 +46,36 @@ static t_rd	*ft_red_alobruto(int type)
 	{
 		node = (t_rd *)malloc(sizeof(t_rd));
 		node->type = SIR;
-		node->file = ft_strdup("in_file.txt");
 		node->end_key = NULL;
+		node->heredoc = NULL;
+		node->file = ft_strdup("in_file.txt");
 		node->nx = NULL;		
 	}
 	else if (type == DIR)
 	{
 		node = (t_rd *)malloc(sizeof(t_rd));
 		node->type = DIR;
-		node->file = NULL;
 		node->end_key = ft_strdup("end");
+		node->heredoc = NULL;
+		node->file = NULL;
 		node->nx = NULL;		
 	}
 	else if (type == SOR)
 	{
 		node = (t_rd *)malloc(sizeof(t_rd));
 		node->type = SOR;
-		node->file = ft_strdup("out_file.txt");
 		node->end_key = NULL;
+		node->heredoc = NULL;
+		node->file = ft_strdup("out_file.txt");
 		node->nx = NULL;		
 	}
 	else if (type == DOR)
 	{
 		node = (t_rd *)malloc(sizeof(t_rd));
 		node->type = DOR;
-		node->file = ft_strdup("out_file.txt");
 		node->end_key = NULL;
+		node->heredoc = NULL;
+		node->file = ft_strdup("out_file.txt");
 		node->nx = NULL;
 	}
 	return (node);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/27 15:46:37 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:12:41 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	ft_init_msh_struct(t_msh *data)
 	data->env_lst = NULL;
 	data->cmd_lst = NULL;
 	data->fd = 1;
+	data->org_stdin = dup(STDIN_FILENO);
+	data->org_stdout = dup(STDOUT_FILENO);
 }
 
 void	ft_main_boucle(t_msh *data)
@@ -50,6 +52,11 @@ void	ft_main_boucle(t_msh *data)
 	}
 	ft_free_null_void_return(&data->pipeline);
 	ft_cmd_lstclear(data);
+	dup2(data->org_stdin, STDIN_FILENO);
+	close(data->org_stdin);
+	dup2(data->org_stdout, STDOUT_FILENO);
+	close(data->org_stdout);
+	printf("DEBUG: main_boucle)\n");
 }
 
 /**
