@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/28 15:11:33 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/28 20:14:00 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
 
 /**
  * @brief   ** VERSIÓN 2.0 -> PASANDO UN NODO (PRESENCIA DE PIPES)
- * 						*** UNDER CONSTRUCTION ***
+ * 				*** UNDER CONSTRUCTION, AÚN NO HACE ESO ***
  * @param data 
  * @param cmd 
  * @param tmp 
@@ -80,7 +80,11 @@ static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
 void	ft_builtin_executor(t_msh *data, char *cmd, t_cmd_lst *cmd_nd)
 {
 	if (data->cmd_lst->rds != NULL)
+	{
 		ft_redir_checker(data, cmd_nd);
+		if (data->exit_code == EXIT_FAILURE)
+			return ;
+	}
 	if (ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "ENV") == 0)
 		ft_builtin_exec_env(data);
 	else if (ft_strcmp(cmd, "export") == 0)
@@ -99,12 +103,5 @@ void	ft_builtin_executor(t_msh *data, char *cmd, t_cmd_lst *cmd_nd)
 	{
 		ft_find_cmd_path(cmd_nd, ft_find_env_paths(data));
 		data->exit_code = ft_exec_external_cmd(data);
-	}
-	if (cmd_nd->rds->type > 0)
-	{
-		dup2(data->org_stdin, STDIN_FILENO);
-		close(data->org_stdin);
-//		dup2(data->org_stdout, STDOUT_FILENO);
-//		close(data->org_stdout);
 	}
 }

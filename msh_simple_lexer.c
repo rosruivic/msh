@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/28 16:51:17 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/28 20:10:28 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,8 @@ static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd)
 {
 	t_cmd_lst	*node;
 	int			i;
-	int			type;
 
 	(void)data;
-	type = DIR;
 	i = -1;
 	node = (t_cmd_lst *)malloc(sizeof(t_cmd_lst));
 	node->c_args = ft_calloc((ft_matrix_len(cmd) + 1), sizeof(char *));
@@ -96,7 +94,7 @@ static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd)
 		node->c_args[i] = ft_strdup(cmd[i]);
 	node->c_abs_path = ft_strdup(cmd[0]);
 	node->c_env_path = NULL;			// se rellena en otro momento, después
-	node->rds = ft_red_alobruto(type);	// rellenamos a mano un nodo para hacer tests
+	node->rds = ft_red_alobruto(DIR);	// rellenamos a mano un nodo para hacer tests
 	node->nx = NULL;
 	ft_freedom(cmd);
 	return (node);

@@ -39,8 +39,6 @@ void	ft_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
 			{
 				g_listen = 0;
 				close(cmd_nd->fd[STDOUT_FILENO]);
-//				dup2(data->org_stdin, STDIN_FILENO); // restaurando (en el hijo)
-//				close(data->org_stdin);
 				dup2(data->org_stdout, STDOUT_FILENO);
 				close(data->org_stdout);
 				exit(EXIT_FAILURE);
@@ -54,9 +52,6 @@ void	ft_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
 		dup2(cmd_nd->fd[WR], STDOUT_FILENO);
 		close(cmd_nd->fd[WR]);
 		ft_putstr_fd(hd_inputs, STDOUT_FILENO);
-		close(cmd_nd->fd[STDOUT_FILENO]);
-//		dup2(data->org_stdin, STDIN_FILENO); // restaurando
-//		close(data->org_stdin);
 		ft_free_null_void_return(&hd_inputs);
 		exit(EXIT_SUCCESS);
 	}
@@ -66,12 +61,5 @@ void	ft_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
 		dup2(cmd_nd->fd[RD], STDIN_FILENO);
 		close(cmd_nd->fd[RD]);
 		waitpid(cmd_nd->pid, &data->exit_code, 0);
-/* 		if (data->exit_code == EXIT_FAILURE)
-		{
-			dup2(data->org_stdin, STDIN_FILENO); // AQUÍ NOOOOO
-			close(data->org_stdin);
-			dup2(data->org_stdout, STDOUT_FILENO);
-			close(data->org_stdout);
-		} */
 	}
 }
