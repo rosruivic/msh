@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/28 21:07:21 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/29 16:37:22 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,7 @@ void	ft_main_boucle(t_msh *data)
 	ft_free_null_void_return(&data->pipeline);
 	ft_cmd_lstclear(data);
 	dup2(data->org_stdin, STDIN_FILENO);
-//	close(data->org_stdin);
 	dup2(data->org_stdout, STDOUT_FILENO);
-//	close(data->org_stdout);
 	data->exit_code = 0; // para reiniciarlo
 }
 

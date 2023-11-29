@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/28 20:14:00 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/29 19:27:13 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
 		ft_heredoc(data, cmd_nd);
 	}
 	else if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == SIR)
-		printf("DEBUG: ft_redir_checker) aún no hago nada - SIR\n");
+	{
+		//printf("DEBUG: ft_redir_checker) aún no hago nada - SIR\n");
+		ft_redir_infile(data, cmd_nd);
+	}
 	else if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == SOR)
 		printf("DEBUG: ft_redir_checker) aún no hago nada - SOR\n");
 	else if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == DOR)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   msh_heredoc.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/29 19:40:41 by roruiz-v          #+#    #+#             */
+/*   Updated: 2023/11/29 19:40:46 by roruiz-v         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /**
@@ -21,7 +33,6 @@ void	ft_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
 		ft_error_pipes_forks(data, ERROR_PIPE_CREATION);
 		exit(EXIT_FAILURE);
 	}
-//	printf("DEBUG: heredoc) estoy antes del fork\n");
 	cmd_nd->pid = fork();
 	if (cmd_nd->pid < 0)
 	{
@@ -37,16 +48,17 @@ void	ft_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
 		{
 			if (g_listen == 1)
 			{
-				g_listen = 0;
+//				input = ft_strdup("\n");
+				ft_free_null_void_return(&hd_inputs);
 				close(cmd_nd->fd[STDOUT_FILENO]);
 				dup2(data->org_stdout, STDOUT_FILENO);
-				close(data->org_stdout);
-				exit(EXIT_FAILURE);
+				exit(EXIT_SUCCESS);
 			}
 			hd_inputs = ft_join_free(hd_inputs, input);
 			hd_inputs = ft_join_free(hd_inputs, "\n");
 			ft_free_null_void_return(&input);
 			input = readline("> ");
+			ft_ctrl_d(data);
 		}
 		ft_free_null_void_return(&input);
 		dup2(cmd_nd->fd[WR], STDOUT_FILENO);
