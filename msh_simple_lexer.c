@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/29 19:24:04 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:49:58 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,75 +29,106 @@ static void	ft_cmd_lstadd_back(t_msh *data, t_cmd_lst *new)
 	}
 }
 
+static t_rd	*ft_redir_lst_new(char *end_key)
+{
+	t_rd	*rd_nd;
+	
+	rd_nd = (t_rd *)malloc(sizeof(t_rd));
+	rd_nd->type = DIR;
+	rd_nd->end_key = ft_strdup(end_key);
+	rd_nd->heredoc = NULL;
+	rd_nd->file = NULL;
+	rd_nd->nx = NULL;
+	return (rd_nd);
+}
+
+static void	ft_redir_lstadd_back(t_cmd_lst *cmd_nd, t_rd *new)
+{
+	t_rd	*tmp;
+
+	tmp = NULL;
+	if (cmd_nd->rds == NULL && new)
+		cmd_nd->rds = new;
+	else if (cmd_nd->rds && new)
+	{
+		tmp = cmd_nd->rds;
+		while (tmp->nx && tmp->nx->nx)
+			tmp = tmp->nx;
+		new->nx = tmp->nx;
+		tmp->nx = new;
+	}
+}
+
 /**
- * @brief    ** CREO UN NODO DEL TIRÓN PARA HACER TESTS **
+ * @brief    ** CREO NODOS DEL TIRÓN PARA HACER TESTS **
  * 
  * @param cmd 
  * @param type 
  * @return t_rd* 
  */
-static t_rd	*ft_red_alobruto(int type)
+static void ft_redir_alobruto(t_cmd_lst *cmd_nd, int type)
 {
-	t_rd	*node;
+	t_rd	*rd_nd;
 	
-	type = DIR;
-	node = NULL;
-	if (type == SIR)
+	if (type == DIR)
 	{
-		node = (t_rd *)malloc(sizeof(t_rd));
-		node->type = SIR;
-		node->end_key = NULL;
-		node->heredoc = NULL;
-		node->file = ft_strdup("in_file.txt");
-		node->nx = NULL;		
+		int		n_redirs = 2;
+		int		i = -1;
+
+		rd_nd = NULL;
+		while (++i < n_redirs)
+		{
+			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new(ft_itoa(i)));
+//			printf("acabo de añadir un nodo alobruto\n");
+		}
 	}
-	else if (type == DIR)
+	else if (type == SIR)
 	{
-		node = (t_rd *)malloc(sizeof(t_rd));
-		node->type = DIR;
-		node->end_key = ft_strdup("end");
-		node->heredoc = NULL;
-		node->file = NULL;
-		node->nx = NULL;		
+		rd_nd = (t_rd *)malloc(sizeof(t_rd));
+		rd_nd->type = SIR;
+		rd_nd->end_key = NULL;
+		rd_nd->heredoc = NULL;
+		rd_nd->file = ft_strdup("in_file.txt");
+		rd_nd->nx = NULL;		
 	}
 	else if (type == SOR)
 	{
-		node = (t_rd *)malloc(sizeof(t_rd));
-		node->type = SOR;
-		node->end_key = NULL;
-		node->heredoc = NULL;
-		node->file = ft_strdup("out_file.txt");
-		node->nx = NULL;		
+		rd_nd = (t_rd *)malloc(sizeof(t_rd));
+		rd_nd->type = SOR;
+		rd_nd->end_key = NULL;
+		rd_nd->heredoc = NULL;
+		rd_nd->file = ft_strdup("out_file.txt");
+		rd_nd->nx = NULL;		
 	}
-	else if (type == DOR)
+	else// if (type == DOR)
 	{
-		node = (t_rd *)malloc(sizeof(t_rd));
-		node->type = DOR;
-		node->end_key = NULL;
-		node->heredoc = NULL;
-		node->file = ft_strdup("out_file.txt");
-		node->nx = NULL;
+		rd_nd = (t_rd *)malloc(sizeof(t_rd));
+		rd_nd->type = DOR;
+		rd_nd->end_key = NULL;
+		rd_nd->heredoc = NULL;
+		rd_nd->file = ft_strdup("out_file.txt");
+		rd_nd->nx = NULL;
 	}
-	return (node);
 }
 
 static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd)
 {
-	t_cmd_lst	*node;
+	t_cmd_lst	*cmd_nd;
 	int			i;
 
 	(void)data;
 	i = -1;
-	node = (t_cmd_lst *)malloc(sizeof(t_cmd_lst));
-	node->c_args = ft_calloc((ft_matrix_len(cmd) + 1), sizeof(char *));
+	cmd_nd = (t_cmd_lst *)malloc(sizeof(t_cmd_lst));
+	cmd_nd->c_args = ft_calloc((ft_matrix_len(cmd) + 1), sizeof(char *));
 	while (cmd[++i])
-		node->c_args[i] = ft_strdup(cmd[i]);
-	node->c_abs_path = ft_strdup(cmd[0]);
-	node->c_env_path = NULL;			// se rellena en otro momento, después
-	node->rds = ft_red_alobruto(SIR);	// rellenamos a mano un nodo para hacer tests
-	node->nx = NULL;
+		cmd_nd->c_args[i] = ft_strdup(cmd[i]);
+	cmd_nd->c_abs_path = ft_strdup(cmd[0]);
+	cmd_nd->c_env_path = NULL;		// se rellena en otro momento, después
+	cmd_nd->rds = NULL;
+	ft_redir_alobruto(cmd_nd, DIR);	// rellenamos a mano 1 o varios nodos pa'hacer tests
+	cmd_nd->nx = NULL;
 	ft_freedom(cmd);
-	return (node);
+	return (cmd_nd);
 }
 
 /**

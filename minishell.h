@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/28 19:01:28 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:43:47 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,8 @@ void	ft_cmd_lstclear(t_msh *data);
 /* ***************************************************************** */
 
 void	ft_executor(t_msh *data);
-void	ft_heredoc(t_msh *data, t_cmd_lst *cmd_nd);
+void	ft_redir_heredoc(t_msh *data, t_cmd_lst *cmd_nd);
+void	ft_redir_infile(t_msh *data, t_cmd_lst *cmd_nd);
 
 /* ***************************************************************** */
 /* ******************     BUILTINS  FUNCTIONS      ***************** */

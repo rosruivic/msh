@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_heredoc.c                                      :+:      :+:    :+:   */
+/*   msh_redir_heredoc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:40:41 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/29 19:40:46 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:44:23 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * @param data 
  * @param cmd 
  */
-void	ft_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
+void	ft_redir_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
 {
 	char	*hd_inputs;
 	char	*input;
@@ -49,10 +49,11 @@ void	ft_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
 			if (g_listen == 1)
 			{
 //				input = ft_strdup("\n");
+//				ft_putstr_fd("\n", STDOUT_FILENO);
 				ft_free_null_void_return(&hd_inputs);
-				close(cmd_nd->fd[STDOUT_FILENO]);
-				dup2(data->org_stdout, STDOUT_FILENO);
-				exit(EXIT_SUCCESS);
+//				close(cmd_nd->fd[STDOUT_FILENO]); // (?)
+//				dup2(data->org_stdout, STDOUT_FILENO);
+				exit(EXIT_FAILURE);
 			}
 			hd_inputs = ft_join_free(hd_inputs, input);
 			hd_inputs = ft_join_free(hd_inputs, "\n");

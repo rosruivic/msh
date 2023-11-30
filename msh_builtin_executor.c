@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/29 19:27:13 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/30 18:52:47 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
 {
 	if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == DIR)
 	{
-		ft_heredoc(data, cmd_nd);
+//		printf("DEBUG: ft_redir_checker) - before call heredoc\n");
+		ft_redir_heredoc(data, cmd_nd);
 	}
 	else if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == SIR)
 	{
@@ -85,7 +86,7 @@ void	ft_builtin_executor(t_msh *data, char *cmd, t_cmd_lst *cmd_nd)
 	if (data->cmd_lst->rds != NULL)
 	{
 		ft_redir_checker(data, cmd_nd);
-		if (data->exit_code == EXIT_FAILURE)
+		if (data->exit_code != EXIT_SUCCESS)
 			return ;
 	}
 	if (ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "ENV") == 0)

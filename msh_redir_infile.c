@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:40:27 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/29 21:07:49 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/11/30 12:51:20 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
  */
 void	ft_redir_infile(t_msh *data, t_cmd_lst *cmd_nd)
 {
+	(void)data;
 	cmd_nd->fd_in = open(cmd_nd->rds->file, O_RDONLY);
 	if (cmd_nd->fd_in < 0)
 	{
