@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/30 15:43:47 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:18:31 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,8 @@ typedef struct	s_msh
 /* ******************      SIGNAL  FUNCTIONS       ***************** */
 /* ***************************************************************** */
 
-void	ft_handler(int sig, siginfo_t *info, void *context);
+void	ft_handler_parent(int sig, siginfo_t *info, void *context);
+void	ft_handler_child(int sig, siginfo_t *info, void *context);
 void	ft_ctrl_d(t_msh *data);
 
 

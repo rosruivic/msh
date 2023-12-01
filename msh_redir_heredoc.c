@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_redir_heredoc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:40:41 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/01 01:52:08 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/01 19:54:19 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,35 +43,24 @@ void	ft_redir_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
 	}
 	else if (cmd_nd->pid == 0)
 	{
+		data->sig.sa_sigaction = ft_handler_child;
+		sigemptyset(&data->sig.sa_mask);
+		data->sig.sa_flags = SA_NODEFER;
 		close(cmd_nd->fd[RD]);
 		input = readline("> ");
-		if (g_listen == 1)
-		{
-//			input = ft_strdup("\n");
-//			ft_putstr_fd("\n", STDOUT_FILENO);
-			ft_free_null_void_return(&hd_inputs);
-//			close(cmd_nd->fd[STDOUT_FILENO]); // (?)
-//			dup2(data->org_stdout, STDOUT_FILENO);
-			printf("DEBUG: ft_redir_heredoc) G_LISTEN = 1\n");
-			exit(EXIT_FAILURE);
-		}
 		ft_ctrl_d(data);
-		while (input && ft_strcmp(input, cmd_nd->rds->end_key) != 0)
+		while (input[0] != '\0' || ft_strcmp(input, cmd_nd->rds->end_key) != 0)
 		{
+			if (g_listen == 1)
+			{ // no sé si hace algo de esto
+				ft_free_null_void_return(&hd_inputs);
+				printf("DEBUG: ft_redir_heredoc) G_LISTEN = 1\n");
+				exit(EXIT_FAILURE);
+			}
 			hd_inputs = ft_join_free(hd_inputs, input);
 			hd_inputs = ft_join_free(hd_inputs, "\n");
 			ft_free_null_void_return(&input);
 			input = readline("> ");
-			if (g_listen == 1)
-			{
-//				input = ft_strdup("\n");
-//				ft_putstr_fd("\n", STDOUT_FILENO);
-				ft_free_null_void_return(&hd_inputs);
-//				close(cmd_nd->fd[STDOUT_FILENO]); // (?)
-//				dup2(data->org_stdout, STDOUT_FILENO);
-				printf("DEBUG: ft_redir_heredoc) G_LISTEN = 1\n");
-				exit(EXIT_FAILURE);
-			}
 			ft_ctrl_d(data);
 		}
 		ft_free_null_void_return(&input);
