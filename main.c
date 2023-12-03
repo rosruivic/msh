@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/01 20:34:09 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/02 12:36:30 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	g_listen = 0;
 
 void	ft_init_msh_struct(t_msh *data)
 {
-	data->sig.sa_sigaction = ft_handler_parent;
+	data->sig.sa_sigaction = ft_handler;
 	sigemptyset(&data->sig.sa_mask);
 	data->sig.sa_flags = SA_NODEFER;
 	data->error = 0;

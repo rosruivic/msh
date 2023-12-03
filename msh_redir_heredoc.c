@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_redir_heredoc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:40:41 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/01 19:54:19 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/03 21:23:46 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_redir_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
 	}
 	else if (cmd_nd->pid == 0)
 	{
-		data->sig.sa_sigaction = ft_handler_child;
+//		data->sig.sa_sigaction = ft_handler_child;
 		sigemptyset(&data->sig.sa_mask);
 		data->sig.sa_flags = SA_NODEFER;
 		close(cmd_nd->fd[RD]);
@@ -51,11 +51,11 @@ void	ft_redir_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
 		ft_ctrl_d(data);
 		while (input[0] != '\0' || ft_strcmp(input, cmd_nd->rds->end_key) != 0)
 		{
-			if (g_listen == 1)
+			if (g_listen == 1) // 
 			{ // no sé si hace algo de esto
-				ft_free_null_void_return(&hd_inputs);
 				printf("DEBUG: ft_redir_heredoc) G_LISTEN = 1\n");
-				exit(EXIT_FAILURE);
+				ft_free_null_void_return(&hd_inputs);
+//				exit(EXIT_FAILURE);
 			}
 			hd_inputs = ft_join_free(hd_inputs, input);
 			hd_inputs = ft_join_free(hd_inputs, "\n");
@@ -77,9 +77,7 @@ void	ft_redir_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
 		close(cmd_nd->fd[RD]);
 		waitpid(cmd_nd->pid, &exit_code, 0);
 		if (WIFEXITED(exit_code))
-		{
 			data->exit_code = WEXITSTATUS(exit_code);
-		}
 		printf("DEBUG: ft_redir_heredoc) data->exit_code = %d\n", data->exit_code);
 	}
 }
