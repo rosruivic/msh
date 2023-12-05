@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/03 21:01:09 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/05 01:42:35 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,13 @@ static void ft_redir_alobruto(t_cmd_lst *cmd_nd, int type)
 	
 	if (type == DIR)
 	{
-		int		n_redirs = 0;
+		int		n_redirs = 3;
 		int		i = -1;
 
 		rd_nd = NULL;
 		while (++i < n_redirs)
 		{
 			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new(ft_itoa(i)));
-//			printf("acabo de añadir un nodo alobruto\n");
 		}
 	}
 	else if (type == SIR)

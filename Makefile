@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+         #
+#    By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/18 13:12:22 by roruiz-v          #+#    #+#              #
-#    Updated: 2023/11/30 12:47:35 by roruiz-v         ###   ########.fr        #
+#    Updated: 2023/12/04 23:03:16 by roruiz-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ OFILES = $(addprefix obj/, $(OBJS))
 
 CC		= gcc
 
-FLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
+FLAGS	= -Wall -Werror -Wextra -g #-fsanitize=address
 
 #LEAKS = memory-leaks/memory_leaks.a
 

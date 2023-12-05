@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/02 12:36:30 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/05 01:42:12 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,29 @@ int	g_listen = 0;
 
 void	ft_init_msh_struct(t_msh *data)
 {
-	data->sig.sa_sigaction = ft_handler;
-	sigemptyset(&data->sig.sa_mask);
-	data->sig.sa_flags = SA_NODEFER;
-	data->error = 0;
+	data->error = NO_ERROR;
 	data->exit_code = 0;
 	data->env_lst = NULL;
 	data->cmd_lst = NULL;
 	data->fd = 1;
 	data->org_stdin = dup(STDIN_FILENO);
 	data->org_stdout = dup(STDOUT_FILENO);
+//	data->sig.sa_flags = SA_RESTART;
+	data->sig.sa_sigaction = ft_handler;
+	sigemptyset(&data->sig.sa_mask);
+	data->sig.sa_flags = SA_NODEFER;
+	if (sigaction(SIGINT, &data->sig, NULL) == -1)
+		ft_error_signal(ERROR_SIGACTION_FAILURE);
 }
 
+/**
+ * @brief  * BEWARE OF THIS!!! 
+ * 	- Si no restauro el STDIN y el STDOUT, hace un exit del programa
+ *  - No reiniciar data->exit_code a 0, porque si hago echo $? me mostraría siempre 0
+ * @param data 
+ */
 void	ft_main_boucle(t_msh *data)
 {
-	data->error = NO_ERROR;
 	data->pipeline = readline(">>> msh_2.0$ ");
 	ft_ctrl_d(data);
 	if (data->pipeline[0] != '\0')
@@ -42,19 +50,23 @@ void	ft_main_boucle(t_msh *data)
 		if (g_listen == 1)
 		{
 			data->exit_code = 1;
+			data->error = END;
 			g_listen = 0;
 		}
-		add_history(data->pipeline);
-		ft_simple_lexer(data);
-		ft_simple_parser(data);
-		if (data->error == NO_ERROR)
-			ft_executor(data);
+		else
+		{
+			add_history(data->pipeline);
+			ft_simple_lexer(data);
+			ft_simple_parser(data);
+			if (data->error == NO_ERROR)
+				ft_executor(data);
+		}
 	}
 	ft_free_null_void_return(&data->pipeline);
 	ft_cmd_lstclear(data);
-	dup2(data->org_stdin, STDIN_FILENO);
-	dup2(data->org_stdout, STDOUT_FILENO);
-	data->exit_code = 0; // para reiniciarlo
+	dup2(data->org_stdin, STDIN_FILENO);  	// restaura el STDIN
+	dup2(data->org_stdout, STDOUT_FILENO); 	// restaura el STDOUT
+	data->error = NO_ERROR;
 }
 
 /**
@@ -74,13 +86,9 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1)
 		ft_error_start(argv[1], ERROR_START_NO_SUCH_FILE_OR_DIRECTORY);
 	ft_init_msh_struct(&data);
-	if (sigaction(SIGINT, &data.sig, NULL) == -1)
-		ft_error_signal(ERROR_SIGACTION_FAILURE);
 	ft_duplic_envp(&data, envp);
-	while (data.error != END)
-	{
+	while (1)
 		ft_main_boucle(&data);
-	}
 	return (0);
 }
 

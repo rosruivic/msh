@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/03 21:27:35 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/05 02:27:06 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ void	ft_builtin_executor(t_msh *data, char *cmd, t_cmd_lst *cmd_nd)
 	if (data->cmd_lst->rds != NULL)
 	{
 		ft_redir_checker(data, cmd_nd);
-		if (g_listen == 1) // no funciona, pero la idea es algo así
+		if (g_listen == 1) // si hay ctrl+d en hijo, tb lo hay en padre
 		{
-			if (data->cmd_lst->pid == 0)
-				kill(data->cmd_lst->pid, SIGINT);
-			data->exit_code = 1;
 			g_listen = 0;
+			data->exit_code = 1;
 			return ;
 		}
+		if (data->error == END)
+			return ;
 	}
 	if (ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "ENV") == 0)
 		ft_builtin_exec_env(data);
