@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_simple_lexer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/05 01:42:35 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/05 16:36:15 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void ft_redir_alobruto(t_cmd_lst *cmd_nd, int type)
 	
 	if (type == DIR)
 	{
-		int		n_redirs = 3;
+		int		n_redirs = 1;
 		int		i = -1;
 
 		rd_nd = NULL;

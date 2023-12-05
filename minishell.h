@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/02 12:21:53 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/05 19:13:05 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,13 @@
 # define SOR 3		// redir struct 'type' = Simple Output Redir (>)
 # define DOR 4		// redir struct 'type' = Double Output Redir (>>)
 
-int	g_listen; // for signals (could be a STRUCT only for signal issues) 
+typedef struct	s_sgn
+{
+	int	listen; // for signals (could be a STRUCT only for signal issues) 
+	int	chld_pid; // for signals (could be a STRUCT only for signal issues)
+}		t_sgn;
+
+extern t_sgn	g_sgn;
 
 typedef enum e_error
 {
@@ -140,10 +146,7 @@ typedef struct	s_msh
 /* ***************************************************************** */
 
 void	ft_handler(int sig, siginfo_t *info, void *context);
-//void	ft_handler_parent(int sig, siginfo_t *info, void *context);
-//void	ft_handler_child(int sig, siginfo_t *info, void *context);
 void	ft_ctrl_d(t_msh *data);
-
 
 /* ***************************************************************** */
 /* *****************     ENVIRONMENT  FUNCTIONS    ***************** */

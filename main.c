@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/05 01:42:12 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/05 19:55:47 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_listen = 0;
+t_sgn	g_sgn;
+ 
 /* static void	ft_leaks(void)
 {
 	system("leaks -q minishell");
@@ -20,6 +21,8 @@ int	g_listen = 0;
 
 void	ft_init_msh_struct(t_msh *data)
 {
+	g_sgn.listen = 0;
+ 	g_sgn.chld_pid = 0;
 	data->error = NO_ERROR;
 	data->exit_code = 0;
 	data->env_lst = NULL;
@@ -47,11 +50,17 @@ void	ft_main_boucle(t_msh *data)
 	ft_ctrl_d(data);
 	if (data->pipeline[0] != '\0')
 	{
-		if (g_listen == 1)
+		if (g_sgn.listen == 1)
 		{
+			rl_on_new_line();
+			rl_redisplay();
+			rl_replace_line("", 0);		// gcc error C99 (INSTALL LIBRARY at home)
+			ft_putstr_fd("   \n", 1);
+			rl_on_new_line();
+			rl_redisplay();
 			data->exit_code = 1;
 			data->error = END;
-			g_listen = 0;
+			g_sgn.listen = 0;
 		}
 		else
 		{
@@ -62,6 +71,7 @@ void	ft_main_boucle(t_msh *data)
 				ft_executor(data);
 		}
 	}
+	printf("DEBUG: main) el ejecutor ha terminado\n");
 	ft_free_null_void_return(&data->pipeline);
 	ft_cmd_lstclear(data);
 	dup2(data->org_stdin, STDIN_FILENO);  	// restaura el STDIN

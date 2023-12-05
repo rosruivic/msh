@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 14:00:34 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/05 20:06:29 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/05 16:31:03 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@
  * 
  *  AMBOS PROCESOS RECIBEN EL CTRL+C Y RESPONDEN A ÉL:
  *  - elimina del hijo el comportamiento sobrante
- * 
- * @param sig      The signal (SIGINT, in this case)
+ * @param sig 
  * @param info 
  * @param context 
  */
@@ -58,24 +57,32 @@ void	ft_handler(int sig, siginfo_t *info, void *context)
 	(void)info;
 	(void)context;
 	if (SIGINT == sig) // user press CTRL+C
-	{ // pongo el grueso de las líneas en el main_boucle, así es como actúa diferente
-		g_sgn.listen = 1;
-		printf("DEBUG: ft_handler) g_sgn.chld_pid = %d \n", g_sgn.chld_pid);
-		if (g_sgn.chld_pid > 0)
-		{
-			printf("DEBUG_1: ft_handler) g_sgn.chld_pid = %d \n", g_sgn.chld_pid);
-			kill(g_sgn.chld_pid, SIGKILL);
-			g_sgn.chld_pid = 0;
-			printf("DEBUG_2: ft_handler) g_sgn.chld_pid = %d \n", g_sgn.chld_pid);
-//			kill(g_sgn.chld_pid, SIGINT);
+	{
+		if (isatty(STDIN_FILENO))
+		{ 	// printf("STDIN is the terminal.\n");
+
+//			printf("DEBUG: this is HANDLER_PARENT because the user is introducing a pipeline\n");
+			g_listen = 1;
+			rl_on_new_line();
+			rl_redisplay();
+			rl_replace_line("", 0);		// gcc error C99 (INSTALL LIBRARY at home)
+			ft_putstr_fd("   \n", 1);
+			rl_on_new_line();
+			rl_redisplay();
 		}
-/* 		rl_on_new_line();
-		rl_redisplay();
-		rl_replace_line("", 0);		// gcc error C99 (INSTALL LIBRARY at home)
-		ft_putstr_fd("   \n", 1);
-		rl_on_new_line();
-		rl_redisplay(); */
-	}
+		else // printf("STDIN is redirected.\n");
+		{
+			printf("DEBUG: this is HANDLER_CHILD because the user is in a redirection (piped heredoc)\n");
+			g_listen = 1;
+//			rl_on_new_line();
+//			rl_redisplay();
+//			rl_replace_line("", 0);		// gcc error C99 (INSTALL LIBRARY at home)
+//			rl_on_new_line();
+//			rl_redisplay();
+//			ioctl(0, TIOCSTI, '\n'); // añade un intro a lo bestia (no hace nada)
+//			exit(EXIT_FAILURE); 	// si lo pongo aquí, me saca de minishell
+		}
+    } 
 }
 
 /**
@@ -94,7 +101,7 @@ void	ft_ctrl_d(t_msh *data)
 			rl_on_new_line();
 			rl_redisplay();
 			ft_putstr_fd("exit\n", 1);
-			rl_clear_history();		// gcc error C99 (INSTALL LIBRARY)
+//			rl_clear_history();		// gcc error C99 (INSTALL LIBRARY)
 			ft_env_lstclear(data->env_lst);
 			exit(EXIT_SUCCESS);
 		}

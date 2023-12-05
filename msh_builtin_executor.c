@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_builtin_executor.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/05 02:27:06 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/05 19:53:36 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,20 @@ void	ft_builtin_executor(t_msh *data, char *cmd, t_cmd_lst *cmd_nd)
 	if (data->cmd_lst->rds != NULL)
 	{
 		ft_redir_checker(data, cmd_nd);
-		if (g_listen == 1) // si hay ctrl+d en hijo, tb lo hay en padre
+		if (g_sgn.listen == 1) // si hay ctrl+c en hijo, tb lo hay en padre
 		{
-			g_listen = 0;
+			printf("DEBUG: ft_builtin_executor) g_sgn.listen = %d\n", g_sgn.listen);
+			g_sgn.listen = 0;
 			data->exit_code = 1;
+			dup2(data->org_stdin, STDIN_FILENO);  	// restaura el STDIN
+			dup2(data->org_stdout, STDOUT_FILENO);
+//			rl_on_new_line();
+//			rl_redisplay();
+//			rl_replace_line("", 0);		// gcc error C99 (INSTALL LIBRARY)
+//			rl_on_new_line();
+//			rl_redisplay();
 			return ;
 		}
-		if (data->error == END)
-			return ;
 	}
 	if (ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "ENV") == 0)
 		ft_builtin_exec_env(data);
