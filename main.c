@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/05 19:55:47 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/06 20:28:46 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_init_msh_struct(t_msh *data)
 //	data->sig.sa_flags = SA_RESTART;
 	data->sig.sa_sigaction = ft_handler;
 	sigemptyset(&data->sig.sa_mask);
-	data->sig.sa_flags = SA_NODEFER;
+	data->sig.sa_flags = SA_NODEFER; // a qué inicializarlo ?
 	if (sigaction(SIGINT, &data->sig, NULL) == -1)
 		ft_error_signal(ERROR_SIGACTION_FAILURE);
 }
@@ -52,15 +52,8 @@ void	ft_main_boucle(t_msh *data)
 	{
 		if (g_sgn.listen == 1)
 		{
-			rl_on_new_line();
-			rl_redisplay();
-			rl_replace_line("", 0);		// gcc error C99 (INSTALL LIBRARY at home)
-			ft_putstr_fd("   \n", 1);
-			rl_on_new_line();
-			rl_redisplay();
 			data->exit_code = 1;
 			data->error = END;
-			g_sgn.listen = 0;
 		}
 		else
 		{
@@ -71,14 +64,13 @@ void	ft_main_boucle(t_msh *data)
 				ft_executor(data);
 		}
 	}
-	printf("DEBUG: main) el ejecutor ha terminado\n");
+	g_sgn.listen = 0;
 	ft_free_null_void_return(&data->pipeline);
 	ft_cmd_lstclear(data);
 	dup2(data->org_stdin, STDIN_FILENO);  	// restaura el STDIN
 	dup2(data->org_stdout, STDOUT_FILENO); 	// restaura el STDOUT
 	data->error = NO_ERROR;
 }
-
 /**
  * @brief 		****	MINISHELL    ****
  * 

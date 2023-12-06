@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/05 19:53:36 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:11:40 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@ static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
 {
 	if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == DIR)
 	{
-//		printf("DEBUG: ft_redir_checker) - before call heredoc\n");
 		ft_redir_heredoc(data, cmd_nd);
 	}
 	else if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == SIR)
 	{
-		//printf("DEBUG: ft_redir_checker) aún no hago nada - SIR\n");
 		ft_redir_infile(data, cmd_nd);
 	}
 	else if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == SOR)
@@ -45,36 +43,6 @@ static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
  * 	ANSWER >>> the builtins don't have absolute path, 
  *             they comunicate to the shell directly
  * 
- * 	VERSIÓN 1.0 --> VÁLIDO PARA UN SOLO COMANDO
- * 
- * @param data 
- * @param cmd 
- */
-/* void	ft_builtin_executor(t_msh *data, char *cmd)
-{	
-	ft_redir_checker(data);
-	if (ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "ENV") == 0)
-		ft_builtin_exec_env(data);
-	else if (ft_strcmp(cmd, "export") == 0)
-		ft_builtin_exec_export(data);
-	else if (ft_strcmp(cmd, "unset") == 0)
-		ft_builtin_exec_unset(data);
-	else if (ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "PWD") == 0)
-		ft_builtin_exec_pwd(data);
-	else if (ft_strcmp(cmd, "cd") == 0)
-		ft_builtin_exec_cd(data);
-	else if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "ECHO") == 0)
-		ft_builtin_exec_echo(data);
-	else if (ft_strcmp(cmd, "exit") == 0)
-		ft_builtin_exec_exit(data);
-	else
-	{
-		ft_find_cmd_path(data->cmd_lst, ft_find_env_paths(data));
-		data->exit_code = ft_exec_external_cmd(data);
-	}
-} */
-
-/**
  * @brief   ** VERSIÓN 2.0 -> PASANDO UN NODO (PRESENCIA DE PIPES)
  * 				*** UNDER CONSTRUCTION, AÚN NO HACE ESO ***
  * @param data 
@@ -86,20 +54,8 @@ void	ft_builtin_executor(t_msh *data, char *cmd, t_cmd_lst *cmd_nd)
 	if (data->cmd_lst->rds != NULL)
 	{
 		ft_redir_checker(data, cmd_nd);
-		if (g_sgn.listen == 1) // si hay ctrl+c en hijo, tb lo hay en padre
-		{
-			printf("DEBUG: ft_builtin_executor) g_sgn.listen = %d\n", g_sgn.listen);
-			g_sgn.listen = 0;
-			data->exit_code = 1;
-			dup2(data->org_stdin, STDIN_FILENO);  	// restaura el STDIN
-			dup2(data->org_stdout, STDOUT_FILENO);
-//			rl_on_new_line();
-//			rl_redisplay();
-//			rl_replace_line("", 0);		// gcc error C99 (INSTALL LIBRARY)
-//			rl_on_new_line();
-//			rl_redisplay();
+		if (g_sgn.listen == 1)
 			return ;
-		}
 	}
 	if (ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "ENV") == 0)
 		ft_builtin_exec_env(data);

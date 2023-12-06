@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 14:00:34 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/05 20:06:29 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:18:23 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,15 @@ void	ft_handler(int sig, siginfo_t *info, void *context)
 	(void)info;
 	(void)context;
 	if (SIGINT == sig) // user press CTRL+C
-	{ // pongo el grueso de las líneas en el main_boucle, así es como actúa diferente
+	{
 		g_sgn.listen = 1;
-		printf("DEBUG: ft_handler) g_sgn.chld_pid = %d \n", g_sgn.chld_pid);
-		if (g_sgn.chld_pid > 0)
-		{
-			printf("DEBUG_1: ft_handler) g_sgn.chld_pid = %d \n", g_sgn.chld_pid);
-			kill(g_sgn.chld_pid, SIGKILL);
-			g_sgn.chld_pid = 0;
-			printf("DEBUG_2: ft_handler) g_sgn.chld_pid = %d \n", g_sgn.chld_pid);
-//			kill(g_sgn.chld_pid, SIGINT);
-		}
-/* 		rl_on_new_line();
+		rl_on_new_line();
 		rl_redisplay();
-		rl_replace_line("", 0);		// gcc error C99 (INSTALL LIBRARY at home)
+//		rl_replace_line("   ", 0);		// gcc error C99 (INSTALL LIBRARY at home)
 		ft_putstr_fd("   \n", 1);
 		rl_on_new_line();
-		rl_redisplay(); */
+//		rl_redisplay();
+		ioctl(STDIN_FILENO, TIOCSTI, "\n"); // 0 es STDIN_FILENO
 	}
 }
 
@@ -87,76 +79,13 @@ void	ft_handler(int sig, siginfo_t *info, void *context)
  */
 void	ft_ctrl_d(t_msh *data)
 {
-	if (isatty(STDIN_FILENO))
-	{ //       printf("STDIN is the terminal.\n");
-		if (!data->pipeline)
-		{
-			rl_on_new_line();
-			rl_redisplay();
-			ft_putstr_fd("exit\n", 1);
-			rl_clear_history();		// gcc error C99 (INSTALL LIBRARY)
-			ft_env_lstclear(data->env_lst);
-			exit(EXIT_SUCCESS);
-		}
-	}
-	else // printf("STDIN is redirected.\n");
+	if (!data->pipeline)
 	{
-		if (!data->pipeline)
-		{
-//			rl_replace_line("", 0); // si la enchufo, explicar pq´
-			rl_on_new_line();		// cursor al principio
-			rl_redisplay(); 		// pone el prompt del '>>> msh_2.0$'
-			exit(EXIT_SUCCESS);
-		}
+		rl_on_new_line();
+		rl_redisplay();
+		ft_putstr_fd("exit\n", 1);
+		rl_clear_history();		// gcc error C99 (INSTALL LIBRARY)
+		ft_env_lstclear(data->env_lst);
+		exit(EXIT_SUCCESS); // te saca de minishell
 	}
 }
-
-
-/* PREGUNTA: como puedo establecer un comportamiento diferente para SIGINT 
-según esté en el proceso padre o en el proceso hijo.
-
-RESPUESTA: Puedes establecer diferentes manejadores de señales para el
-proceso padre y el proceso hijo. Cuando se crea un proceso hijo con fork,
-el hijo hereda las señales del padre, pero cualquier cambio que haga el
-hijo a los manejadores de señales después de la llamada a fork no afectará
-al padre.
-
-Aquí hay un ejemplo de cómo podrías hacer esto:
-
-		void handle_sigint_parent(int sig) 
-		{
-		    // Comportamiento del padre al recibir SIGINT
-		}
-		
-		void handle_sigint_child(int sig) 
-		{
-		    // Comportamiento del hijo al recibir SIGINT
-		}
-		
-		int main() 
-		{
-		    // Establece el manejador de señales para el padre
-		    signal(SIGINT, handle_sigint_parent);
-		
-		    pid_t pid = fork();
-		    if (pid == 0) {
-		        // Estamos en el proceso hijo
-		        // Establece el manejador de señales para el hijo
-		        signal(SIGINT, handle_sigint_child);
-		        // El resto del código del hijo va aquí
-		    } else if (pid > 0) {
-		        // Estamos en el proceso padre
-		        // El manejador de señales ya está establecido
-		        // El resto del código del padre va aquí
-		    } else {
-		        // Hubo un error al crear el proceso hijo
-		        perror("fork");
-		        exit(EXIT_FAILURE);
-		    }
-		}
-
-En este código, handle_sigint_parent es el manejador de señales para
-el proceso padre y handle_sigint_child es el manejador de señales para
-el proceso hijo. En main, primero se establece el manejador de señales
-para el padre. Luego, después de la llamada a fork, el hijo establece
-su propio manejador de señales. */
