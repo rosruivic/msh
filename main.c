@@ -6,13 +6,13 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/06 20:28:46 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/07 18:28:49 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_sgn	g_sgn;
+int	g_listen = 0;
  
 /* static void	ft_leaks(void)
 {
@@ -21,8 +21,6 @@ t_sgn	g_sgn;
 
 void	ft_init_msh_struct(t_msh *data)
 {
-	g_sgn.listen = 0;
- 	g_sgn.chld_pid = 0;
 	data->error = NO_ERROR;
 	data->exit_code = 0;
 	data->env_lst = NULL;
@@ -50,7 +48,7 @@ void	ft_main_boucle(t_msh *data)
 	ft_ctrl_d(data);
 	if (data->pipeline[0] != '\0')
 	{
-		if (g_sgn.listen == 1)
+		if (g_listen == 1)
 		{
 			data->exit_code = 1;
 			data->error = END;
@@ -64,7 +62,7 @@ void	ft_main_boucle(t_msh *data)
 				ft_executor(data);
 		}
 	}
-	g_sgn.listen = 0;
+	g_listen = 0;
 	ft_free_null_void_return(&data->pipeline);
 	ft_cmd_lstclear(data);
 	dup2(data->org_stdin, STDIN_FILENO);  	// restaura el STDIN
@@ -93,6 +91,9 @@ int	main(int argc, char **argv, char **envp)
 		ft_main_boucle(&data);
 	return (0);
 }
+
+
+
 
 /* EXPLICACIÓN DE DAVID PARA HEREDOCS :
 

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+         #
+#    By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/18 13:12:22 by roruiz-v          #+#    #+#              #
-#    Updated: 2023/12/04 23:03:16 by roruiz-v         ###   ########.fr        #
+#    Updated: 2023/12/07 13:30:48 by roruiz-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME	=	minishell
 
 LIB = -L /Users/roruiz-v/.brew/opt/readline/lib -lreadline
 
-INCLUDE = -I /System/Volumes/Data/Users/roruiz-v/.brew/Cellar/readline/8.2.1/include/
+#INCLUDE = -I /System/Volumes/Data/Users/roruiz-v/.brew/Cellar/readline/8.2.1/include/
+INCLUDE = -I /System/Volumes/Data/sgoinfre/goinfre/Perso/roruiz-v/homebrew/opt/readline/include
 
 SRC		=	main.c \
 			msh_signals.c \

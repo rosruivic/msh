@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:40:41 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/06 20:37:10 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/07 16:43:40 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_redir_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
 	hd_inputs = NULL;
 	input = NULL;
 	input = readline("> ");
-	if (g_sgn.listen == 1)
+	if (g_listen == 1)
 		return ;
 	while (input != NULL && ft_strcmp(input, cmd_nd->rds->end_key) != 0)
 	{
@@ -41,7 +41,7 @@ void	ft_redir_heredoc(t_msh *data, t_cmd_lst *cmd_nd)
 		hd_inputs = ft_join_free(hd_inputs, "\n");
 		ft_free_null_void_return(&input);
 		input = readline("> ");
-		if (g_sgn.listen == 1)
+		if (g_listen == 1)
 			return ;
 	}
 	ft_free_null_void_return(&input);

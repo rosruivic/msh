@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 14:00:34 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/06 18:18:23 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/07 18:18:48 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_handler(int sig, siginfo_t *info, void *context)
 	(void)context;
 	if (SIGINT == sig) // user press CTRL+C
 	{
-		g_sgn.listen = 1;
+		g_listen = 1;
 		rl_on_new_line();
 		rl_redisplay();
 //		rl_replace_line("   ", 0);		// gcc error C99 (INSTALL LIBRARY at home)

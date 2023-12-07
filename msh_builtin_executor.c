@@ -6,26 +6,38 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/06 17:11:40 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/07 21:27:46 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief  BEWARE OF THIS !!!
+ * 		Estoy cambiando para pasar el nodo del redireccionamiento
+ * 		Comprobar que no me esté cargando lo que ya funcionaba (heredoc, infile)
+ * 
+ * @param data 
+ * @param cmd_nd 
+ */
 static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
 {
-	if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == DIR)
+	t_rd	*rd_nd;
+
+	rd_nd = cmd_nd->rds;
+	while (rd_nd != NULL)
 	{
-		ft_redir_heredoc(data, cmd_nd);
+		if (data->cmd_lst->rds != NULL && rd_nd->type == DIR)
+			ft_redir_heredoc(data, cmd_nd);
+		else if (data->cmd_lst->rds != NULL && rd_nd->type == SIR)
+			ft_redir_infile(data, cmd_nd, rd_nd);
+		else if (data->cmd_lst->rds != NULL && rd_nd->type == SOR)
+//			ft_redir_outfile(data, cmd_nd, data->cmd_lst->rds->type);
+			printf("DEBUG: ft_redir_checker) aún no hago nada - SOR\n");
+		else if (data->cmd_lst->rds != NULL && rd_nd->type == DOR)
+//			ft_redir_outfile(data, cmd_nd, data->cmd_lst->rds->type);
+			printf("DEBUG: ft_redir_checker) aún no hago nada - DOR\n");
 	}
-	else if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == SIR)
-	{
-		ft_redir_infile(data, cmd_nd);
-	}
-	else if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == SOR)
-		printf("DEBUG: ft_redir_checker) aún no hago nada - SOR\n");
-	else if (data->cmd_lst->rds != NULL && data->cmd_lst->rds->type == DOR)
-		printf("DEBUG: ft_redir_checker) aún no hago nada - DOR\n");
 }
 
 /**
@@ -54,7 +66,7 @@ void	ft_builtin_executor(t_msh *data, char *cmd, t_cmd_lst *cmd_nd)
 	if (data->cmd_lst->rds != NULL)
 	{
 		ft_redir_checker(data, cmd_nd);
-		if (g_sgn.listen == 1)
+		if (g_listen == 1 || data->error != NO_ERROR)
 			return ;
 	}
 	if (ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "ENV") == 0)

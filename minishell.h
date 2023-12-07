@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/05 19:13:05 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/07 20:59:48 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,7 @@
 # define SOR 3		// redir struct 'type' = Simple Output Redir (>)
 # define DOR 4		// redir struct 'type' = Double Output Redir (>>)
 
-typedef struct	s_sgn
-{
-	int	listen; // for signals (could be a STRUCT only for signal issues) 
-	int	chld_pid; // for signals (could be a STRUCT only for signal issues)
-}		t_sgn;
-
-extern t_sgn	g_sgn;
+extern int	g_listen;
 
 typedef enum e_error
 {
@@ -60,6 +54,7 @@ typedef enum e_error
 	ERROR_INFILE,
 	ERROR_OUTFILE,
 	ERROR_FILES_FD,
+	ERROR_OPEN_INFILE,
 	ERROR_PIPE_CREATION,
 	ERROR_PIPE_EXECUTION,
 	ERROR_PID,
@@ -114,6 +109,7 @@ typedef struct	s_cmd_lst
 	int					pid;
 	int					pipe_val;
 	int					fd_in;
+	int					fd_out;
 	int					fd[2];
 	struct s_msh		*orgn;
 	struct s_cmd_lst	*nx;
@@ -194,7 +190,8 @@ void	ft_cmd_lstclear(t_msh *data);
 
 void	ft_executor(t_msh *data);
 void	ft_redir_heredoc(t_msh *data, t_cmd_lst *cmd_nd);
-void	ft_redir_infile(t_msh *data, t_cmd_lst *cmd_nd);
+void	ft_redir_infile(t_msh *data, t_cmd_lst *cmd_nd, t_rd *rd_nd);
+void	ft_redir_outfile(t_msh *data, t_cmd_lst *cmd_nd, t_rd *rd_nd);
 
 /* ***************************************************************** */
 /* ******************     BUILTINS  FUNCTIONS      ***************** */
@@ -232,6 +229,7 @@ void	ft_error_status(t_msh *data, int error);
 void	ft_error_signal(int error);
 void	ft_error_cd(t_msh *data, int error);
 void	ft_error_pipes_forks(t_msh *data, int error);
+void	ft_error_files(t_msh *data, t_cmd_lst *cmd_nd, int error);
 
 /* ***************************************************************** */
 /* ********************     UTILS  FUNCTIONS     ******************* */

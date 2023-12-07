@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/06 21:00:26 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/07 18:46:30 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	ft_cmd_lstadd_back(t_msh *data, t_cmd_lst *new)
 	}
 }
 
-static t_rd	*ft_redir_lst_new(char *end_key)
+static t_rd	*ft_redir_lst_new_heredoc(char *end_key)
 {
 	t_rd	*rd_nd;
 	
@@ -38,6 +38,19 @@ static t_rd	*ft_redir_lst_new(char *end_key)
 	rd_nd->end_key = ft_strdup(end_key);
 	rd_nd->heredoc = NULL;
 	rd_nd->file = NULL;
+	rd_nd->nx = NULL;
+	return (rd_nd);
+}
+
+static t_rd	*ft_redir_lst_new_file(char *file, int type)
+{
+	t_rd	*rd_nd;
+	
+	rd_nd = (t_rd *)malloc(sizeof(t_rd));
+	rd_nd->type = type;
+	rd_nd->end_key = NULL;
+	rd_nd->heredoc = NULL;
+	rd_nd->file = ft_strdup(file);
 	rd_nd->nx = NULL;
 	return (rd_nd);
 }
@@ -72,42 +85,19 @@ static void ft_redir_alobruto(t_cmd_lst *cmd_nd, int type)
 	
 	if (type == DIR)
 	{
-		int		n_redirs = 0;
+		int		n_redirs = 1;
 		int		i = -1;
 
 		rd_nd = NULL;
 		while (++i < n_redirs)
-		{
-			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new(ft_itoa(i)));
-		}
+			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i)));
 	}
 	else if (type == SIR)
-	{
-		rd_nd = (t_rd *)malloc(sizeof(t_rd));
-		rd_nd->type = SIR;
-		rd_nd->end_key = NULL;
-		rd_nd->heredoc = NULL;
-		rd_nd->file = ft_strdup("in_file.txt");
-		rd_nd->nx = NULL;		
-	}
+		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("infiles", SIR));	
 	else if (type == SOR)
-	{
-		rd_nd = (t_rd *)malloc(sizeof(t_rd));
-		rd_nd->type = SOR;
-		rd_nd->end_key = NULL;
-		rd_nd->heredoc = NULL;
-		rd_nd->file = ft_strdup("out_file.txt");
-		rd_nd->nx = NULL;		
-	}
+		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("outfile", SOR));
 	else// if (type == DOR)
-	{
-		rd_nd = (t_rd *)malloc(sizeof(t_rd));
-		rd_nd->type = DOR;
-		rd_nd->end_key = NULL;
-		rd_nd->heredoc = NULL;
-		rd_nd->file = ft_strdup("out_file.txt");
-		rd_nd->nx = NULL;
-	}
+		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("outfile", DOR));
 }
 
 static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd)
@@ -124,7 +114,9 @@ static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd)
 	cmd_nd->c_abs_path = ft_strdup(cmd[0]);
 	cmd_nd->c_env_path = NULL;		// se rellena en otro momento, después
 	cmd_nd->rds = NULL;
-	ft_redir_alobruto(cmd_nd, DIR);	// rellenamos a mano 1 o varios nodos pa'hacer tests
+	/**************************************************************************/
+	ft_redir_alobruto(cmd_nd, SIR);	// rellenamos a mano 1 o varios nodos pa'hacer tests
+	/**************************************************************************/
 	cmd_nd->nx = NULL;
 	ft_freedom(cmd);
 	return (cmd_nd);
