@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/07 20:59:48 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/08 13:41:13 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef enum e_error
 	ERROR_OUTFILE,
 	ERROR_FILES_FD,
 	ERROR_OPEN_INFILE,
+	ERROR_OPEN_OUTFILE,
 	ERROR_PIPE_CREATION,
 	ERROR_PIPE_EXECUTION,
 	ERROR_PID,
@@ -189,7 +190,7 @@ void	ft_cmd_lstclear(t_msh *data);
 /* ***************************************************************** */
 
 void	ft_executor(t_msh *data);
-void	ft_redir_heredoc(t_msh *data, t_cmd_lst *cmd_nd);
+void	ft_redir_heredoc(t_msh *data, t_cmd_lst *cmd_nd, t_rd *rd_nd);
 void	ft_redir_infile(t_msh *data, t_cmd_lst *cmd_nd, t_rd *rd_nd);
 void	ft_redir_outfile(t_msh *data, t_cmd_lst *cmd_nd, t_rd *rd_nd);
 

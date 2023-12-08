@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:30:00 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/07 20:20:56 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/08 15:40:39 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,20 @@ void	ft_error_status(t_msh *data, int error)
 void	ft_error_pipes_forks(t_msh *data, int error)
 {
 	if (error == ERROR_PID)
+	{
 		ft_putstr_fd("Error PID\n", 2);
-	data->error = NO_ERROR;
+		data->error = END;
+	}
+	else if (error == ERROR_PIPE_CREATION)
+	{
+		ft_putstr_fd("DEBUG: pipe \n", 2);
+		data->error = END;
+	}
+	else if (error == ERROR_PIPE_EXECUTION)
+	{
+		ft_putstr_fd("DEBUG: pipe execution command error\n", 2);
+		data->error = END;
+	}
 }
 
 /**
@@ -111,28 +123,13 @@ void	ft_error_signal(int error)
 	}
 }
 
-void	ft_error_pipes_execution(t_msh *data, int error)
-{
-	if (error == ERROR_PIPE_CREATION)
-	{
-		ft_putstr_fd("DEBUG: pipe \n", 2);
-		data->error = END;
-	}
-	if (error == ERROR_PIPE_EXECUTION)
-	{
-		ft_putstr_fd("DEBUG: pipe execution command error\n", 2);
-	}
-}
-
 void	ft_error_files(t_msh *data, t_cmd_lst *cmd_nd, int error)
 {
 	if (error == ERROR_OPEN_INFILE)
 	{
 		(void)data;
-//		ft_putstr_fd(cmd_nd->c_args[0], 2);
 		ft_putstr_fd("msh: ", 2);
 		ft_putstr_fd(cmd_nd->rds->file, 2);
 		ft_putstr_fd(" : No such file or directory\n", 2);
-//		data->error = NO_ERROR;
 	}
 }

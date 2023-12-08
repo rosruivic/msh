@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/07 21:27:46 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/08 15:44:40 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
  * @brief  BEWARE OF THIS !!!
  * 		Estoy cambiando para pasar el nodo del redireccionamiento
  * 		Comprobar que no me esté cargando lo que ya funcionaba (heredoc, infile)
+ * 
+ * RAZONAMTO: cada comando tiene una lista de redirs:
+ * 	- cada nodo de redir va cambiando el STDIN/STDOUT del comando
+ *  - el efecto conseguido es que sólo el último redir de cada natu
+ * 		(entrada/salida) define en última instancia cuál será la
+ * 		entrada/salida definitiva DE DICHO COMANDO.
  * 
  * @param data 
  * @param cmd_nd 
@@ -28,15 +34,14 @@ static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
 	while (rd_nd != NULL)
 	{
 		if (data->cmd_lst->rds != NULL && rd_nd->type == DIR)
-			ft_redir_heredoc(data, cmd_nd);
+			ft_redir_heredoc(data, cmd_nd, rd_nd);
 		else if (data->cmd_lst->rds != NULL && rd_nd->type == SIR)
 			ft_redir_infile(data, cmd_nd, rd_nd);
 		else if (data->cmd_lst->rds != NULL && rd_nd->type == SOR)
-//			ft_redir_outfile(data, cmd_nd, data->cmd_lst->rds->type);
-			printf("DEBUG: ft_redir_checker) aún no hago nada - SOR\n");
+			ft_redir_outfile(data, cmd_nd, rd_nd);
 		else if (data->cmd_lst->rds != NULL && rd_nd->type == DOR)
-//			ft_redir_outfile(data, cmd_nd, data->cmd_lst->rds->type);
-			printf("DEBUG: ft_redir_checker) aún no hago nada - DOR\n");
+			ft_redir_outfile(data, cmd_nd, rd_nd);
+		rd_nd = rd_nd->nx;
 	}
 }
 

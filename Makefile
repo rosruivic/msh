@@ -6,7 +6,7 @@
 #    By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/18 13:12:22 by roruiz-v          #+#    #+#              #
-#    Updated: 2023/12/07 13:30:48 by roruiz-v         ###   ########.fr        #
+#    Updated: 2023/12/08 15:51:46 by roruiz-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,7 @@ SRC		=	main.c \
 			msh_builtin_cd_movements.c \
 			msh_builtins_env_pwd_unset.c \
 			msh_redir_heredoc.c \
-			msh_redir_infile.c \
-			msh_redir_outfile.c \
+			msh_redir_in_out_file.c \
 			msh_env_lst_utils_dupl_env.c \
 			msh_env_lst_utils_add_nds.c \
 			msh_env_lst_utils_mfy_nds.c \
@@ -50,7 +49,7 @@ OFILES = $(addprefix obj/, $(OBJS))
 
 CC		= gcc
 
-FLAGS	= -Wall -Werror -Wextra -g #-fsanitize=address
+FLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
 
 #LEAKS = memory-leaks/memory_leaks.a
 
