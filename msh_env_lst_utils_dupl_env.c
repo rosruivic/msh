@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:16:37 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/08 15:40:57 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/08 21:02:33 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,25 @@ void	ft_duplic_envp(t_msh *data, char **envp)
 		tmp_env = ft_2rows_split(envp[i], '=');
 		if (!tmp_env)
 			return ;
-		if (ft_strcmp(tmp_env[0], "OLDPWD") == 0)
-			ft_free_null_void_return(&tmp_env[1]);
+			
+		if (ft_strcmp(tmp_env[0], "OLDPWD") == 0 || ft_strcmp(tmp_env[0], "SHLVL") == 0)
+			ft_free_null_void_return(&tmp_env[1]);	
+		if (ft_strcmp(tmp_env[0], "SHLVL") == 0)
+		{
+			printf("DEBUG: ft_duplic_envp - %s\n", getenv("SHLVL"));
+			int lvl = ft_atoi(getenv("SHLVL")) + 1;
+			printf("DEBUG: ft_duplic_envp - %d\n", lvl);
+			char *shlvl = ft_itoa(lvl);
+			printf("DEBUG: ft_duplic_envp - %s\n", shlvl);
+			tmp_env[1] = ft_strdup(shlvl);
+			printf("DEBUG: ft_duplic_envp - %s\n", tmp_env[1]);
+	//		tmp_env[1] = ft_strdup("2");
+		}
 		if (ft_strchr(envp[i], '=') && ft_strcmp(tmp_env[0], "OLDPWD") != 0)
 			ft_env_lstadd_back(data, ft_env_lst_new(tmp_env, 1));
 		else
 			ft_env_lstadd_back(data, ft_env_lst_new(tmp_env, 0));
+			
 		ft_freedom(tmp_env);
 	}
 }

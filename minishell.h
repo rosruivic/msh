@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/08 13:41:13 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/08 18:19:21 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # include <sys/ttydefaults.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-//# include <limits.h>
 //# include <readline/rlstdc.h> 	 // da error
 //# include <readline/rltypedefs.h>  // da error
 
