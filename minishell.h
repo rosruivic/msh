@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/08 18:19:21 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:07:40 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,24 @@
 //# include <readline/rlstdc.h> 	 // da error
 //# include <readline/rltypedefs.h>  // da error
 
-# define NC	"\e[0m"
-# define R 	"\e[31m"
-# define G 	"\e[32m"
-# define Y 	"\e[33m"
-# define B 	"\e[34m"
-# define V 	"\e[35m"
+# define RESET			"\e[0m"
+# define RED			"\e[31m"
+# define GREEN			"\e[32m"
+# define YELLOW			"\e[33m"
+# define BLUE			"\e[34m"
+# define VIOLET			"\e[35m"
+# define BACK_RED		"\e[41m"
+# define BACK_GREEN		"\e[42m"
+# define BACK_YELLOW	"\e[43m"
+# define BACK_BLUE		"\e[44m"
+# define BACK_VIOLET	"\e[45m"
+# define BOLD			"\e[1m"
+# define UNDERLINE		"\e[4m"
+# define BLINK			"\e[5m"
+# define INVERT			"\e[7m"
+# define HIDE			"\e[8m"
+# define STRIKE			"\e[9m"
+
 
 # define RD 0		// pipe read extreme
 # define WR 1		// pipe write extreme
@@ -106,11 +118,11 @@ typedef struct	s_cmd_lst
 	char				**c_args;
 	char				*c_abs_path;
 	char				*c_env_path;
-	int					pid;
-	int					pipe_val;
-	int					fd_in;
-	int					fd_out;
-	int					fd[2];
+	int					pid;		// used by ft_builtin || ft_exec_external_cmd
+	int					pipe_val;	// exclusive used by ft_heredoc (usa pipe)
+	int					fd[2];		// used by ft_heredoc && ft_executor_many_cmds
+//	int					fd_in;		// exclusive used by ft_redirs (if exists, close fd[0])
+//	int					fd_out;		// exclusive used by ft_redirs (if exists, close fd[1])
 	struct s_msh		*orgn;
 	struct s_cmd_lst	*nx;
 }						t_cmd_lst;
@@ -130,8 +142,10 @@ typedef struct	s_msh
 	t_env_lst			*env_lst;
 	t_cmd_lst			*cmd_lst;
 	char				*pipeline;
-	int					pid;		// para ejecutar cuando haya pipes
-	int					fd;			// now it's used by many parts of msh
+	int					m_pid;		// used by ft_execute_many_cmds
+	int					m_pipe_val;	// used by ft_execute_many_cmds
+//	int					m_fd[2];	// used by ft_execute_many_cmds
+	int					fd;			// now it's used by many parts of msh, where?
 	int					org_stdin;	// to keep the original STDIN
 	int					org_stdout; // to keep the original STDOUT
 	int					exit_code;

@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 18:15:50 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/07 17:14:36 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/09 19:28:18 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,23 +72,17 @@ int	ft_exec_external_cmd(t_msh *data)
 		return(WEXITSTATUS(data->exit_code));
 	}
 	my_envp = ft_conv_envlst_to_mtrx(data);
-
-
 	data->cmd_lst->pid = fork();
 	if (data->cmd_lst->pid == -1)
 		ft_error_status(data, ERROR_PID);
-
-
-			if (data->cmd_lst->pid == 0)
-			{
-				execve(data->cmd_lst->c_env_path, data->cmd_lst->c_args, my_envp);
-				ft_error_status(data, ERROR_CMD_NOT_EXISTS);
-				exit(127);
-			}
-			else
-				waitpid(data->cmd_lst->pid, &exit_code, 0);
-
-
+	if (data->cmd_lst->pid == 0)
+	{
+		execve(data->cmd_lst->c_env_path, data->cmd_lst->c_args, my_envp);
+		ft_error_status(data, ERROR_CMD_NOT_EXISTS);
+		exit(127);
+	}
+	else
+		waitpid(data->cmd_lst->pid, &exit_code, 0);
 	ft_freedom(my_envp);
 	return (WEXITSTATUS(exit_code));
 }

@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/09 15:12:38 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:11:38 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd)
 	cmd_nd->c_env_path = NULL;		// se rellena en otro momento, después
 	cmd_nd->rds = NULL;
 	/**************************************************************************/
-	ft_redir_alobruto(cmd_nd, SIR);	// rellenamos a mano 1 o varios nodos pa'hacer tests
+	ft_redir_alobruto(cmd_nd, DOR);	// rellenamos a mano 1 o varios nodos pa'hacer tests
 	/**************************************************************************/
 	cmd_nd->nx = NULL;
 	ft_freedom(cmd);
