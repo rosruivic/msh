@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/08 20:01:37 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/09 15:12:38 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,22 +82,30 @@ static void	ft_redir_lstadd_back(t_cmd_lst *cmd_nd, t_rd *new)
 static void ft_redir_alobruto(t_cmd_lst *cmd_nd, int type)
 {
 	t_rd	*rd_nd;
+	int		n_redirs = 0;
+	int		i = -1;
 	
+	rd_nd = NULL;
 	if (type == DIR)
 	{
-		int		n_redirs = 1;
-		int		i = -1;
-
-		rd_nd = NULL;
 		while (++i < n_redirs)
 			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i)));
 	}
 	else if (type == SIR)
-		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("infile", SIR));	
+	{
+		while (++i < n_redirs)
+			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("infile", SIR));	
+	}
 	else if (type == SOR)
-		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("outfile", SOR));
+	{
+		while (++i < n_redirs)
+			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("outfile", SOR));
+	}
 	else// if (type == DOR)
-		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("outfile", DOR));
+	{
+		while (++i < n_redirs)
+			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("outfile", DOR));
+	}
 }
 
 static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd)
@@ -115,7 +123,7 @@ static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd)
 	cmd_nd->c_env_path = NULL;		// se rellena en otro momento, después
 	cmd_nd->rds = NULL;
 	/**************************************************************************/
-	ft_redir_alobruto(cmd_nd, SOR);	// rellenamos a mano 1 o varios nodos pa'hacer tests
+	ft_redir_alobruto(cmd_nd, SIR);	// rellenamos a mano 1 o varios nodos pa'hacer tests
 	/**************************************************************************/
 	cmd_nd->nx = NULL;
 	ft_freedom(cmd);
