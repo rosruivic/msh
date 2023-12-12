@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:40:27 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/09 19:32:42 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/12 17:35:14 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	ft_redir_infile(t_msh *data, t_cmd_lst *cmd_nd, t_rd *rd_nd)
 	(void)data;
 
 //	cmd_nd->fd_in = open(rd_nd->file, O_RDONLY);
+	close(cmd_nd->fd[RD]); // si hay pipe, cierro el que se asignó al pipe
 	cmd_nd->fd[RD] = open(rd_nd->file, O_RDONLY);
 //	if (cmd_nd->fd_in < 0)
 	if (cmd_nd->fd[RD] < 0)
@@ -41,12 +42,14 @@ void	ft_redir_outfile(t_msh *data, t_cmd_lst *cmd_nd, t_rd *rd_nd)
 	{
 		printf("DEBUG: ft_redir_outfile) SOR - file = %s\n", rd_nd->file);	
 //		cmd_nd->fd_out = open(rd_nd->file, O_CREAT | O_TRUNC | O_RDWR, 0644);
+		close(cmd_nd->fd[WR]); // si hay pipe, cierro el que se asignó al pipe
 		cmd_nd->fd[WR] = open(rd_nd->file, O_CREAT | O_TRUNC | O_RDWR, 0644);
 	}
 	else if (rd_nd->type == DOR)
 	{
 		printf("DEBUG: ft_redir_outfile) DOR - file = %s\n", rd_nd->file);	
 //		cmd_nd->fd_out = open(rd_nd->file, O_CREAT | O_APPEND | O_RDWR, 0644);
+		close(cmd_nd->fd[WR]); // si hay pipe, cierro el que se asignó al pipe
 		cmd_nd->fd[WR] = open(rd_nd->file, O_CREAT | O_APPEND | O_RDWR, 0644);
 	}
 //	if (cmd_nd->fd_out < 0)

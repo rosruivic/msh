@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/09 20:07:40 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/12 13:50:16 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 //# include <readline/rlstdc.h> 	 // da error
 //# include <readline/rltypedefs.h>  // da error
 
+/*  TEXT FORMATS  */
 # define RESET			"\e[0m"
 # define RED			"\e[31m"
 # define GREEN			"\e[32m"
@@ -46,17 +47,28 @@
 # define HIDE			"\e[8m"
 # define STRIKE			"\e[9m"
 
+/**
+ # RD 0	    -> pipe read extreme
+ # WR 1	    -> pipe write extreme
+ */
+# define RD 0
+# define WR 1
 
-# define RD 0		// pipe read extreme
-# define WR 1		// pipe write extreme
+/**
+ #  SIR 1	-> redir struct 'type' = Simple Input Redir (<)
+ #  DIR 2	-> redir struct 'type' = Double Input Redir (<<)
+ #  SOR 3	-> redir struct 'type' = Simple Output Redir (>)
+ #  DOR 4	-> redir struct 'type' = Double Output Redir (>>)
+ * */
+# define SIR 1
+# define DIR 2
+# define SOR 3
+# define DOR 4
 
-# define SIR 1		// redir struct 'type' = Simple Input Redir (<)
-# define DIR 2		// redir struct 'type' = Double Input Redir (<<)
-# define SOR 3		// redir struct 'type' = Simple Output Redir (>)
-# define DOR 4		// redir struct 'type' = Double Output Redir (>>)
-
+/*  UNIQUE GLOBAL VAR  */
 extern int	g_listen;
 
+/*  ERRORS TREATMENT   */
 typedef enum e_error
 {
 	NO_ERROR,
@@ -84,8 +96,9 @@ typedef enum e_error
 
 /**
  * @brief  We need to determinate what kind of redir is (SIR, DIR, SOR, DOR)
- * 			and, if it's the case, the infile or outfile to be open
+ * 		   and, if it's the case, the infile or outfile to be open
  *  	In case of '<<', file = NULL;
+ * 		In case of '<' or '>' or '>>', end_key && heredoc = NULL;
  */
 typedef struct	s_rd
 {
@@ -144,8 +157,7 @@ typedef struct	s_msh
 	char				*pipeline;
 	int					m_pid;		// used by ft_execute_many_cmds
 	int					m_pipe_val;	// used by ft_execute_many_cmds
-//	int					m_fd[2];	// used by ft_execute_many_cmds
-	int					fd;			// now it's used by many parts of msh, where?
+	int					fd;			// now it's used by many parts of msh, REVISAR !!!!!
 	int					org_stdin;	// to keep the original STDIN
 	int					org_stdout; // to keep the original STDOUT
 	int					exit_code;

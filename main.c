@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/09 20:07:51 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/12 19:30:01 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_init_msh_struct(t_msh *data)
  */
 void	ft_main_boucle(t_msh *data)
 {
-	data->pipeline = readline(BACK_VIOLET GREEN BOLD ">>> msh_3.0$ " RESET);
+	data->pipeline = readline(BACK_RED GREEN BOLD ">>> msh_3.0$ " RESET);
 	ft_ctrl_d(data);
 	if (data->pipeline[0] != '\0')
 	{
