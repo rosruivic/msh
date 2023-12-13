@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_get_cmd_path.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 16:25:41 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/15 13:55:00 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/13 23:18:27 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,28 @@
  * @param cmd 
  * @param paths 
  */
-void	ft_find_cmd_path(t_cmd_lst *cmd, char **paths)
+void	ft_find_cmd_path(t_cmd_lst *cmd_nd, char **paths)
 {
 	int		i;
 	char	*path;
 
 	i = -1;
 	if (!paths)
-//		ft_error_status(cmd->orgn, ERROR_NO_PATHS);
-		cmd->c_env_path = ft_strdup(cmd->c_abs_path); // PROBANDO
-	else if (ft_strchr(cmd->c_abs_path, '/'))
-		cmd->c_env_path = ft_strdup(cmd->c_abs_path);
+//		ft_error_status(cmd_nd->orgn, cmd_nd, ERROR_NO_PATHS);
+		cmd_nd->c_env_path = ft_strdup(cmd_nd->c_abs_path); // PROBANDO
+	else if (ft_strchr(cmd_nd->c_abs_path, '/'))
+		cmd_nd->c_env_path = ft_strdup(cmd_nd->c_abs_path);
 	else
 	{
 		while (paths[++i])
 		{
 			path = ft_strjoin(paths[i], "/");
-			cmd->c_env_path = ft_strjoin(path, cmd->c_abs_path);
+			cmd_nd->c_env_path = ft_strjoin(path, cmd_nd->c_abs_path);
 			ft_free_null_void_return(&path);
-			if (access(cmd->c_env_path, F_OK) == 0)
+			if (access(cmd_nd->c_env_path, F_OK) == 0)
 				break;
 			else
-				ft_free_null_void_return(&cmd->c_env_path);		
+				ft_free_null_void_return(&cmd_nd->c_env_path);		
 		}		
 	}
 	ft_freedom(paths);

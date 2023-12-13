@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/13 21:11:44 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/13 23:20:39 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
 		rd_nd = rd_nd->nx;
 	}
 }
-
+/*	OLD IMPLEMENTATION (BEFORE PIPES): */
 /* static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
 {
 	t_rd	*rd_nd;
@@ -106,7 +106,7 @@ void	ft_builtin_executor(t_msh *data, char *cmd, t_cmd_lst *cmd_nd)
 	else if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "ECHO") == 0)
 		ft_builtin_echo(data);
 	else if (ft_strcmp(cmd, "exit") == 0)
-		ft_builtin_exit(data);
+		ft_builtin_exit(data, cmd_nd);
 	else
 	{
 		ft_find_cmd_path(cmd_nd, ft_find_env_paths(data));

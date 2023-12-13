@@ -6,19 +6,22 @@
 #    By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/18 13:12:22 by roruiz-v          #+#    #+#              #
-#    Updated: 2023/12/13 19:34:16 by roruiz-v         ###   ########.fr        #
+#    Updated: 2023/12/13 23:03:26 by roruiz-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	minishell
 
-LIB = -L /Users/roruiz-v/.brew/opt/readline/lib -lreadline
+# LIB para 42:
+# LIB = -L /Users/roruiz-v/.brew/opt/readline/lib -lreadline
+
+# LIB para casa:
+LIB = -L/usr/local/opt/readline/lib -lreadline
 
 # INCLUDE para 42:
 #INCLUDE = -I /System/Volumes/Data/sgoinfre/goinfre/Perso/roruiz-v/homebrew/opt/readline/include
 
 # INCLUDE para casa:
-#  export LDFLAGS="-L/usr/local/opt/readline/lib"
 INCLUDE = -I/usr/local/opt/readline/include
 
 SRC		=	main.c \

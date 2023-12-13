@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_simple_lexer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/12 19:23:37 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/13 23:54:14 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void	ft_simple_lexer(t_msh *data)
 	while (++i < mtx_len)
 	{
 		cmd = ft_split(cmd_pipe[i], ' ');
-		printf("DEBUG: cmd[%i] = %s\n", i, cmd[0]);
+//		printf("DEBUG: ft_simple_lexer) cmd[%i] = %s\n", i, cmd[0]);
 		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd));
 	}
 	ft_freedom(cmd_pipe);

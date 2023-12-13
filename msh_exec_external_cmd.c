@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 18:15:50 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/13 20:23:52 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/13 23:14:55 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,17 @@ int	ft_exec_external_cmd(t_msh *data, t_cmd_lst *cmd_nd)
 	if (cmd_nd->c_env_path != NULL
 		&& access(cmd_nd->c_env_path, F_OK) == -1)
 	{
-		ft_error_status(data, ERROR_NO_SUCH_FILE_OR_DIRECTORY);
+		ft_error_status(data, cmd_nd, ERROR_NO_SUCH_FILE_OR_DIRECTORY);
 		return(WEXITSTATUS(data->exit_code));
 	}
 	my_envp = ft_conv_envlst_to_mtrx(data);
 	cmd_nd->pid = fork();
 	if (cmd_nd->pid == -1)
-		ft_error_status(data, ERROR_PID);
+		ft_error_status(data, cmd_nd, ERROR_PID);
 	if (cmd_nd->pid == 0)
 	{
 		execve(cmd_nd->c_env_path, cmd_nd->c_args, my_envp);
-		ft_error_status(data, ERROR_CMD_NOT_EXISTS);
+		ft_error_status(data, cmd_nd, ERROR_CMD_NOT_EXISTS);
 		exit(127);
 	}
 	else

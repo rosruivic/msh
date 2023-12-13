@@ -6,13 +6,13 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:30:00 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/13 20:41:17 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/13 23:40:20 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_error_status(t_msh *data, int error)
+void	ft_error_status(t_msh *data, t_cmd_lst *cmd_nd, int error)
 {
 	if (error == END)
 		data->error = END;
@@ -24,7 +24,7 @@ void	ft_error_status(t_msh *data, int error)
 	else if (error == ERROR_CMD_NOT_EXISTS)
 	{ // viene de ejecutar un comando externo (con fork)
 		ft_putstr_fd("msh: ", 2);
-		ft_putstr_fd(data->cmd_lst->c_args[0], 2);
+		ft_putstr_fd(cmd_nd->c_args[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 		data->error = NO_ERROR;
 //		exit (127);
@@ -115,7 +115,6 @@ void	ft_error_files(t_msh *data, t_cmd_lst *cmd_nd, int error)
 {
 	if (error == ERROR_OPEN_INFILE)
 	{
-		(void)data;
 		ft_putstr_fd("msh: ", 2);
 		ft_putstr_fd(cmd_nd->rds->file, 2);
 		ft_putstr_fd(" : No such file or directory\n", 2);

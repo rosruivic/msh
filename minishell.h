@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/13 21:10:00 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/13 23:12:29 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,7 @@ void	ft_redir_outfile(t_msh *data, t_cmd_lst *cmd_nd, t_rd *rd_nd);
 
 void	ft_builtin_executor(t_msh *data, char *cmd, t_cmd_lst *cmd_nd);
 void	ft_builtin_echo(t_msh *data);
-void	ft_builtin_exit(t_msh *data);
+void	ft_builtin_exit(t_msh *data, t_cmd_lst *cmd_nd);
 void	ft_builtin_env(t_msh *data, t_cmd_lst *cmd_nd);
 void	ft_builtin_export(t_msh *data, t_cmd_lst *cmd_nd);
 void	ft_builtin_pwd(t_msh *data);
@@ -251,7 +251,7 @@ int		ft_exec_external_cmd(t_msh *data, t_cmd_lst *cmd_nd);
 /* ***************************************************************** */
 
 void	ft_error_start(char *argv_1, int error);
-void	ft_error_status(t_msh *data, int error);
+void	ft_error_status(t_msh *data, t_cmd_lst *cmd_nd, int error);
 void	ft_error_signal(int error);
 void	ft_error_cd(t_msh *data, t_cmd_lst *cmd_nd, int error);
 void	ft_error_pipes_forks(t_msh *data, int error);

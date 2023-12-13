@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 19:17:18 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/13 20:59:24 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/13 23:11:59 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,26 @@ static void	ft_free_both_linked_lists(t_msh *data)
  * 
  * @param data 
  */
-void	ft_builtin_exit(t_msh *data)
+void	ft_builtin_exit(t_msh *data, t_cmd_lst *cmd_nd)
 {
-	ft_putstr_fd(data->cmd_lst->c_args[0], 1);
+	ft_putstr_fd(cmd_nd->c_args[0], 1);
 	ft_putchar_fd('\n', 1);
-	if (ft_matrix_len(data->cmd_lst->c_args) > 1
-		&& (!ft_is_str_digits(data->cmd_lst->c_args[1])))
+	if (ft_matrix_len(cmd_nd->c_args) > 1
+		&& (!ft_is_str_digits(cmd_nd->c_args[1])))
 	{
 		ft_putstr_fd("msh: exit: ", 2);
-		ft_putstr_fd(data->cmd_lst->c_args[1], 2);		
+		ft_putstr_fd(cmd_nd->c_args[1], 2);		
 		ft_putstr_fd(": numeric argument required\n", 2);
 		ft_free_both_linked_lists(data);
 		exit(255);
 	}
-	else if (ft_matrix_len(data->cmd_lst->c_args) > 2)
-		ft_error_status(data, ERROR_TOO_MANY_ARGUMENTS);
-	else if (ft_matrix_len(data->cmd_lst->c_args) == 2
-		&& ft_is_str_digits(data->cmd_lst->c_args[1]))
+	else if (ft_matrix_len(cmd_nd->c_args) > 2)
+		ft_error_status(data, cmd_nd, ERROR_TOO_MANY_ARGUMENTS);
+	else if (ft_matrix_len(cmd_nd->c_args) == 2
+		&& ft_is_str_digits(cmd_nd->c_args[1]))
 	{
 		ft_env_lstclear(data->env_lst);
-		exit(ft_atoi(data->cmd_lst->c_args[1]));
+		exit(ft_atoi(cmd_nd->c_args[1]));
 	}
 	else // exit sin argumentos
 	{
