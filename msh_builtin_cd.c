@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_builtin_cd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 18:26:32 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/15 14:59:13 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/13 21:02:00 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,29 +79,29 @@ void	ft_env_change_val(t_msh *data, char *nm_dst, char *new_val)
  * 
  * @param data 
  */
-void	ft_builtin_exec_cd(t_msh *data)
+void	ft_builtin_cd(t_msh *data, t_cmd_lst *cmd_nd)
 {	
-	if (data->cmd_lst->c_args[1])
+	if (cmd_nd->c_args[1])
 	{
-		if (!ft_isalnum(data->cmd_lst->c_args[1][0]))
+		if (!ft_isalnum(cmd_nd->c_args[1][0]))
 		{
-			if (ft_strcmp(data->cmd_lst->c_args[1], "-") == 0)
-				ft_builtin_exec_cd_oldpwd(data);
-			else if (ft_strcmp(data->cmd_lst->c_args[1], "~") == 0)
-				ft_builtin_exec_cd_without_args(data, 0);
-			else if (chdir(data->cmd_lst->c_args[1]) == 0)
+			if (ft_strcmp(cmd_nd->c_args[1], "-") == 0)
+				ft_builtin_cd_oldpwd(data, cmd_nd);
+			else if (ft_strcmp(cmd_nd->c_args[1], "~") == 0)
+				ft_builtin_cd_without_args(data, cmd_nd, 0);
+			else if (chdir(cmd_nd->c_args[1]) == 0)
 			{
 				ft_env_change_val(data, "OLDPWD", ft_env_obtain_val(data, "PWD"));
 				ft_env_change_val(data, "PWD", getcwd(NULL, 0));
 			}
 			else
-				ft_error_cd(data, ERROR_CHDIR_FAILURE);
+				ft_error_cd(data, cmd_nd, ERROR_CHDIR_FAILURE);
 		}
 		else
-			ft_builtin_exec_cd_down(data);
+			ft_builtin_cd_down(data, cmd_nd);
 	}
 	else
-		ft_builtin_exec_cd_without_args(data, 1);
+		ft_builtin_cd_without_args(data, cmd_nd, 1);
 }
 
 

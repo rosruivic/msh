@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/12 13:50:16 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/13 21:10:00 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef enum e_error
 	ERROR_PID,
 	ERROR_NO_PATHS,
 	ERROR_CMD_NOT_EXISTS,
+	ERROR_CMD_NOT_EXECUTABLE,
 	ERROR_CHDIR_FAILURE,
 	ERROR_CHDIR_OLDPWD_NOT_SET,
 	ERROR_CHDIR_HOME_NOT_SET,
@@ -223,18 +224,17 @@ void	ft_redir_outfile(t_msh *data, t_cmd_lst *cmd_nd, t_rd *rd_nd);
 /* ******************     BUILTINS  FUNCTIONS      ***************** */
 /* ***************************************************************** */
 
-//void	ft_builtin_executor(t_msh *data, char *cmd);
 void	ft_builtin_executor(t_msh *data, char *cmd, t_cmd_lst *cmd_nd);
-void	ft_builtin_exec_echo(t_msh *data);
-void	ft_builtin_exec_exit(t_msh *data);
-void	ft_builtin_exec_env(t_msh *data);
-void	ft_builtin_exec_export(t_msh *data);
-void	ft_builtin_exec_pwd(t_msh *data);
-void	ft_builtin_exec_unset(t_msh *data);
-void	ft_builtin_exec_cd(t_msh *data);
-void	ft_builtin_exec_cd_down(t_msh *data);
-void	ft_builtin_exec_cd_without_args(t_msh *data, int exit_code);
-void	ft_builtin_exec_cd_oldpwd(t_msh *data);
+void	ft_builtin_echo(t_msh *data);
+void	ft_builtin_exit(t_msh *data);
+void	ft_builtin_env(t_msh *data, t_cmd_lst *cmd_nd);
+void	ft_builtin_export(t_msh *data, t_cmd_lst *cmd_nd);
+void	ft_builtin_pwd(t_msh *data);
+void	ft_builtin_unset(t_msh *data, t_cmd_lst *cmd_nd);
+void	ft_builtin_cd(t_msh *data, t_cmd_lst *cmd_nd);
+void	ft_builtin_cd_down(t_msh *data, t_cmd_lst *cmd_nd);
+void	ft_builtin_cd_without_args(t_msh *data, t_cmd_lst *cmd_nd, int exit_code);
+void	ft_builtin_cd_oldpwd(t_msh *data, t_cmd_lst *cmd_nd);
 void	ft_env_change_val(t_msh *data, char *nm_dst, char *new_val);
 char	*ft_env_obtain_val(t_msh *data, char *env_nm);
 
@@ -244,7 +244,7 @@ char	*ft_env_obtain_val(t_msh *data, char *env_nm);
 /* ***************************************************************** */
 
 void	ft_find_cmd_path(t_cmd_lst *cmd, char **paths);
-int		ft_exec_external_cmd(t_msh *data);
+int		ft_exec_external_cmd(t_msh *data, t_cmd_lst *cmd_nd);
 
 /* ***************************************************************** */
 /* ********************     ERROR  FUNCTIONS     ******************* */
@@ -253,7 +253,7 @@ int		ft_exec_external_cmd(t_msh *data);
 void	ft_error_start(char *argv_1, int error);
 void	ft_error_status(t_msh *data, int error);
 void	ft_error_signal(int error);
-void	ft_error_cd(t_msh *data, int error);
+void	ft_error_cd(t_msh *data, t_cmd_lst *cmd_nd, int error);
 void	ft_error_pipes_forks(t_msh *data, int error);
 void	ft_error_files(t_msh *data, t_cmd_lst *cmd_nd, int error);
 

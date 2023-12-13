@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_exec_external_cmd.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 18:15:50 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/09 19:28:18 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/13 20:23:52 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,61 +54,32 @@ static char	**ft_conv_envlst_to_mtrx(t_msh	*data)
 }
 
 /**
- * @brief   *** CUANDO SOLO HAY UN CMD Y ES EXTERNO ***
+ * @brief   ***   VERSIÓN VARIOS COMANDOS   ***
  * 
  * @param data 
  * @return int 
  */
-int	ft_exec_external_cmd(t_msh *data)
+int	ft_exec_external_cmd(t_msh *data, t_cmd_lst *cmd_nd)
 {
 	int		exit_code;
 	char	**my_envp;
 
 	exit_code = 0;
-	if (data->cmd_lst->c_env_path != NULL
-		&& access(data->cmd_lst->c_env_path, F_OK) == -1)
+	if (cmd_nd->c_env_path != NULL
+		&& access(cmd_nd->c_env_path, F_OK) == -1)
 	{
 		ft_error_status(data, ERROR_NO_SUCH_FILE_OR_DIRECTORY);
 		return(WEXITSTATUS(data->exit_code));
 	}
 	my_envp = ft_conv_envlst_to_mtrx(data);
-	data->cmd_lst->pid = fork();
-	if (data->cmd_lst->pid == -1)
-		ft_error_status(data, ERROR_PID);
-	if (data->cmd_lst->pid == 0)
-	{
-		execve(data->cmd_lst->c_env_path, data->cmd_lst->c_args, my_envp);
-		ft_error_status(data, ERROR_CMD_NOT_EXISTS);
-		exit(127);
-	}
-	else
-		waitpid(data->cmd_lst->pid, &exit_code, 0);
-	ft_freedom(my_envp);
-	return (WEXITSTATUS(exit_code));
-}
-
-/**
- * @brief    *** CUANDO, HABIENDO PIPES, UN CMD ES EXTERNO ***
- * 
- * @param data 
- * @param cmd_nd 
- * @return int 
- */
-int	ft_exec_external_cmd_pipe(t_msh *data, t_cmd_lst *cmd_nd)
-{
-	int		exit_code;
-	char	**my_envp;
-
-	exit_code = 0;
-	my_envp = ft_conv_envlst_to_mtrx(data);
 	cmd_nd->pid = fork();
 	if (cmd_nd->pid == -1)
 		ft_error_status(data, ERROR_PID);
-	else if (cmd_nd->pid == 0)
+	if (cmd_nd->pid == 0)
 	{
-		execve(cmd_nd->c_env_path, data->cmd_lst->c_args, my_envp);
+		execve(cmd_nd->c_env_path, cmd_nd->c_args, my_envp);
 		ft_error_status(data, ERROR_CMD_NOT_EXISTS);
-		exit (127);
+		exit(127);
 	}
 	else
 		waitpid(cmd_nd->pid, &exit_code, 0);

@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 19:17:18 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/19 19:52:26 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/13 20:59:24 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	ft_free_both_linked_lists(t_msh *data)
  * 
  * @param data 
  */
-void	ft_builtin_exec_exit(t_msh *data)
+void	ft_builtin_exit(t_msh *data)
 {
 	ft_putstr_fd(data->cmd_lst->c_args[0], 1);
 	ft_putchar_fd('\n', 1);

@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 19:57:12 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/19 19:59:24 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/13 20:59:07 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * 
  * @param data 
  */
-void	ft_builtin_exec_echo(t_msh *data)
+void	ft_builtin_echo(t_msh *data)
 { // ADMITS OPTION -n & ARGMTS
 	if (ft_strcmp(data->cmd_lst->c_args[1], "$?") == 0)
 	{

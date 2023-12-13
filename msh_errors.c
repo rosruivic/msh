@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_errors.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:30:00 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/08 15:40:39 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/13 20:41:17 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,6 @@ void	ft_error_status(t_msh *data, int error)
 	{
 		ft_putstr_fd("msh: exit: too many arguments\n", 2);
 		data->exit_code = 1;
-		data->error = NO_ERROR;
-	}
-	else if (error == ERROR_NO_SUCH_FILE_OR_DIRECTORY)
-	{ // cuando al env le pongo argumentos, por ejemplo, no lo piden
-		if (ft_strcmp(data->cmd_lst->c_args[0], "env") != 0)
-			ft_putstr_fd("msh: ", 2);
-		ft_putstr_fd(data->cmd_lst->c_args[0], 2);
-		ft_putstr_fd(": ", 2);
-		if (data->cmd_lst->c_args[1])
-			ft_putstr_fd(data->cmd_lst->c_args[1], 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		data->exit_code = 127;
 		data->error = NO_ERROR;
 	}
 }
@@ -74,12 +62,12 @@ void	ft_error_pipes_forks(t_msh *data, int error)
  * @param data 
  * @param error 
  */
-void	ft_error_cd(t_msh *data, int error)
+void	ft_error_cd(t_msh *data, t_cmd_lst *cmd_nd , int error)
 {
 	if (error == ERROR_CHDIR_FAILURE)
 	{
 		ft_putstr_fd("msh: cd: ", 2);
-		ft_putstr_fd(data->cmd_lst->c_args[1], 2);
+		ft_putstr_fd(cmd_nd->c_args[1], 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 		error = NO_ERROR;
 		data->exit_code = 127;
@@ -131,5 +119,35 @@ void	ft_error_files(t_msh *data, t_cmd_lst *cmd_nd, int error)
 		ft_putstr_fd("msh: ", 2);
 		ft_putstr_fd(cmd_nd->rds->file, 2);
 		ft_putstr_fd(" : No such file or directory\n", 2);
+	}
+	else if (error == ERROR_NO_SUCH_FILE_OR_DIRECTORY)
+	{ // cuando al env le pongo argumentos, por ejemplo, no lo piden
+		if (ft_strcmp(cmd_nd->c_args[0], "env") != 0)
+			ft_putstr_fd("msh: ", 2);
+		ft_putstr_fd(cmd_nd->c_args[0], 2);
+		ft_putstr_fd(": ", 2);
+		if (cmd_nd->c_args[1])
+			ft_putstr_fd(cmd_nd->c_args[1], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		data->exit_code = 127;
+		data->error = NO_ERROR;
+	}
+}
+
+void	ft_error_cmds(t_msh *data, t_cmd_lst *cmd_nd, int error)
+{
+	if (error == ERROR_CMD_NOT_EXISTS)
+	{
+		ft_putstr_fd("msh: ", 2);
+		ft_putstr_fd(cmd_nd->c_args[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		data->exit_code = 127;
+	}
+	else if (error == ERROR_CMD_NOT_EXECUTABLE)
+	{ // pendiente de comprobar los accesos a directorios sin permisos
+		ft_putstr_fd("msh: ", 2);
+		ft_putstr_fd(cmd_nd->c_args[0], 2);
+		ft_putstr_fd(": Permission denied\n", 2);
+		data->exit_code = 126;
 	}
 }

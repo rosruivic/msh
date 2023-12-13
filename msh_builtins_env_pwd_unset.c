@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 20:02:24 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/19 20:02:51 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/13 21:08:44 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
  *   
  * @param data 
  */
-void	ft_builtin_exec_env(t_msh *data)
+void	ft_builtin_env(t_msh *data, t_cmd_lst *cmd_nd)
 { // OJO - CONTROL DE ARGUMENTOS (DA MENSAJE DE ERROR)
-	if (ft_matrix_len(data->cmd_lst->c_args) == 1)
+	if (ft_matrix_len(cmd_nd->c_args) == 1)
 		ft_env_lst_print(data);
 	else
 		ft_error_status(data, ERROR_NO_SUCH_FILE_OR_DIRECTORY);
@@ -31,16 +31,16 @@ void	ft_builtin_exec_env(t_msh *data)
  * 
  * @param data 
  */
-void	ft_builtin_exec_unset(t_msh *data)
+void	ft_builtin_unset(t_msh *data, t_cmd_lst *cmd_nd)
 { // VERIFICAR EL CÓDIGO DE SALIDA
 	int	i;
 
 	i = 0;
-	while (data->cmd_lst->c_args[++i])
-		ft_env_lstdelone(data, data->cmd_lst->c_args[i]);
+	while (cmd_nd->c_args[++i])
+		ft_env_lstdelone(data, cmd_nd->c_args[i]);
 }
 
-void	ft_builtin_exec_pwd(t_msh *data)
+void	ft_builtin_pwd(t_msh *data)
 { // VERIFICAR EL CÓDIGO DE SALIDA
 	char	*cwd;
 	

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_builtin_executor.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/08 15:44:40 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/13 21:11:44 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,25 @@ static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
 	rd_nd = cmd_nd->rds;
 	while (rd_nd != NULL)
 	{
+		if (cmd_nd->rds != NULL && rd_nd->type == DIR)
+			ft_redir_heredoc(data, cmd_nd, rd_nd);
+		else if (cmd_nd->rds != NULL && rd_nd->type == SIR)
+			ft_redir_infile(data, cmd_nd, rd_nd);
+		else if (cmd_nd->rds != NULL && rd_nd->type == SOR)
+			ft_redir_outfile(data, cmd_nd, rd_nd);
+		else if (cmd_nd->rds != NULL && rd_nd->type == DOR)
+			ft_redir_outfile(data, cmd_nd, rd_nd);
+		rd_nd = rd_nd->nx;
+	}
+}
+
+/* static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
+{
+	t_rd	*rd_nd;
+
+	rd_nd = cmd_nd->rds;
+	while (rd_nd != NULL)
+	{
 		if (data->cmd_lst->rds != NULL && rd_nd->type == DIR)
 			ft_redir_heredoc(data, cmd_nd, rd_nd);
 		else if (data->cmd_lst->rds != NULL && rd_nd->type == SIR)
@@ -43,7 +62,7 @@ static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
 			ft_redir_outfile(data, cmd_nd, rd_nd);
 		rd_nd = rd_nd->nx;
 	}
-}
+} */
 
 /**
  * @brief ** Checks if the cmd is a builtin or an external command **
@@ -60,37 +79,37 @@ static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
  * 	ANSWER >>> the builtins don't have absolute path, 
  *             they comunicate to the shell directly
  * 
- * @brief   ** VERSIÓN 2.0 -> PASANDO UN NODO (PRESENCIA DE PIPES)
- * 				*** UNDER CONSTRUCTION, AÚN NO HACE ESO ***
+ * @brief   ** VERSIÓN 2.0 -> PASANDO UN CMD_NODO (PRESENCIA DE PIPES)
+ * 	
  * @param data 
  * @param cmd 
  * @param tmp 
  */
 void	ft_builtin_executor(t_msh *data, char *cmd, t_cmd_lst *cmd_nd)
 {
-	if (data->cmd_lst->rds != NULL)
+	if (cmd_nd->rds != NULL)
 	{
 		ft_redir_checker(data, cmd_nd);
 		if (g_listen == 1 || data->error != NO_ERROR)
 			return ;
 	}
 	if (ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "ENV") == 0)
-		ft_builtin_exec_env(data);
+		ft_builtin_env(data, cmd_nd);
 	else if (ft_strcmp(cmd, "export") == 0)
-		ft_builtin_exec_export(data);
+		ft_builtin_export(data, cmd_nd);
 	else if (ft_strcmp(cmd, "unset") == 0)
-		ft_builtin_exec_unset(data);
+		ft_builtin_unset(data, cmd_nd);
 	else if (ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "PWD") == 0)
-		ft_builtin_exec_pwd(data);
+		ft_builtin_pwd(data);
 	else if (ft_strcmp(cmd, "cd") == 0)
-		ft_builtin_exec_cd(data);
+		ft_builtin_cd(data, cmd_nd);
 	else if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "ECHO") == 0)
-		ft_builtin_exec_echo(data);
+		ft_builtin_echo(data);
 	else if (ft_strcmp(cmd, "exit") == 0)
-		ft_builtin_exec_exit(data);
+		ft_builtin_exit(data);
 	else
 	{
 		ft_find_cmd_path(cmd_nd, ft_find_env_paths(data));
-		data->exit_code = ft_exec_external_cmd(data);
+		data->exit_code = ft_exec_external_cmd(data, cmd_nd);
 	}
 }
