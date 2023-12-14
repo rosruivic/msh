@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/12 19:30:01 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/14 20:17:56 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ void	ft_main_boucle(t_msh *data)
 	ft_free_null_void_return(&data->pipeline);
 	ft_cmd_lstclear(data);
 	dup2(data->org_stdin, STDIN_FILENO);  	// restaura el STDIN
+//	close(data->org_stdin);  // no, que se cierra la minishell
 	dup2(data->org_stdout, STDOUT_FILENO); 	// restaura el STDOUT
+//	close(data->org_stdout);  // no, que se cierra la minishell
 	data->error = NO_ERROR;
 }
 /**

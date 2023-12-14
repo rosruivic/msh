@@ -6,19 +6,19 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 20:02:24 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/13 23:54:56 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/14 14:34:01 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief      ********   READY   ********
- *   
+ * @brief      ****       ENV without argmts       ****
+ *   Checks if there is any argmts (& displays error in that case)
  * @param data 
  */
 void	ft_builtin_env(t_msh *data, t_cmd_lst *cmd_nd)
-{ // OJO - CONTROL DE ARGUMENTOS (DA MENSAJE DE ERROR)
+{
 	if (ft_matrix_len(cmd_nd->c_args) == 1)
 		ft_env_lst_print(data);
 	else
@@ -26,8 +26,7 @@ void	ft_builtin_env(t_msh *data, t_cmd_lst *cmd_nd)
 }
 
 /**
- * @brief   **  UNSET admits many argmts (many vars to delete)  **
- * 		        so, a boucle 'while' do this
+ * @brief   **  UNSET admits many argmts (many env vars to delete)  **
  * 
  * @param data 
  */

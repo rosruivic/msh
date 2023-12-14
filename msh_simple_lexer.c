@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/13 23:54:14 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/14 21:16:38 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	ft_redir_lstadd_back(t_cmd_lst *cmd_nd, t_rd *new)
 static void ft_redir_alobruto(t_cmd_lst *cmd_nd, int type)
 {
 	t_rd	*rd_nd;
-	int		n_redirs = 0;
+	int		n_redirs = 1;
 	int		i = -1;
 	
 	rd_nd = NULL;
@@ -101,33 +101,41 @@ static void ft_redir_alobruto(t_cmd_lst *cmd_nd, int type)
 		while (++i < n_redirs)
 			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("outfile", SOR));
 	}
-	else// if (type == DOR)
+	else if (type == DOR)
 	{
 		while (++i < n_redirs)
 			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("outfile", DOR));
 	}
+	else
+		return ;
 }
 
-static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd)
-{
-	t_cmd_lst	*cmd_nd;
+static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd, int type)
+{ // CREA NEW NODE, CREA SU RD_LST, LO RETORNA; OUTSIDE, IS ADDED TO CMD_LST
+	t_cmd_lst	*cmd_new;
 	int			i;
 
 	(void)data;
 	i = -1;
-	cmd_nd = (t_cmd_lst *)malloc(sizeof(t_cmd_lst));
-	cmd_nd->c_args = ft_calloc((ft_matrix_len(cmd) + 1), sizeof(char *));
+	cmd_new = (t_cmd_lst *)malloc(sizeof(t_cmd_lst));
+	cmd_new->c_args = ft_calloc((ft_matrix_len(cmd) + 1), sizeof(char *));
 	while (cmd[++i])
-		cmd_nd->c_args[i] = ft_strdup(cmd[i]);
-	cmd_nd->c_abs_path = ft_strdup(cmd[0]);
-	cmd_nd->c_env_path = NULL;		// se rellena en otro momento, después
-	cmd_nd->rds = NULL;
-	/**************************************************************************/
-	ft_redir_alobruto(cmd_nd, DOR);	// rellenamos a mano 1 o varios nodos pa'hacer tests
-	/**************************************************************************/
-	cmd_nd->nx = NULL;
+		cmd_new->c_args[i] = ft_strdup(cmd[i]);
+	cmd_new->c_abs_path = ft_strdup(cmd[0]);
+	cmd_new->c_env_path = NULL;		// se rellena en otro momento, después
+	cmd_new->rds = NULL;
+	
+	/*********************************************************************/
+	/**  RELLENAMOS A MANO NODOS DE REDIR PA CHEQUEAR BEHAVIOUR: **/
+	ft_redir_alobruto(cmd_new, type);
+//	ft_redir_alobruto(cmd_new, DIR);
+//	ft_redir_alobruto(cmd_new, SOR);
+//	ft_redir_alobruto(cmd_new, DOR);
+	/*********************************************************************/
+	
+	cmd_new->nx = NULL;
 	ft_freedom(cmd);
-	return (cmd_nd);
+	return (cmd_new);
 }
 
 /**
@@ -140,24 +148,60 @@ static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd)
 void	ft_simple_lexer(t_msh *data)
 {
 	char	**cmd_pipe; // to split by '|' the pipeline
-	char	**cmd;		// to split by ' ' every cmd
+	char	**cmd_name;		// to split by ' ' every cmd
 	int		mtx_len;
 	int		i;
 	
 	i = -1;
 	cmd_pipe = ft_split(data->pipeline, '|');
 	mtx_len = ft_matrix_len(cmd_pipe);
+	printf("DEBUG: ft_simple_lexer) mtx_len = %i\n", mtx_len);
 	if (mtx_len == 0) // cd en pipeline solo hay espacios en blanco
 	{
 		ft_freedom(cmd_pipe);
 		data->error = ERROR_ARGMTS;
 		return ;
 	}
-	while (++i < mtx_len)
-	{
-		cmd = ft_split(cmd_pipe[i], ' ');
+//	while (++i < mtx_len)
+//	{
+//		cmd_name = ft_split(cmd_pipe[i], ' ');
 //		printf("DEBUG: ft_simple_lexer) cmd[%i] = %s\n", i, cmd[0]);
-		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd));
+//		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, SIR));
+//	}
+	if (mtx_len > 0)
+	{
+		cmd_name = ft_split(cmd_pipe[0], ' ');
+		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, SIR));
+	}
+	if (mtx_len > 1)
+	{
+		cmd_name = ft_split(cmd_pipe[1], ' ');
+		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, SOR));
+	}
+	if (mtx_len > 2)
+	{
+		cmd_name = ft_split(cmd_pipe[2], ' ');
+		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, 0));
+	}
+	if (mtx_len > 3)
+	{
+		cmd_name = ft_split(cmd_pipe[3], ' ');
+		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, DIR));
+	}
+	if (mtx_len > 4)
+	{
+		cmd_name = ft_split(cmd_pipe[4], ' ');
+		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, DIR));
+	}
+	if (mtx_len > 5)
+	{
+		cmd_name = ft_split(cmd_pipe[5], ' ');
+		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, DIR));
+	}
+	if (mtx_len > 6)
+	{
+		cmd_name = ft_split(cmd_pipe[6], ' ');
+		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, DIR));
 	}
 	ft_freedom(cmd_pipe);
 }

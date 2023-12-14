@@ -1,3 +1,7 @@
-this is an infile
-with some text
-last line of file with a "\n" at the end
+		*****
+		this is an infile
+		with some text
+		to check the stdin redirs behaviour
+		and to make sure we are doing the things correctly
+		this is the last line of file with a "\n" in the end
+		*****
