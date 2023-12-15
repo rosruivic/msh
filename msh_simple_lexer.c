@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_simple_lexer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/14 21:16:38 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/15 16:01:05 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,14 +148,14 @@ static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd, int type)
 void	ft_simple_lexer(t_msh *data)
 {
 	char	**cmd_pipe; // to split by '|' the pipeline
-	char	**cmd_name;		// to split by ' ' every cmd
+	char	**cmd_name;	// to split by ' ' every cmd
 	int		mtx_len;
 	int		i;
 	
 	i = -1;
 	cmd_pipe = ft_split(data->pipeline, '|');
 	mtx_len = ft_matrix_len(cmd_pipe);
-	printf("DEBUG: ft_simple_lexer) mtx_len = %i\n", mtx_len);
+//	printf("DEBUG: ft_simple_lexer) mtx_len = %i\n", mtx_len);
 	if (mtx_len == 0) // cd en pipeline solo hay espacios en blanco
 	{
 		ft_freedom(cmd_pipe);
@@ -171,12 +171,12 @@ void	ft_simple_lexer(t_msh *data)
 	if (mtx_len > 0)
 	{
 		cmd_name = ft_split(cmd_pipe[0], ' ');
-		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, SIR));
+		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, DIR));
 	}
 	if (mtx_len > 1)
 	{
 		cmd_name = ft_split(cmd_pipe[1], ' ');
-		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, SOR));
+		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, 0));
 	}
 	if (mtx_len > 2)
 	{
@@ -186,22 +186,22 @@ void	ft_simple_lexer(t_msh *data)
 	if (mtx_len > 3)
 	{
 		cmd_name = ft_split(cmd_pipe[3], ' ');
-		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, DIR));
+		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, SOR));
 	}
 	if (mtx_len > 4)
 	{
 		cmd_name = ft_split(cmd_pipe[4], ' ');
-		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, DIR));
+		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, 0));
 	}
 	if (mtx_len > 5)
 	{
 		cmd_name = ft_split(cmd_pipe[5], ' ');
-		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, DIR));
+		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, 0));
 	}
 	if (mtx_len > 6)
 	{
 		cmd_name = ft_split(cmd_pipe[6], ' ');
-		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, DIR));
+		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, 0));
 	}
 	ft_freedom(cmd_pipe);
 }

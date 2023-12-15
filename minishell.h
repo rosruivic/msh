@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/13 23:12:29 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/15 18:33:03 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,8 @@ typedef struct	s_cmd_lst
 	char				*c_env_path;
 	int					pid;		// used by ft_builtin || ft_exec_external_cmd
 	int					pipe_val;	// exclusive used by ft_heredoc (usa pipe)
-	int					fd[2];		// used by ft_heredoc && ft_executor_many_cmds
+	int					fd[2];		// for pipes
+//	int					fd_her[2];	// exclusive used by ft_heredoc
 //	int					fd_in;		// exclusive used by ft_redirs (if exists, close fd[0])
 //	int					fd_out;		// exclusive used by ft_redirs (if exists, close fd[1])
 	struct s_msh		*orgn;
@@ -152,6 +153,7 @@ typedef	struct s_env_lst
 typedef struct	s_msh
 {
 	struct sigaction	sig;
+	char				*var_; // para el $_
 	t_error				error;
 	t_env_lst			*env_lst;
 	t_cmd_lst			*cmd_lst;

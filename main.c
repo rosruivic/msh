@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/14 20:17:56 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/15 14:42:03 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	g_listen = 0;
 
 void	ft_init_msh_struct(t_msh *data)
 {
+	data->var_ = NULL;
 	data->error = NO_ERROR;
 	data->exit_code = 0;
 	data->env_lst = NULL;
@@ -55,7 +56,9 @@ void	ft_main_boucle(t_msh *data)
 		}
 		else
 		{
+			ft_free_null_void_return(&data->var_);
 			add_history(data->pipeline);
+			data->var_ = ft_strdup(data->pipeline);
 			ft_simple_lexer(data);
 			ft_simple_parser(data);
 			if (data->error == NO_ERROR)
