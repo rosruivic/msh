@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   msh_simple_lexer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/15 16:01:05 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/17 18:17:42 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_cmd_lstadd_back(t_msh *data, t_cmd_lst *new)
+static void	ft_cmdadd_back(t_msh *data, t_cmd *new)
 {
-	t_cmd_lst	*tmp;
+	t_cmd	*tmp;
 
 	tmp = NULL;
 	if (data->cmd_lst == NULL && new)
@@ -55,7 +55,7 @@ static t_rd	*ft_redir_lst_new_file(char *file, int type)
 	return (rd_nd);
 }
 
-static void	ft_redir_lstadd_back(t_cmd_lst *cmd_nd, t_rd *new)
+static void	ft_redir_lstadd_back(t_cmd *cmd_nd, t_rd *new)
 {
 	t_rd	*tmp;
 
@@ -79,58 +79,86 @@ static void	ft_redir_lstadd_back(t_cmd_lst *cmd_nd, t_rd *new)
  * @param type 
  * @return t_rd* 
  */
-static void ft_redir_alobruto(t_cmd_lst *cmd_nd, int type)
+static void ft_redir_alobruto(t_cmd *cmd_nd, int type)
 {
 	t_rd	*rd_nd;
-	int		n_redirs = 1;
+//	int		n_redirs = 0;
 	int		i = -1;
 	
 	rd_nd = NULL;
 	if (type == DIR)
 	{
-		while (++i < n_redirs)
-			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i)));
+		while (++i < 1)  // en lugar de comparar con n_redirs, comparo con un nº fijo
+			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 1)));
 	}
 	else if (type == SIR)
 	{
-		while (++i < n_redirs)
+		while (++i < 1) // en lugar de comparar con n_redirs, comparo con un nº fijo
 			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("infile", SIR));	
 	}
 	else if (type == SOR)
 	{
-		while (++i < n_redirs)
+		while (++i < 1) // en lugar de comparar con n_redirs, comparo con un nº fijo
 			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("outfile", SOR));
 	}
 	else if (type == DOR)
 	{
-		while (++i < n_redirs)
+		while (++i < 1) // en lugar de comparar con n_redirs, comparo con un nº fijo
 			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("outfile", DOR));
 	}
-	else
+	else if (type == CODED)// hago las combinaciones que me interesan:
+	{
+//		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("infile", SIR));
+		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 2)));
+		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 3)));
+		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 4)));
+		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 5)));
+		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 6)));
+//		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("infile_2", SIR));
+	}
+	else // in case of NONE
 		return ;
 }
 
-static t_cmd_lst	*ft_cmd_lst_new(t_msh *data, char **cmd, int type)
-{ // CREA NEW NODE, CREA SU RD_LST, LO RETORNA; OUTSIDE, IS ADDED TO CMD_LST
-	t_cmd_lst	*cmd_new;
+/**
+ * @brief   ** CREACIÓN E INICIALIZACIÓN DE NODOS DE COMANDOS **
+ * 
+ *  CREA NEW NODE (init), CREA SU RD_LST (init), y LO RETORNA; 
+ * 		 (OUTSIDE, IS ADDED TO CMD_LST)
+ *  Al crear los nodos de comandos, se inicializan los fd a los originales.
+ *  El ulterior flujo de redirecciones se encarga de modificarlos cuando
+ *     corresponda.
+ * @param data 
+ * @param cmd 
+ * @param type 		e_type
+ * @return t_cmd* 
+ */
+static t_cmd	*ft_cmd_new(t_msh *data, char **cmd, int type)
+{
+	t_cmd	*cmd_new;
 	int			i;
 
 	(void)data;
 	i = -1;
-	cmd_new = (t_cmd_lst *)malloc(sizeof(t_cmd_lst));
+	cmd_new = (t_cmd *)malloc(sizeof(t_cmd));
 	cmd_new->c_args = ft_calloc((ft_matrix_len(cmd) + 1), sizeof(char *));
 	while (cmd[++i])
 		cmd_new->c_args[i] = ft_strdup(cmd[i]);
 	cmd_new->c_abs_path = ft_strdup(cmd[0]);
 	cmd_new->c_env_path = NULL;		// se rellena en otro momento, después
+
+	/*********************************************************************/
+	/**  CRUCIALES: sgtes cmds no reciben bien el stdin sin esto:       **/
+//	cmd_new->fd[RD] = dup(STDIN_FILENO);  // PROBANDO INICIALIZARLOS A MANO
+//	cmd_new->fd[RD] = data->org_stdin;  // esto tb funciona y no gasta fds
+//	cmd_new->fd[WR] = dup(STDOUT_FILENO); // PROBANDO INICIALIZARLOS A MANO
+//	cmd_new->fd[WR] = data->org_stdout; // esto tb funciona y no gasta fds
+	/*********************************************************************/
 	cmd_new->rds = NULL;
 	
 	/*********************************************************************/
 	/**  RELLENAMOS A MANO NODOS DE REDIR PA CHEQUEAR BEHAVIOUR: **/
 	ft_redir_alobruto(cmd_new, type);
-//	ft_redir_alobruto(cmd_new, DIR);
-//	ft_redir_alobruto(cmd_new, SOR);
-//	ft_redir_alobruto(cmd_new, DOR);
 	/*********************************************************************/
 	
 	cmd_new->nx = NULL;
@@ -155,53 +183,50 @@ void	ft_simple_lexer(t_msh *data)
 	i = -1;
 	cmd_pipe = ft_split(data->pipeline, '|');
 	mtx_len = ft_matrix_len(cmd_pipe);
-//	printf("DEBUG: ft_simple_lexer) mtx_len = %i\n", mtx_len);
 	if (mtx_len == 0) // cd en pipeline solo hay espacios en blanco
 	{
 		ft_freedom(cmd_pipe);
 		data->error = ERROR_ARGMTS;
 		return ;
 	}
-//	while (++i < mtx_len)
-//	{
-//		cmd_name = ft_split(cmd_pipe[i], ' ');
-//		printf("DEBUG: ft_simple_lexer) cmd[%i] = %s\n", i, cmd[0]);
-//		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, SIR));
-//	}
-	if (mtx_len > 0)
+	
+	/*****************************************************************/
+	/** tipificamos a mano los redireccionamientos de los comandos:  */
+	/*****************************************************************/
+	if (mtx_len > 0) // presencia de un solo comando
 	{
 		cmd_name = ft_split(cmd_pipe[0], ' ');
-		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, DIR));
+		ft_cmdadd_back(data, ft_cmd_new(data, cmd_name, CODED));
 	}
-	if (mtx_len > 1)
+	if (mtx_len > 1) // presencia de dos comandos (un pipe	)
 	{
 		cmd_name = ft_split(cmd_pipe[1], ' ');
-		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, 0));
+		ft_cmdadd_back(data, ft_cmd_new(data, cmd_name, 0));
 	}
-	if (mtx_len > 2)
+	if (mtx_len > 2) // presencia de tres comandos (dos pipes)
 	{
 		cmd_name = ft_split(cmd_pipe[2], ' ');
-		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, 0));
+		ft_cmdadd_back(data, ft_cmd_new(data, cmd_name, 0));
 	}
-	if (mtx_len > 3)
+	if (mtx_len > 3) // presencia de cuatro comandos (tres pipes)
 	{
 		cmd_name = ft_split(cmd_pipe[3], ' ');
-		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, SOR));
+		ft_cmdadd_back(data, ft_cmd_new(data, cmd_name, 0));
 	}
-	if (mtx_len > 4)
+	if (mtx_len > 4) // presencia de cinco comandos (cuatro pipes)
 	{
 		cmd_name = ft_split(cmd_pipe[4], ' ');
-		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, 0));
+		ft_cmdadd_back(data, ft_cmd_new(data, cmd_name, 0));
 	}
-	if (mtx_len > 5)
+	if (mtx_len > 5) // presencia de seis comandos (cinco pipes)
 	{
 		cmd_name = ft_split(cmd_pipe[5], ' ');
-		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, 0));
+		ft_cmdadd_back(data, ft_cmd_new(data, cmd_name, 0));
 	}
-	if (mtx_len > 6)
+	if (mtx_len > 6) // presencia de siete comandos (seis pipes)
 	{
 		cmd_name = ft_split(cmd_pipe[6], ' ');
-		ft_cmd_lstadd_back(data, ft_cmd_lst_new(data, cmd_name, 0));
+		ft_cmdadd_back(data, ft_cmd_new(data, cmd_name, 0));
 	}
 	ft_freedom(cmd_pipe);
 }

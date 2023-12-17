@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 18:26:32 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/13 23:09:34 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/17 12:55:47 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	ft_env_change_val(t_msh *data, char *nm_dst, char *new_val)
  * 
  * @param data 
  */
-void	ft_builtin_cd(t_msh *data, t_cmd_lst *cmd_nd)
+void	ft_builtin_cd(t_msh *data, t_cmd *cmd_nd)
 {	
 	if (cmd_nd->c_args[1])
 	{

@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 00:24:20 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/13 21:14:09 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/17 12:55:47 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  *     Then is needed to join the HOME path + '/' + word to go level down
  * @param data 
  */
-void	ft_builtin_cd_down(t_msh *data, t_cmd_lst *cmd_nd)
+void	ft_builtin_cd_down(t_msh *data, t_cmd *cmd_nd)
 {
 	char	*path;
 
@@ -39,7 +39,7 @@ void	ft_builtin_cd_down(t_msh *data, t_cmd_lst *cmd_nd)
  *                 Then, cd change to the HOME directory
  * @param data 
  */
-void	ft_builtin_cd_without_args(t_msh *data, t_cmd_lst *cmd_nd, int exit_code)
+void	ft_builtin_cd_without_args(t_msh *data, t_cmd *cmd_nd, int exit_code)
 {
 	char	*path;
 	
@@ -68,7 +68,7 @@ void	ft_builtin_cd_without_args(t_msh *data, t_cmd_lst *cmd_nd, int exit_code)
  * 
  * @param data 
  */
-void	ft_builtin_cd_oldpwd(t_msh *data, t_cmd_lst *cmd_nd)
+void	ft_builtin_cd_oldpwd(t_msh *data, t_cmd *cmd_nd)
 {
 	char	*path;
 

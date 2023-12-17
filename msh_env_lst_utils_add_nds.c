@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_env_lst_utils_add_nds.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:01:43 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/11/02 20:11:56 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/17 12:55:47 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_env_lstadd_back(t_msh *data, t_env_lst *new)
 void	ft_msh_lstadd_front(t_msh *data, void *new, int type)
 {
 	t_env_lst	*env_nd;
-	t_cmd_lst	*cmd_nd;
+	t_cmd	*cmd_nd;
 	
 	if (type == 1)
 	{
@@ -59,7 +59,7 @@ void	ft_msh_lstadd_front(t_msh *data, void *new, int type)
 	}
 	else if (type == 2)
 	{
-		cmd_nd = (t_cmd_lst *)new;
+		cmd_nd = (t_cmd *)new;
 		if (data->cmd_lst == NULL && cmd_nd)
 			data->cmd_lst = cmd_nd;
 		else if (data->cmd_lst && cmd_nd)

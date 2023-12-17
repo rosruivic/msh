@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 19:55:03 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/13 21:16:08 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/17 12:55:47 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  *            ('ft_env_modify_or_add_node' makes the join job)
  * @param data 
  */
-void	ft_builtin_export(t_msh *data, t_cmd_lst *cmd_nd)
+void	ft_builtin_export(t_msh *data, t_cmd *cmd_nd)
 { // OJO, LE FALTA APPEND COSAS AL VALOR DE UNA VBLE (PATH=$PATH algo)
 	int		i;
 	char	**tmp;

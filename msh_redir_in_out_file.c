@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   msh_redir_in_out_file.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:40:27 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/12 17:35:14 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/17 12:55:47 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_redir_infile(t_msh *data, t_cmd_lst *cmd_nd, t_rd *rd_nd)
+void	ft_redir_infile(t_msh *data, t_cmd *cmd_nd, t_rd *rd_nd)
 {
 	(void)data;
 
@@ -23,7 +23,7 @@ void	ft_redir_infile(t_msh *data, t_cmd_lst *cmd_nd, t_rd *rd_nd)
 	if (cmd_nd->fd[RD] < 0)
 	{
 		data->error = ERROR_OPEN_INFILE;
-		ft_error_files(data, cmd_nd, data->error);
+		ft_error_files(data, cmd_nd, rd_nd, data->error);
 	}
 	else
 	{
@@ -34,7 +34,7 @@ void	ft_redir_infile(t_msh *data, t_cmd_lst *cmd_nd, t_rd *rd_nd)
 	}
 }
 
-void	ft_redir_outfile(t_msh *data, t_cmd_lst *cmd_nd, t_rd *rd_nd)
+void	ft_redir_outfile(t_msh *data, t_cmd *cmd_nd, t_rd *rd_nd)
 {
 	(void)data;
 
@@ -56,7 +56,7 @@ void	ft_redir_outfile(t_msh *data, t_cmd_lst *cmd_nd, t_rd *rd_nd)
 	if (cmd_nd->fd[WR] < 0)
 	{
 		data->error = ERROR_OPEN_OUTFILE;
-		ft_error_files(data, cmd_nd, data->error);
+		ft_error_files(data, cmd_nd, rd_nd, data->error);
 	}
 	else
 	{

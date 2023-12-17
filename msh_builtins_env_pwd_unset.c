@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 20:02:24 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/14 14:34:01 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/17 12:55:47 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
  *   Checks if there is any argmts (& displays error in that case)
  * @param data 
  */
-void	ft_builtin_env(t_msh *data, t_cmd_lst *cmd_nd)
+void	ft_builtin_env(t_msh *data, t_cmd *cmd_nd)
 {
 	if (ft_matrix_len(cmd_nd->c_args) == 1)
 		ft_env_lst_print(data);
 	else
-		ft_error_files(data, cmd_nd, ERROR_NO_SUCH_FILE_OR_DIRECTORY);
+		ft_error_files(data, cmd_nd, NULL, ERROR_NO_SUCH_FILE_OR_DIRECTORY);
 }
 
 /**
@@ -30,7 +30,7 @@ void	ft_builtin_env(t_msh *data, t_cmd_lst *cmd_nd)
  * 
  * @param data 
  */
-void	ft_builtin_unset(t_msh *data, t_cmd_lst *cmd_nd)
+void	ft_builtin_unset(t_msh *data, t_cmd *cmd_nd)
 { // VERIFICAR EL CÓDIGO DE SALIDA
 	int	i;
 

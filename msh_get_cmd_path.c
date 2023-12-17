@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 16:25:41 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/13 23:18:27 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/17 12:55:47 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * @param cmd 
  * @param paths 
  */
-void	ft_find_cmd_path(t_cmd_lst *cmd_nd, char **paths)
+void	ft_find_cmd_path(t_cmd *cmd_nd, char **paths)
 {
 	int		i;
 	char	*path;

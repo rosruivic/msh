@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 18:15:50 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/13 23:14:55 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/17 12:55:47 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	**ft_conv_envlst_to_mtrx(t_msh	*data)
  * @param data 
  * @return int 
  */
-int	ft_exec_external_cmd(t_msh *data, t_cmd_lst *cmd_nd)
+int	ft_exec_external_cmd(t_msh *data, t_cmd *cmd_nd)
 {
 	int		exit_code;
 	char	**my_envp;

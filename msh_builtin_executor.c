@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/13 23:20:39 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/17 12:55:47 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
  * @param data 
  * @param cmd_nd 
  */
-static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
+static void	ft_redir_checker(t_msh *data, t_cmd *cmd_nd)
 {
 	t_rd	*rd_nd;
 
@@ -45,7 +45,7 @@ static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
 	}
 }
 /*	OLD IMPLEMENTATION (BEFORE PIPES): */
-/* static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
+/* static void	ft_redir_checker(t_msh *data, t_cmd *cmd_nd)
 {
 	t_rd	*rd_nd;
 
@@ -85,7 +85,7 @@ static void	ft_redir_checker(t_msh *data, t_cmd_lst *cmd_nd)
  * @param cmd 
  * @param tmp 
  */
-void	ft_builtin_executor(t_msh *data, char *cmd, t_cmd_lst *cmd_nd)
+void	ft_builtin_executor(t_msh *data, char *cmd, t_cmd *cmd_nd)
 {
 	if (cmd_nd->rds != NULL)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_redir_heredoc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:40:41 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/15 20:51:11 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/17 21:28:54 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
  * @param cmd_nd 
  * @param hd_inputs 
  */
-static void	ft_redic_heredoc_to_pipe(t_msh *data, t_cmd_lst *cmd_nd, char *hd_inputs)
+static void	ft_redic_heredoc_to_pipe(t_msh *data, t_cmd *cmd_nd, char *hd_inputs)
 {
-	int		exit_code;
+	int	exit_code;
 
 	exit_code = 0;
 	cmd_nd->pipe_val = pipe(cmd_nd->fd);
@@ -33,12 +33,9 @@ static void	ft_redic_heredoc_to_pipe(t_msh *data, t_cmd_lst *cmd_nd, char *hd_in
 	else if (cmd_nd->pid == 0)
 	{
 		close(cmd_nd->fd[RD]);
-//		dup2(cmd_nd->fd_her[WR], STDOUT_FILENO);
 		dup2(cmd_nd->fd[WR], STDOUT_FILENO);
-//		close(cmd_nd->fd_her[WR]);
 		close(cmd_nd->fd[WR]);
 		ft_putstr_fd(hd_inputs, STDOUT_FILENO);
-		ft_free_null_void_return(&hd_inputs);
 		exit(EXIT_SUCCESS);
 	}
 	else
@@ -46,31 +43,39 @@ static void	ft_redic_heredoc_to_pipe(t_msh *data, t_cmd_lst *cmd_nd, char *hd_in
 		close(cmd_nd->fd[WR]);
 		dup2(cmd_nd->fd[RD], STDIN_FILENO);
 		close(cmd_nd->fd[RD]);
-//		dup2(cmd_nd->fd[WR], STDOUT_FILENO);
 		waitpid(cmd_nd->pid, &exit_code, 0);
-		data->exit_code = WEXITSTATUS(exit_code); // no consigo que devuelva el 1 si fue exit_failure
-		if (data->exit_code != 0)
-			data->error = END;
+		data->exit_code = WEXITSTATUS(exit_code);
 	}
 }
 
 /**
  * @brief   *** BEWARE OF THIS !!! ****
- *  si había pipes de antes, para ver lo que escribimos hay que
- *  guardar el STDOUT que venía impuesto de fuera, y
- *  restaurarlo antes de llamar a ft_redir_heredoc_to_pipe
+ *  A STDIN heredoc is always the keyboard, so we must restore the original stdin
+ * 		to avoid the heredoc to read from the pipe and exit the pipeline.
+ *  A STDOUT heredoc is always the screen, so we must restore the original stdout
+ * 		to avoid the heredoc to write to the pipe and exit the pipeline.
+ *  	So, we must save the original stdin and stdout before calling ft_redir_heredoc
+ * 		and restore it after calling ft_redir_heredoc_to_pipe.
+ * 
+ * PROBLEMA: si hay varios heredoc seguidos, 
+ *          la salida del último heredoc no llega al pipe del segundo comando
+ *          (aunque entre ellos sí se pasan bien la información, restaurando
+ *           el stdin original porque le da igual lo que viniera de antes, y
+ *           volcando el resultado en el siguiente heredoc):
+ * PERO:  Si meto tres heredocs seguidos (desde código, no desde terminal), 
+ *           ejecuta 1-3-2 en lugar de 1-2-3
+ *        Se meto 4 heredocs, ejecuta 1-3-4-2 en lugar de 1-2-3-4
  * 
  * @param data 
  * @param cmd 
  */
-void	ft_redir_heredoc(t_msh *data, t_cmd_lst *cmd_nd, t_rd *rd_nd)
+void	ft_redir_heredoc(t_msh *data, t_cmd *cmd_nd, t_rd *rd_nd)
 {
-	char	*hd_inputs;
 	char	*input;
 	int		extern_stdout;
 
-	hd_inputs = NULL;
 	input = NULL;
+	dup2(data->org_stdin, STDIN_FILENO);
 	extern_stdout = dup(STDOUT_FILENO);
 	dup2(data->org_stdout, STDOUT_FILENO);
 	input = readline("> ");
@@ -78,18 +83,17 @@ void	ft_redir_heredoc(t_msh *data, t_cmd_lst *cmd_nd, t_rd *rd_nd)
 		return ;
 	while (input != NULL && ft_strcmp(input, rd_nd->end_key) != 0)
 	{
-		hd_inputs = ft_join_free(hd_inputs, input);
-		hd_inputs = ft_join_free(hd_inputs, "\n");
+		rd_nd->heredoc = ft_join_free(rd_nd->heredoc, input);
+		rd_nd->heredoc = ft_join_free(rd_nd->heredoc, "\n");
 		ft_free_null_void_return(&input);
 		input = readline("> ");
 		if (g_listen == 1)
-		{
-			ft_free_null_void_return(&hd_inputs);
 			return ;
-		}
 	}
 	ft_free_null_void_return(&input);
+	ft_redic_heredoc_to_pipe(data, cmd_nd, rd_nd->heredoc);
 	dup2(extern_stdout, STDOUT_FILENO);
-	ft_redic_heredoc_to_pipe(data, cmd_nd, hd_inputs);
-	ft_free_null_void_return(&hd_inputs);
+	close(extern_stdout);
+	if (data->exit_code != 0)
+		data->error = END;
 }

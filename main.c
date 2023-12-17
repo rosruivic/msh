@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/15 14:42:03 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/17 22:35:01 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,39 @@ int	g_listen = 0;
 {
 	system("leaks -q minishell");
 } */
+
+static void	ft_print_minishell(void)
+{
+	ft_putstr_fd(" \n", 1);
+	ft_putstr_fd(BACK_BLUE BOLD "._ _ o._ o _|_  _|| \n", 1);
+	ft_putstr_fd("| | ||| ||_\\| |}_|| \n" RESET, 1);
+}
+
+static void	ft_print_wellcome(void)
+{
+	ft_print_minishell();
+	ft_putstr_fd(BLUE BOLD " \n", 1);
+	ft_putstr_fd("                \\`'-. 					\n", 1);
+	ft_putstr_fd("                 )  _`-. 					\n", 1);
+	ft_putstr_fd("                : _   '  \\ 				\n", 1);
+	ft_putstr_fd("                ; *` _.   `--._ 			\n", 1);
+	ft_putstr_fd("                `-.-'          `-. 		\n", 1);
+	ft_putstr_fd("                  |       `       `. 		\n", 1);
+	ft_putstr_fd("     _  _         :.       .        \\ 	\n", 1);
+	ft_putstr_fd("    (_)(_)        | \\  .   :   .-'   . 	\n", 1);
+	ft_putstr_fd("   (_>()<_)       :  )-.;  ;  /      : 	\n", 1);
+	ft_putstr_fd("    (_)(_)        :  ;  | :  :       ;-. 	\n", 1);
+	ft_putstr_fd("      ||          ; /   : |`-:     _ `- )	\n", 1);
+	ft_putstr_fd("    |\\||/|     ,-' /  ,-' ; .-`- .' `--' \n", 1);
+	ft_putstr_fd("   __\\||/__    `--'   `---' `---' 		\n", 1);
+	ft_putstr_fd(" \n" RESET, 1);
+	ft_putstr_fd(GREEN BOLD "Welcome to msh_3.0\n", 1);
+	ft_putstr_fd("	by <ljustici> && <roruiz-v>\n", 1);
+	ft_putstr_fd(" \n" RESET, 1);
+	ft_putstr_fd(YELLOW BOLD "	*****      ENJOY IT !!!     *****\n", 1);
+	ft_putstr_fd(YELLOW BOLD "	*****   (& be empathic) :)  *****\n", 1);
+	ft_putstr_fd(" \n" RESET, 1);
+}
 
 void	ft_init_msh_struct(t_msh *data)
 {
@@ -67,7 +100,7 @@ void	ft_main_boucle(t_msh *data)
 	}
 	g_listen = 0;
 	ft_free_null_void_return(&data->pipeline);
-	ft_cmd_lstclear(data);
+	ft_cmdclear(data);
 	dup2(data->org_stdin, STDIN_FILENO);  	// restaura el STDIN
 //	close(data->org_stdin);  // no, que se cierra la minishell
 	dup2(data->org_stdout, STDOUT_FILENO); 	// restaura el STDOUT
@@ -92,6 +125,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_error_start(argv[1], ERROR_START_NO_SUCH_FILE_OR_DIRECTORY);
 	ft_init_msh_struct(&data);
 	ft_duplic_envp(&data, envp);
+	ft_print_wellcome();
 	while (1)
 		ft_main_boucle(&data);
 	return (0);

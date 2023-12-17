@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_signals.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 14:00:34 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/15 14:11:02 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/17 15:32:53 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	ft_ctrl_d(t_msh *data)
 		rl_on_new_line();
 		rl_redisplay();
 		ft_putstr_fd("exit\n", 1);
-		rl_clear_history();		// gcc error C99 (INSTALL LIBRARY)
+		rl_clear_history();
 		ft_env_lstclear(data->env_lst);
 		exit(EXIT_SUCCESS); // te saca de minishell
 	}
