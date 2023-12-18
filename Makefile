@@ -3,26 +3,26 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+         #
+#    By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/18 13:12:22 by roruiz-v          #+#    #+#              #
-#    Updated: 2023/12/16 12:22:17 by roruiz-v         ###   ########.fr        #
+#    Updated: 2023/12/18 18:40:06 by roruiz-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	minishell
 
 # LIB para 42:
-#LIB = -L /Users/roruiz-v/.brew/opt/readline/lib -lreadline
+LIB = -L /Users/roruiz-v/.brew/opt/readline/lib -lreadline
 
 # LIB para casa:
-LIB = -L/usr/local/opt/readline/lib -lreadline
+#LIB = -L/usr/local/opt/readline/lib -lreadline
 
 # INCLUDE para 42:
-#INCLUDE = -I /System/Volumes/Data/sgoinfre/goinfre/Perso/roruiz-v/homebrew/opt/readline/include
+INCLUDE = -I /System/Volumes/Data/sgoinfre/goinfre/Perso/roruiz-v/homebrew/opt/readline/include
 
 # INCLUDE para casa:
-INCLUDE = -I/usr/local/opt/readline/include
+#INCLUDE = -I/usr/local/opt/readline/include
 
 SRC		=	main.c \
 			msh_signals.c \

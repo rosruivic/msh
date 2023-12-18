@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_executor.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 20:26:43 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/17 22:10:52 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/18 20:46:21 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ static void	ft_exec_change_fd_child(t_cmd *cmd_nd, t_cmd *cmd_nd_prev)
 	close(cmd_nd->fd[RD]);
 	dup2(cmd_nd->fd[WR], STDOUT_FILENO);
 	close(cmd_nd->fd[WR]);
-	if (cmd_nd_prev != NULL) // si es un comando intermedio, no el primero (ni el último)
+	if (cmd_nd_prev != NULL)
 	{
-		dup2(cmd_nd_prev->fd[RD], STDIN_FILENO); // reasigno entrada: es pipe a su izquierda
+		dup2(cmd_nd_prev->fd[RD], STDIN_FILENO);
 		close(cmd_nd_prev->fd[RD]);
 	}
 }
@@ -44,19 +44,16 @@ static void	ft_exec_change_fd_child(t_cmd *cmd_nd, t_cmd *cmd_nd_prev)
  *      (which will be closed in the next cmd loop)
  * 	    (child is who writes in the pipe to the right)
  * - 3rd closes (freeing) RD extreme of the pipe to the right
- * - 4th if there's an previous pipe, closes its RD extreme
- *      (it's just don't used anymore, avoiding fd leaks)
+ *      (the number for fd asignations is free now to reuse)
  * 
  * @param cmd_nd 
  * @param cmd_nd_prev 
  */
-static void	ft_exec_change_fd_parent(t_cmd *cmd_nd, t_cmd *cmd_nd_prev)
+static void	ft_exec_change_fd_parent(t_cmd *cmd_nd/* , t_cmd *cmd_nd_prev */)
 {
 	close(cmd_nd->fd[WR]);
 	dup2(cmd_nd->fd[RD], STDIN_FILENO);
-	close(cmd_nd->fd[RD]);
-	if (cmd_nd_prev != NULL)
-		close(cmd_nd_prev->fd[RD]);
+	close(cmd_nd->fd[RD]); // esto queda cerrado por los restos (fd se reutiliza)
 }
 
 /**
@@ -64,7 +61,7 @@ static void	ft_exec_change_fd_parent(t_cmd *cmd_nd, t_cmd *cmd_nd_prev)
  * 
  * @param data 
  * @param cmd_nd 
- * @param cmd_nd_prev 
+ * @param cmd_nd_prev     used by child, not by parent
  */
 static void	ft_chld_prn_routine(t_msh *d, t_cmd *cmd_nd, t_cmd *cmd_nd_prev)
 {
@@ -78,7 +75,7 @@ static void	ft_chld_prn_routine(t_msh *d, t_cmd *cmd_nd, t_cmd *cmd_nd_prev)
 	}
 	else
 	{
-		ft_exec_change_fd_parent(cmd_nd, cmd_nd_prev);
+		ft_exec_change_fd_parent(cmd_nd/* , cmd_nd_prev */);
 		waitpid(d->m_pid, &exit_code, 0);
 		d->exit_code = WEXITSTATUS(exit_code);
 	}	
@@ -86,6 +83,8 @@ static void	ft_chld_prn_routine(t_msh *d, t_cmd *cmd_nd, t_cmd *cmd_nd_prev)
 
 /**
  * @brief 	***  WE ARE HERE IF THERE'S MANY CMDs (some PIPES)    ***
+ *          ***  but it works with only one command too           ***
+ * 
  * 	- Parent creates the pipes in 1 by 1 & waits the execution of each child
  * 	- Children execute every cmd (unless the last one) sequentially
  * 	- Parent executes the last cmd at the end, outside the loop,
@@ -95,7 +94,7 @@ static void	ft_chld_prn_routine(t_msh *d, t_cmd *cmd_nd, t_cmd *cmd_nd_prev)
  */
 static void	ft_exec_many_cmds(t_msh *data, t_cmd *cmd_nd, t_cmd *cmd_nd_prev)
 {
-	while (cmd_nd->nx != NULL) // 1st cmd or intermediate ones
+	while (cmd_nd->nx != NULL)
 	{
 		data->m_pipe_val = pipe(cmd_nd->fd);
 		if (data->m_pipe_val < 0)
@@ -111,19 +110,14 @@ static void	ft_exec_many_cmds(t_msh *data, t_cmd *cmd_nd, t_cmd *cmd_nd_prev)
 		}
 		ft_chld_prn_routine(data, cmd_nd, cmd_nd_prev);
 		cmd_nd_prev = cmd_nd;
-//		close(cmd_nd_prev->fd[RD]);
 		cmd_nd = cmd_nd->nx;
 	}
-	if (/* cmd_nd_prev != NULL &&  */data->error != END) // 
-	{
-//		close(cmd_nd_prev->fd[RD]); // ya estaría cerrado en ft_exec_change_fd_parent
+	if (data->error != END)
 		ft_builtin_executor(data, cmd_nd->c_abs_path, cmd_nd);
-	}
 }
 
 /**
- * @brief   ** DETECTS IF THERE'S ONLY 1 CMD OR MORE (PIPES PRESENCE) **
- * 
+ * @brief   
  *   It declares 2 pointers to the cmd list:
  * 		- first one is to point the head of the list
  * 		- the other one is to do the walk across the cmd list and preserve
@@ -138,8 +132,5 @@ void	ft_executor(t_msh *data)
 
 	cmd_nd = data->cmd_lst;
 	cmd_nd_prev = NULL;
-	if (cmd_nd->nx == NULL)
-		ft_builtin_executor(data, data->cmd_lst->c_abs_path, cmd_nd);
-	else
-		ft_exec_many_cmds(data, cmd_nd, cmd_nd_prev);
+	ft_exec_many_cmds(data, cmd_nd, cmd_nd_prev);
 }

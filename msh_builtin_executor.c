@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_builtin_executor.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:21:55 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/17 12:55:47 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/18 18:56:02 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ void	ft_builtin_executor(t_msh *data, char *cmd, t_cmd *cmd_nd)
 		if (g_listen == 1 || data->error != NO_ERROR)
 			return ;
 	}
+	if (!cmd)
+		return ;
 	if (ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "ENV") == 0)
 		ft_builtin_env(data, cmd_nd);
 	else if (ft_strcmp(cmd, "export") == 0)

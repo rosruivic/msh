@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:20:28 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/17 22:35:01 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/18 19:29:26 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	ft_print_wellcome(void)
 	ft_putstr_fd("    |\\||/|     ,-' /  ,-' ; .-`- .' `--' \n", 1);
 	ft_putstr_fd("   __\\||/__    `--'   `---' `---' 		\n", 1);
 	ft_putstr_fd(" \n" RESET, 1);
-	ft_putstr_fd(GREEN BOLD "Welcome to msh_3.0\n", 1);
+	ft_putstr_fd(GREEN BOLD "Welcome to msh_4.0\n", 1);
 	ft_putstr_fd("	by <ljustici> && <roruiz-v>\n", 1);
 	ft_putstr_fd(" \n" RESET, 1);
 	ft_putstr_fd(YELLOW BOLD "	*****      ENJOY IT !!!     *****\n", 1);
@@ -131,21 +131,4 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-
-
-
-/* EXPLICACIÓN DE DAVID PARA HEREDOCS :
-
-int fd[2] = pipe;
-char *line = NULL;
-while (1)
-{
-	line = readline("> ");
-	if (strncmp(line, here_doc, strlen(here_doc + 1)))
-		break ;
-	read(fd[1], line, strlen(line));
-	free(line);
-}
-return (fd[0])
-close(fd[1]); */
 	

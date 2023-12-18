@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_simple_lexer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/17 18:17:42 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/18 19:52:50 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,10 @@ static void ft_redir_alobruto(t_cmd *cmd_nd, int type)
 	{
 //		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("infile", SIR));
 		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 2)));
-		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 3)));
-		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 4)));
-		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 5)));
-		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 6)));
+		// ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 3)));
+		// ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 4)));
+		// ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 5)));
+		// ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 6)));
 //		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("infile_2", SIR));
 	}
 	else // in case of NONE
