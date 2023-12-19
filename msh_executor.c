@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 20:26:43 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/18 20:46:21 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/19 20:01:49 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	ft_exec_change_fd_child(t_cmd *cmd_nd, t_cmd *cmd_nd_prev)
 	}
 }
 
-/**
+/**	
  * @brief   ** EXECUTE the pre-waitpid parent TASKS: **
  * 
  * - 1st closes WR of current pipe (from here to the right)
@@ -49,7 +49,7 @@ static void	ft_exec_change_fd_child(t_cmd *cmd_nd, t_cmd *cmd_nd_prev)
  * @param cmd_nd 
  * @param cmd_nd_prev 
  */
-static void	ft_exec_change_fd_parent(t_cmd *cmd_nd/* , t_cmd *cmd_nd_prev */)
+static void	ft_exec_change_fd_parent(t_cmd *cmd_nd)
 {
 	close(cmd_nd->fd[WR]);
 	dup2(cmd_nd->fd[RD], STDIN_FILENO);

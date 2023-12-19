@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/18 19:52:50 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/19 19:24:56 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,39 +82,30 @@ static void	ft_redir_lstadd_back(t_cmd *cmd_nd, t_rd *new)
 static void ft_redir_alobruto(t_cmd *cmd_nd, int type)
 {
 	t_rd	*rd_nd;
-//	int		n_redirs = 0;
 	int		i = -1;
 	
 	rd_nd = NULL;
 	if (type == DIR)
-	{
-		while (++i < 1)  // en lugar de comparar con n_redirs, comparo con un nº fijo
+		while (++i < 1)
 			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 1)));
-	}
 	else if (type == SIR)
-	{
-		while (++i < 1) // en lugar de comparar con n_redirs, comparo con un nº fijo
+		while (++i < 1)
 			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("infile", SIR));	
-	}
 	else if (type == SOR)
-	{
-		while (++i < 1) // en lugar de comparar con n_redirs, comparo con un nº fijo
+		while (++i < 1)
 			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("outfile", SOR));
-	}
 	else if (type == DOR)
-	{
-		while (++i < 1) // en lugar de comparar con n_redirs, comparo con un nº fijo
+		while (++i < 1)
 			ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("outfile", DOR));
-	}
 	else if (type == CODED)// hago las combinaciones que me interesan:
 	{
-//		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("infile", SIR));
+		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("infile", SIR));
 		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 2)));
-		// ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 3)));
-		// ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 4)));
-		// ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 5)));
-		// ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 6)));
-//		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("infile_2", SIR));
+		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 3)));
+		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 4)));
+		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 5)));
+		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_heredoc(ft_itoa(i + 6)));
+		ft_redir_lstadd_back(cmd_nd, ft_redir_lst_new_file("infile_2", SIR));
 	}
 	else // in case of NONE
 		return ;
@@ -196,7 +187,7 @@ void	ft_simple_lexer(t_msh *data)
 	if (mtx_len > 0) // presencia de un solo comando
 	{
 		cmd_name = ft_split(cmd_pipe[0], ' ');
-		ft_cmdadd_back(data, ft_cmd_new(data, cmd_name, CODED));
+		ft_cmdadd_back(data, ft_cmd_new(data, cmd_name, NONE));
 	}
 	if (mtx_len > 1) // presencia de dos comandos (un pipe	)
 	{
