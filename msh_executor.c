@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 20:26:43 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/19 20:01:49 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/20 12:48:26 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ static void	ft_chld_prn_routine(t_msh *d, t_cmd *cmd_nd, t_cmd *cmd_nd_prev)
 	if (d->m_pid == 0)
 	{
 		ft_exec_change_fd_child(cmd_nd, cmd_nd_prev);
-		ft_builtin_executor(d, cmd_nd->c_abs_path, cmd_nd);
+//		ft_builtin_executor(d, cmd_nd->c_abs_path, cmd_nd);
+		ft_builtin_executor(d, cmd_nd->c_args[0], cmd_nd);
 		exit(d->exit_code);
 	}
 	else
@@ -113,7 +114,8 @@ static void	ft_exec_many_cmds(t_msh *data, t_cmd *cmd_nd, t_cmd *cmd_nd_prev)
 		cmd_nd = cmd_nd->nx;
 	}
 	if (data->error != END)
-		ft_builtin_executor(data, cmd_nd->c_abs_path, cmd_nd);
+//		ft_builtin_executor(data, cmd_nd->c_abs_path, cmd_nd);
+		ft_builtin_executor(data, cmd_nd->c_args[0], cmd_nd);
 }
 
 /**

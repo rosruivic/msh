@@ -6,7 +6,7 @@
 /*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 17:39:26 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/19 19:24:56 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/20 12:52:49 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ static t_cmd	*ft_cmd_new(t_msh *data, char **cmd, int type)
 	cmd_new->c_args = ft_calloc((ft_matrix_len(cmd) + 1), sizeof(char *));
 	while (cmd[++i])
 		cmd_new->c_args[i] = ft_strdup(cmd[i]);
-	cmd_new->c_abs_path = ft_strdup(cmd[0]);
+//	cmd_new->c_abs_path = ft_strdup(cmd[0]);
 	cmd_new->c_env_path = NULL;		// se rellena en otro momento, después
 
 	/*********************************************************************/

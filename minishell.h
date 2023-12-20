@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:14:49 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/17 14:48:45 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/20 12:55:52 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ typedef struct	s_cmd_lst
 {
 	t_rd				*rds;
 	char				**c_args;
-	char				*c_abs_path;
+//	char				*c_abs_path; // probando a comentarla (usando data->c_args[0])
 	char				*c_env_path;
 	int					pid;		// used by ft_builtin || ft_exec_external_cmd
 	int					pipe_val;	// exclusive used by ft_heredoc (usa pipe)

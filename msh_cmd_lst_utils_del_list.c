@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_cmd_lst_utils_del_list.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roruiz-v <roruiz-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roruiz-v <roruiz-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 20:06:59 by roruiz-v          #+#    #+#             */
-/*   Updated: 2023/12/17 12:55:47 by roruiz-v         ###   ########.fr       */
+/*   Updated: 2023/12/20 12:57:37 by roruiz-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	ft_free_cmdlst_node(t_cmd *del_node)
 {
 	ft_rds_lstclear(del_node);
 	ft_freedom(del_node->c_args);
-	ft_free_null_void_return(&del_node->c_abs_path);
+//	ft_free_null_void_return(&del_node->c_abs_path);
 	ft_free_null_void_return(&del_node->c_env_path);
 	free(del_node);
 	del_node = NULL;
